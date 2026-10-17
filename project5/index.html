@@ -1,8 +1,9 @@
 Warning: truncated output (original token count: 38139)
-Total output lines: 3125
+Total output lines: 3126
 
 <!doctype html>
 <html lang="zh-CN" style="--glow-rgb: 199, 158, 77; --visual-inset: 14px; --thumb-gap: 10px; --copy-image-gap: 15px; --page-pad: 100px; --transition-rgb: 154, 169, 130;"><head>
+<script src="../assets/media-fallback.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#dfe6c9">
@@ -670,7 +671,256 @@ Total output lines: 3125
       left: 50%;
       bottom: 28px;
       padding: 11px 16px;
-      border-r…26139 tokens truncated… imageColorJobs[index] > 0) continue;
+      border-radius: 999px;
+      color: white;
+      background: rgba(15,43,33,.88);
+      font-size: 11px;
+      letter-spacing: .06em;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 14px);
+      transition: opacity .3s ease, transform .3s var(--ease);
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 760px) {
+      :root { --visual-inset: 8px; --copy-image-gap: 12px; }
+      .hero { min-height: 100svh; }
+      .topbar { padding-top: 19px; }
+      .brand { font-size: 16px; letter-spacing: .13em; }
+      .brand-mark { width: 31px; height: 31px; }
+      .nav a:nth-child(-n+2) { display: none; }
+      .settings-toggle { top: 66px; width: 38px; height: 38px; }
+      .music-player { top: 66px; left: 20px; gap: 7px; min-height: 40px; padding: 4px 8px 4px 4px; }
+      .music-main { width: 31px; height: 31px; }
+      .music-meta { display: none; }
+      .music-volume { width: 58px; }
+      .hero-copy { top: auto; bottom: 150px; width: calc(100vw - var(--page-pad) * 2); transform: translate3d(calc(var(--mx) * 5px), calc(var(--my) * 5px), 0); }
+      .hero-title { max-width: 6em; font-size: clamp(56px, 18vw, 90px); }
+      .hero-lead { max-width: 30em; margin-top: 18px; padding-left: var(--copy-image-gap); font-size: 11px; line-height: 1.65; }
+      .enter-link { margin-top: 20px; margin-left: var(--copy-image-gap); }
+      .scene-caption { top: 100px; right: var(--page-pad); bottom: auto; width: 45vw; }
+      .caption-title { font-size: 18px; }
+      .bottom-bar { align-items: center; }
+      .gesture-hint span:last-child { display: none; }
+      .thumb { width: 39px; }
+      .cursor { display: none; }
+      .hero { cursor: default; }
+      .placeholder-art { width: 100vw; right: -25vw; top: 34%; }
+      .placeholder-label { top: 38%; right: 24px; bottom: auto; }
+      .editor { --editor-x: 0px !important; --editor-y: 0px !important; height: calc(100vh - 24px); }
+      .editor-drag-handle { cursor: default; }
+    }
+
+    @media (max-height: 650px) and (min-width: 761px) {
+      .hero-copy { top: 52%; }
+      .hero-title { font-size: clamp(50px, 8vw, 100px); }
+      .hero-lead { margin-top: 16px; }
+      .enter-link { margin-top: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+      .scene { transition-duration: .35s; }
+      #trailCanvas, .transition-bloom { display: none; }
+    }
+
+    /* 第二屏：参考视频的九卡片层叠作品走廊。 */
+    .journey-section {
+      --journey-spacing: 154px;
+      --journey-copy-gap: 34px;
+      position: relative;
+      min-height: 100svh;
+      overflow: hidden;
+      padding: clamp(64px, 7vh, 96px) 24px 34px;
+      color: #31552b;
+      background: #f8f6ef;
+      font-family: Arial, "PingFang SC", sans-serif;
+      user-select: none;
+    }
+    .journey-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .72;
+      background: radial-gradient(circle at 50% 12%, rgba(231,234,156,.28), transparent 28%), linear-gradient(90deg, rgba(189,211,100,.05), transparent 20%, transparent 80%, rgba(49,95,45,.05));
+    }
+    .journey-inner { position: relative; z-index: 1; width: min(1600px, 100%); margin: 0 auto; }
+    .journey-heading { position: relative; z-index: 30; margin: 0 auto var(--journey-copy-gap); text-align: center; }
+    .journey-kicker { margin: 0 0 12px; color: #89a65d; font-size: 9px; font-weight: 700; letter-spacing: .32em; text-transform: uppercase; }
+    .journey-title { margin: 0; color: #365c30; font: 400 clamp(34px, 4.4vw, 70px)/.98 Georgia, "Times New Roman", serif; letter-spacing: -.055em; }
+    .journey-subtitle { margin: 12px auto 0; max-width: 560px; color: #7c8e6c; font-size: clamp(10px, .85vw, 13px); line-height: 1.6; letter-spacing: .08em; }
+    .journey-stage { position: relative; height: clamp(410px, 57vh, 640px); cursor: grab; touch-action: pan-y; }
+    .journey-stage.dragging { cursor: grabbing; }
+    .journey-track { position: absolute; inset: 0; perspective: 1400px; }
+    .journey-card {
+      --card-x: 0px;
+      --card-scale: 1;
+      --card-rotate: 0deg;
+      --image-scale: 1;
+      --image-x: 0%;
+      --image-y: 0%;
+      position: absolute;
+      top: 50%; left: 50%;
+      width: clamp(150px, 15.4vw, 246px);
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      border: 1px solid rgba(64,99,49,.13);
+      border-radius: clamp(16px, 1.5vw, 25px);
+      background: var(--card-color, #bfd364);
+      box-shadow: 0 28px 65px -34px rgba(42,73,32,.3), 0 6px 20px -12px rgba(49,95,45,.18);
+      transform: translate3d(calc(-50% + var(--card-x)), -50%, 0) rotate(var(--card-rotate)) scale(var(--card-scale));
+      transition: transform .78s cubic-bezier(.22,.8,.2,1), opacity .55s ease, filter .55s ease;
+      will-change: transform;
+    }
+    .journey-stage.dragging .journey-card { transition-duration: .08s; }
+    .journey-card::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(27,58,24,.58), transparent 43%); opacity: .42; }
+    .journey-card__image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: translate(var(--image-x), var(--image-y)) scale(var(--image-scale)); transition: opacity .65s ease, transform .18s ease; }
+    .journey-card.has-image .journey-card__image { opacity: 1; }
+    .journey-placeholder { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(43,83,36,.58); transition: opacity .4s ease; }
+    .journey-card.has-image .journey-placeholder { opacity: 0; }
+    .journey-placeholder span { display: grid; width: 44%; aspect-ratio: 1; place-items: center; border: 1px solid rgba(255,255,225,.7); border-radius: 50%; font: 400 clamp(28px, 6vw, 68…23139 tokens truncated…set.edit.split('-')[1]) === current) captionTitle.innerHTML = node.innerHTML;
+          saveLocalState();
+        });
+      });
+
+      function syncTextControl(id, value, unit) {
+        const input = document.getElementById(id);
+        const safe = Math.max(Number(input.min), Math.min(Number(input.max), Number(value)));
+        input.value = safe;
+        document.getElementById(id + 'Out').textContent = `${Number(safe.toFixed(2))}${unit}`;
+      }
+
+      [['fontSize', 'fontSize', 'px'], ['letterSpacing', 'letterSpacing', 'px'], ['lineHeight', 'lineHeight', '']].forEach(([id, prop, unit]) => {
+        const input = document.getElementById(id);
+        input.addEventListener('input', () => {
+          document.getElementById(id + 'Out').textContent = `${input.value}${unit}`;
+          if (!selectedEdit) { showToast('请先点击一段页面文字'); return; }
+          selectedEdit.style[prop] = `${input.value}${unit}`;
+          state.textStyles[selectedEdit.dataset.edit] ||= {};
+          state.textStyles[selectedEdit.dataset.edit][prop] = `${input.value}${unit}`;
+          saveLocalState();
+        });
+      });
+
+      const layoutControls = {
+        visualInset: ['--visual-inset', 'px'],
+        thumbGap: ['--thumb-gap', 'px'],
+        copyImageGap: ['--copy-image-gap', 'px'],
+        pagePad: ['--page-pad', 'px']
+      };
+      Object.entries(layoutControls).forEach(([id, [property, unit]]) => {
+        const input = document.getElementById(id);
+        input.addEventListener('input', () => {
+          root.style.setProperty(property, `${input.value}${unit}`);
+          document.getElementById(id + 'Out').textContent = `${input.value}${unit}`;
+          state.layout[id] = Number(input.value);
+          saveLocalState();
+        });
+      });
+
+      function setImage(index, dataUrl) {
+        const scene = scenes[index];
+        const image = scene.querySelector('.scene-image');
+        const thumbImage = thumbs[index].querySelector('.thumb-preview');
+        state.images[index] = dataUrl || null;
+        if (dataUrl) {
+          image.src = dataUrl;
+          thumbImage.src = dataUrl;
+          scene.classList.add('has-image');
+          thumbs[index].classList.add('has-image');
+        } else {
+          image.removeAttribute('src');
+          thumbImage.removeAttribute('src');
+          scene.classList.remove('has-image');
+          thumbs[index].classList.remove('has-image');
+        }
+      }
+
+      function openImageDatabase() {
+        if (imageDatabasePromise) return imageDatabasePromise;
+        imageDatabasePromise = new Promise((resolve, reject) => {
+          if (!('indexedDB' in window)) {
+            reject(new Error('IndexedDB is unavailable'));
+            return;
+          }
+          const request = indexedDB.open(IMAGE_DB_NAME, 1);
+          request.onupgradeneeded = () => {
+            const database = request.result;
+            if (!database.objectStoreNames.contains(IMAGE_STORE_NAME)) {
+              database.createObjectStore(IMAGE_STORE_NAME, { keyPath: 'id' });
+            }
+          };
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error || new Error('Unable to open image database'));
+          request.onblocked = () => reject(new Error('Image database is blocked'));
+        });
+        return imageDatabasePromise;
+      }
+
+      function imageRecordId(index) {
+        return `${IMAGE_STORAGE_SCOPE}::${index}`;
+      }
+
+      function waitForTransaction(transaction) {
+        return new Promise((resolve, reject) => {
+          transaction.oncomplete = () => resolve();
+          transaction.onerror = () => reject(transaction.error || new Error('Image transaction failed'));
+          transaction.onabort = () => reject(transaction.error || new Error('Image transaction was aborted'));
+        });
+      }
+
+      async function savePersistedImage(index, file, color) {
+        const database = await openImageDatabase();
+        const transaction = database.transaction(IMAGE_STORE_NAME, 'readwrite');
+        transaction.objectStore(IMAGE_STORE_NAME).put({
+          id: imageRecordId(index),
+          scope: IMAGE_STORAGE_SCOPE,
+          index,
+          blob: file,
+          filename: file.name || `画面-${index + 1}`,
+          color: [...color],
+          updatedAt: Date.now()
+        });
+        await waitForTransaction(transaction);
+      }
+
+      async function getPersistedImages() {
+        const database = await openImageDatabase();
+        const transaction = database.transaction(IMAGE_STORE_NAME, 'readonly');
+        const request = transaction.objectStore(IMAGE_STORE_NAME).getAll();
+        const records = await new Promise((resolve, reject) => {
+          request.onsuccess = () => resolve(request.result || []);
+          request.onerror = () => reject(request.error || new Error('Unable to read saved images'));
+        });
+        return records.filter(record => record.scope === IMAGE_STORAGE_SCOPE);
+      }
+
+      async function clearPersistedImages() {
+        const database = await openImageDatabase();
+        const transaction = database.transaction(IMAGE_STORE_NAME, 'readwrite');
+        const store = transaction.objectStore(IMAGE_STORE_NAME);
+        for (let index = 0; index < 4; index++) store.delete(imageRecordId(index));
+        await waitForTransaction(transaction);
+      }
+
+      function blobToDataUrl(blob) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(reader.error || new Error('Unable to restore saved image'));
+          reader.readAsDataURL(blob);
+        });
+      }
+
+      async function restorePersistedImages() {
+        try {
+          const records = await getPersistedImages();
+          let restored = 0;
+          for (const record of records) {
+            const index = Number(record.index);
+            if (!Number.isInteger(index) || index < 0 || index > 3 || !record.blob || imageColorJobs[index] > 0) continue;
             const dataUrl = await blobToDataUrl(record.blob);
             if (imageColorJobs[index] > 0) continue;
             setImage(index, dataUrl);
@@ -1155,8 +1405,8 @@ Total output lines: 3125
     [contenteditable] { pointer-events: none; }
   </style>
   <script src="embed-bridge.js"></script>
-<script src="../assets/media-fallback.js"></script>
 </body></html>
+
 
 
 
