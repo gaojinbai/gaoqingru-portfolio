@@ -7,8 +7,10 @@
     <meta name="description" content="高清茹个人作品集开场" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23151310'/%3E%3Cpath d='M18 20h28v13H18zM14 30h36v20H14z' fill='%23f4f1e8'/%3E%3Ccircle cx='44' cy='35' r='3' fill='%2357c760'/%3E%3Cpath d='M21 39h22v16H21z' fill='white'/%3E%3C/svg%3E" />
     <title>高清茹·作品集</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261016b" />
+    <link rel="stylesheet" href="assets/video-hub.css" />
+
+    <script src="script.js?v=20261016b" defer></script>
   </head>
   <body class="stage-open">
     <canvas class="cursor-trail" id="cursorTrail" aria-hidden="true"></canvas>
@@ -18,10 +20,10 @@
       <!-- ===== 屏 1：打印机开场 ===== -->
       <section class="stage stage--opening" id="stageOpening" aria-label="作品集打印机开场">
         <div class="media-stage" id="mediaStage">
-          <video id="openingVideo" class="opening-video" src="assets/printer-intro-hd-corrected.mp4" poster="assets/printer-intro-hd-poster.jpg" preload="auto" playsinline aria-label="打印机打印个人简历的开场动画"></video>
+          <video id="openingVideo" class="opening-video" src="assets/printer-intro-hd-corrected.mp4" poster="assets/printer-intro-hd-poster.webp" preload="auto" playsinline aria-label="打印机打印个人简历的开场动画"></video>
 
           <div class="resume-sharpener" id="resumeSharpener" aria-hidden="true">
-            <img src="assets/resume.png" alt="" draggable="false" />
+            <img src="assets/resume.webp" alt="" draggable="false" />
           </div>
 
           <button class="print-trigger" id="printTrigger" type="button" aria-label="点击打印">
@@ -84,7 +86,7 @@
 
         <!-- ① 首屏交互：红发小女孩视频，蝴蝶跟随鼠标 -->
         <article class="p1-hero" id="p1Hero">
-          <video id="p1HeroVideo" class="p1-hero__video" src="assets/project1-hero.mp4" poster="assets/project1-film-cover.png" muted playsinline preload="auto"></video>
+          <video id="p1HeroVideo" class="p1-hero__video" src="assets/project1-hero.mp4" poster="assets/project1-film-cover.webp" muted playsinline preload="metadata"></video>
           <div class="p1-hero__veil" aria-hidden="true"></div>
           <div class="p1-hero__copy">
             <p class="p1-hero__kicker">SELECTED WORKS · 2026</p>
@@ -112,25 +114,27 @@
         </article>
 
         <!-- ② 按截图一完整还原的第二页 -->
-        <img class="p1-fullimg p1-reference-page" src="assets/layout-second-page.png" alt="When The Light Blooms 项目封面" />
+        <img class="p1-fullimg p1-reference-page" src="assets/layout-second-page.webp" alt="When The Light Blooms 项目封面" loading="lazy" decoding="async" />
 
         <!-- ③ 按截图二的固定顺序与原比例排版 -->
-        <img class="p1-fullimg p1-reference-page" src="assets/sec-about-body.png" alt="关于这个项目" loading="lazy" />
-        <img class="p1-fullimg p1-reference-page" src="assets/sec-ve.png" alt="项目信息与 Visual Exploration" loading="lazy" />
-        <img class="p1-fullimg p1-reference-page" src="assets/sec-film-title.png" alt="视觉探索画面与项目小结" loading="lazy" />
-        <img class="p1-fullimg p1-reference-page" src="assets/sec-film.png" alt="暖焰花信动画设计标题" loading="lazy" />
+        <img class="p1-fullimg p1-reference-page" src="assets/sec-about-body.webp" alt="关于这个项目" loading="lazy" />
+        <img class="p1-fullimg p1-reference-page" src="assets/sec-ve.webp" alt="项目信息与 Visual Exploration" loading="lazy" />
+        <img class="p1-fullimg p1-reference-page" src="assets/sec-film-title.webp" alt="视觉探索画面与项目小结" loading="lazy" />
+        <img class="p1-fullimg p1-reference-page" src="assets/sec-film.webp" alt="暖焰花信动画设计标题" loading="lazy" />
 
         <section class="p1-film-board" id="filmTitle" aria-label="暖焰花信完整动画">
-          <img class="p1-fullimg" src="assets/sec-cards.png" alt="暖焰花信动画播放版面" loading="lazy" />
-          <video class="p1-film-board__video" src="assets/warm-flame-letter.mp4" poster="assets/project1-warm-flame-poster.png" controls playsinline preload="metadata">您的浏览器暂不支持视频播放。</video>
+          <img class="p1-fullimg" src="assets/sec-cards.webp" alt="暖焰花信动画播放版面" loading="lazy" />
+          
         </section>
 
-        <img class="p1-fullimg p1-reference-page" src="assets/sec-particle-statement.png" alt="动画设计说明" loading="lazy" />
+        <div style="padding:26px 4% 6px;"><div class="video-hub" data-vh="p1" data-vh-layout="bar" data-vh-theme="light" data-vh-title="《暖焰花信》完整动画" data-vh-sub="When The Light Blooms · 动态成片" data-vh-qr="assets/qr/p1.png"></div></div>
+
+        <img class="p1-fullimg p1-reference-page" src="assets/sec-particle-statement.webp" alt="动画设计说明" loading="lazy" />
 
         <!-- ④ 原有第三个视频与 Canvas 粒子交互保持不变 -->
         <section class="p1-interactive" aria-labelledby="particleTitle">
           <div class="p1-interactive__stage" id="p1ParticleStage">
-            <video class="p1-interactive__video" src="assets/seventh-light.mp4" poster="assets/project1-light-poster.jpg" autoplay muted loop playsinline preload="metadata"></video>
+            <video class="p1-interactive__video" src="assets/seventh-light.mp4" poster="assets/project1-light-poster.webp" autoplay muted loop playsinline preload="metadata"></video>
             <canvas class="p1-interactive__canvas" id="p1ParticleCanvas" aria-hidden="true"></canvas>
             <p class="p1-interactive__hint">移动鼠标或手指 · 拨开星尘</p>
           </div>
@@ -142,7 +146,7 @@
         </section>
 
         <!-- ⑤ 粒子互动之后完全依照截图三的位置、图片和尺寸 -->
-        <img class="p1-fullimg p1-reference-page" id="ipTitle" src="assets/layout-after-interaction.png" alt="DENG DENG 角色设定、三视图、表情系统与产品延展" loading="lazy" />
+        <img class="p1-fullimg p1-reference-page" id="ipTitle" src="assets/layout-after-interaction.webp" alt="DENG DENG 角色设定、三视图、表情系统与产品延展" loading="lazy" />
 
         <section class="next-chapter" id="chapter2" aria-label="进入下一章">
           <p class="next-chapter__eyebrow">NEXT CHAPTER</p>
@@ -152,7 +156,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project2">
-          <iframe class="p2-embed" id="project2Frame" src="project2/index.html?embed=1" title="第二个项目：金陵花记" loading="lazy"></iframe>
+          <iframe class="p2-embed" id="project2Frame" data-src="project2/index.html?embed=1" title="第二个项目：金陵花记"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter3" aria-label="进入第三章">
@@ -163,7 +167,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project3">
-          <iframe class="p3-embed" id="project3Frame" src="project3/index.html?embed=1" title="第三个项目：NOVA 双形态视觉" loading="lazy"></iframe>
+          <iframe class="p3-embed" id="project3Frame" data-src="project3/index.html?embed=1" title="第三个项目：NOVA 双形态视觉"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter4" aria-label="进入第四章">
@@ -174,7 +178,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project4">
-          <iframe class="p4-embed" id="project4Frame" src="project4/index.html?embed=1" title="第四个项目：南红·觉醒" loading="lazy"></iframe>
+          <iframe class="p4-embed" id="project4Frame" data-src="project4/index.html?embed=1" title="第四个项目：南红·觉醒"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter5" aria-label="进入第五章">
@@ -185,7 +189,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project5">
-          <iframe class="p5-embed" id="project5Frame" src="project5/index.html?embed=1" title="第五个项目：归鸟" loading="lazy"></iframe>
+          <iframe class="p5-embed" id="project5Frame" data-src="project5/index.html?embed=1" title="第五个项目：归鸟"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter6" aria-label="进入第六章">
@@ -196,7 +200,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project6">
-          <iframe class="p6-embed" id="project6Frame" src="project6/index.html?embed=1" title="第六个项目：瓷与鸟" loading="lazy"></iframe>
+          <iframe class="p6-embed" id="project6Frame" data-src="project6/index.html?embed=1" title="第六个项目：瓷与鸟"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter7" aria-label="进入第七章">
@@ -207,7 +211,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project7">
-          <iframe class="p7-embed" id="project7Frame" src="project7/index.html?embed=1" title="第七个项目：瓷脉・通达天下" loading="lazy"></iframe>
+          <iframe class="p7-embed" id="project7Frame" data-src="project7/index.html?embed=1" title="第七个项目：瓷脉・通达天下"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter8" aria-label="进入第八章">
@@ -218,7 +222,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project8">
-          <iframe class="p8-embed" id="project8Frame" src="project8/index.html?embed=1" title="第八个项目：窗间的二十四节气" loading="lazy"></iframe>
+          <iframe class="p8-embed" id="project8Frame" data-src="project8/index.html?embed=1" title="第八个项目：窗间的二十四节气"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter9" aria-label="进入第九章：平面设计">
@@ -229,7 +233,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project9">
-          <iframe class="p9-embed" id="project9Frame" src="project9/index.html?embed=1" title="第九个项目：平面设计" loading="lazy"></iframe>
+          <iframe class="p9-embed" id="project9Frame" data-src="project9/index.html?embed=1" title="第九个项目：平面设计"></iframe>
         </div>
 
         <canvas class="p1-sparks" data-p1-sparks aria-hidden="true"></canvas>
@@ -266,5 +270,54 @@
       </div>
 
     </main>
-  </body>
+
+    <!-- 项目子页面按需顺序加载：首屏不被 10MB 级子页面抢占带宽 -->
+    <script>
+    (function () {
+      var frames = [].slice.call(document.querySelectorAll('.project-scroll-host iframe'));
+      if (!frames.length) return;
+      var srcs = frames.map(function (f) { return f.getAttribute('data-src') || ''; });
+      var idx = 0, started = false;
+
+      function loadNext() {
+        if (idx >= frames.length) return;
+        var frame = frames[idx], url = srcs[idx];
+        idx += 1;
+        if (!url) { loadNext(); return; }
+        var advanced = false;
+        var advance = function () {
+          if (advanced) return;
+          advanced = true;
+          setTimeout(loadNext, 300);
+        };
+        frame.addEventListener('load', advance, { once: true });
+        frame.src = url;
+        setTimeout(advance, 3500);
+      }
+
+      function start() {
+        if (started) return;
+        started = true;
+        setTimeout(loadNext, 200);
+      }
+
+      function whenReady() {
+        if (document.body.classList.contains('stage-project1')) { start(); return; }
+        var mo = new MutationObserver(function () {
+          if (document.body.classList.contains('stage-project1')) {
+            mo.disconnect();
+            start();
+          }
+        });
+        mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        setTimeout(start, 20000);
+      }
+
+      if (document.readyState === 'complete') whenReady();
+      else window.addEventListener('load', whenReady);
+    })();
+    </script>
+  <script src="assets/video-hub-data.js"></script>
+<script src="assets/video-hub.js"></script>
+</body>
 </html>
