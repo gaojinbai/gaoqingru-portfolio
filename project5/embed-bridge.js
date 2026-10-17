@@ -52,6 +52,26 @@
     window.parent.postMessage({ type: 'project-global-wheel', deltaY: event.deltaY * unit }, '*');
   }, { passive: false, capture: true });
 
+  /* 触屏桥接：竖向滑动手势转发给父页面统一滚动（与滚轮行为一致） */
+  let touchX = 0;
+  let touchY = 0;
+  window.addEventListener('touchstart', (event) => {
+    touchX = event.touches[0]?.clientX || 0;
+    touchY = event.touches[0]?.clientY || 0;
+  }, { passive: true });
+  window.addEventListener('touchmove', (event) => {
+    if (event.target.closest && event.target.closest('video')) return;
+    const touch = event.touches[0];
+    if (!touch) return;
+    const dx = touch.clientX - touchX;
+    const dy = touch.clientY - touchY;
+    if (Math.abs(dy) <= Math.abs(dx) || Math.abs(dy) < 2) return;
+    event.preventDefault();
+    window.parent.postMessage({ type: 'project-global-wheel', deltaY: -dy }, '*');
+    touchX = touch.clientX;
+    touchY = touch.clientY;
+  }, { passive: false });
+
   window.addEventListener('load', reportMetrics);
   window.addEventListener('resize', reportMetrics, { passive: true });
   document.querySelectorAll('img').forEach((image) => {
