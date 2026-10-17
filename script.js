@@ -219,6 +219,52 @@ function goBack() {
   }
 }
 
+/* 触屏：目录滑到底部后继续上滑，进入第一章（与滚轮行为一致） */
+(function setupContentsTouchLink() {
+  const contents = document.querySelector('#stageContents');
+  if (!contents) return;
+  let touchStartY = null;
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0]?.clientY ?? null;
+  }, { passive: true });
+  window.addEventListener('touchmove', (e) => {
+    if (touchStartY == null) return;
+    if (!document.body.classList.contains('stage-contents')) return;
+    const dy = touchStartY - (e.touches[0]?.clientY ?? touchStartY);
+    if (dy < 48) return;
+    const atBottom = contents.scrollHeight - contents.scrollTop - contents.clientHeight < 40;
+    if (atBottom) {
+      touchStartY = null;
+      goToProject1();
+    }
+  }, { passive: true });
+  window.addEventListener('touchend', () => { touchStartY = null; }, { passive: true });
+  window.addEventListener('touchcancel', () => { touchStartY = null; }, { passive: true });
+})();
+
+/* 触屏：目录滑到底部后继续上滑，进入第一章（与滚轮行为一致） */
+(function setupContentsTouchLink() {
+  const contents = document.querySelector('#stageContents');
+  if (!contents) return;
+  let touchStartY = null;
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0]?.clientY ?? null;
+  }, { passive: true });
+  window.addEventListener('touchmove', (e) => {
+    if (touchStartY == null) return;
+    if (!document.body.classList.contains('stage-contents')) return;
+    const dy = touchStartY - (e.touches[0]?.clientY ?? touchStartY);
+    if (dy < 48) return;
+    const atBottom = contents.scrollHeight - contents.scrollTop - contents.clientHeight < 40;
+    if (atBottom) {
+      touchStartY = null;
+      goToProject1();
+    }
+  }, { passive: true });
+  window.addEventListener('touchend', () => { touchStartY = null; }, { passive: true });
+  window.addEventListener('touchcancel', () => { touchStartY = null; }, { passive: true });
+})();
+
 buildParticles();
 trigger.addEventListener('click', playOriginalVideo);
 tearTrigger.addEventListener('click', openContentsAfterTear);
@@ -497,7 +543,7 @@ function setupP1Particles() {
       } catch { seedProcedural(); }
     };
     img.onerror = seedProcedural;
-    img.src = 'assets/project1-light-poster.jpg';
+    img.src = 'assets/project1-light-poster.webp';
   }
 
   function seedProcedural() {
