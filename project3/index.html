@@ -803,7 +803,7 @@
 
     <section class="profile" id="profile" aria-label="NOVA 角色档案视频">
       <div class="profile-frame">
-        <video class="profile-video" id="profileVideo" muted loop playsinline preload="metadata" poster="nova-profile-poster.jpg" aria-label="NOVA 红色机甲角色缓慢转身展示">
+        <video class="profile-video" id="profileVideo" muted loop playsinline preload="metadata" poster="nova-profile-poster.webp" aria-label="NOVA 红色机甲角色缓慢转身展示">
           <source src="nova-profile-motion.mp4" type="video/mp4">
         </video>
       </div>
@@ -829,7 +829,7 @@
 
       <div class="order-cards">
         <article class="module module-person">
-          <video class="order-video" muted loop playsinline preload="metadata" poster="nova-cyborg-head-poster.jpg" aria-label="赛博格头部单元转身动态展示">
+          <video class="order-video" muted loop playsinline preload="metadata" poster="nova-cyborg-head-poster.webp" aria-label="赛博格头部单元转身动态展示">
             <source src="nova-cyborg-head.mp4" type="video/mp4">
           </video>
           <div class="module-info">
@@ -842,7 +842,7 @@
         </article>
 
         <article class="module module-hand">
-          <video class="order-video" muted loop playsinline preload="metadata" poster="nova-bionic-hand-poster.jpg" aria-label="仿生机械手开合动态展示">
+          <video class="order-video" muted loop playsinline preload="metadata" poster="nova-bionic-hand-poster.webp" aria-label="仿生机械手开合动态展示">
             <source src="nova-bionic-hand.mp4" type="video/mp4">
           </video>
           <div class="module-info">
@@ -854,7 +854,7 @@
         </article>
 
         <article class="module module-heart">
-          <video class="order-video" muted loop playsinline preload="metadata" poster="nova-bionic-heart-poster.jpg" aria-label="仿生机械心脏运转动态展示">
+          <video class="order-video" muted loop playsinline preload="metadata" poster="nova-bionic-heart-poster.webp" aria-label="仿生机械心脏运转动态展示">
             <source src="nova-bionic-heart.mp4" type="video/mp4">
           </video>
           <div class="module-info">
@@ -888,8 +888,8 @@
 
       const baseImage = new Image();
       const revealImage = new Image();
-      baseImage.src = 'nova-red-form.png';
-      revealImage.src = 'nova-white-armor.jpeg';
+      baseImage.src = 'nova-red-form.webp';
+      revealImage.src = 'nova-white-armor.webp';
 
       const points = [];
       const pointer = { x: 0, y: 0, lastX: 0, lastY: 0, active: false, inside: false };
@@ -1125,6 +1125,26 @@
       window.addEventListener('message', (event) => {
         if (event.data?.type === 'portfolio-global-scroll') window.scrollTo(0, Number(event.data.scrollTop) || 0);
       });
+
+      /* 触屏桥接：竖向滑动手势转发给父页面统一滚动 */
+      let touchX = 0;
+      let touchY = 0;
+      window.addEventListener('touchstart', (event) => {
+        touchX = event.touches[0]?.clientX || 0;
+        touchY = event.touches[0]?.clientY || 0;
+      }, { passive: true });
+      window.addEventListener('touchmove', (event) => {
+        if (event.target.closest && event.target.closest('video')) return;
+        const touch = event.touches[0];
+        if (!touch) return;
+        const dx = touch.clientX - touchX;
+        const dy = touch.clientY - touchY;
+        if (Math.abs(dy) <= Math.abs(dx) || Math.abs(dy) < 2) return;
+        event.preventDefault();
+        parent.postMessage({ type: 'project-global-wheel', deltaY: -dy }, '*');
+        touchX = touch.clientX;
+        touchY = touch.clientY;
+      }, { passive: false });
     })();
   </script>
 </body>
