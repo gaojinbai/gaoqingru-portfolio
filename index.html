@@ -156,7 +156,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project2">
-          <iframe class="p2-embed" id="project2Frame" src="project2/index.html?embed=1" data-src="project2/index.html?embed=1" title="第二个项目：金陵花记"></iframe>
+          <iframe class="p2-embed" id="project2Frame" data-src="project2/index.html?embed=1" title="第二个项目：金陵花记"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter3" aria-label="进入第三章">
@@ -167,7 +167,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project3">
-          <iframe class="p3-embed" id="project3Frame" src="project3/index.html?embed=1" data-src="project3/index.html?embed=1" title="第三个项目：NOVA 双形态视觉"></iframe>
+          <iframe class="p3-embed" id="project3Frame" data-src="project3/index.html?embed=1" title="第三个项目：NOVA 双形态视觉"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter4" aria-label="进入第四章">
@@ -178,7 +178,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project4">
-          <iframe class="p4-embed" id="project4Frame" src="project4/index.html?embed=1" data-src="project4/index.html?embed=1" title="第四个项目：南红·觉醒"></iframe>
+          <iframe class="p4-embed" id="project4Frame" data-src="project4/index.html?embed=1" title="第四个项目：南红·觉醒"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter5" aria-label="进入第五章">
@@ -189,7 +189,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project5">
-          <iframe class="p5-embed" id="project5Frame" src="project5/index.html?embed=1" data-src="project5/index.html?embed=1" title="第五个项目：归鸟"></iframe>
+          <iframe class="p5-embed" id="project5Frame" data-src="project5/index.html?embed=1" title="第五个项目：归鸟"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter6" aria-label="进入第六章">
@@ -200,7 +200,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project6">
-          <iframe class="p6-embed" id="project6Frame" src="project6/index.html?embed=1" data-src="project6/index.html?embed=1" title="第六个项目：瓷与鸟"></iframe>
+          <iframe class="p6-embed" id="project6Frame" data-src="project6/index.html?embed=1" title="第六个项目：瓷与鸟"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter7" aria-label="进入第七章">
@@ -211,7 +211,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project7">
-          <iframe class="p7-embed" id="project7Frame" src="project7/index.html?embed=1" data-src="project7/index.html?embed=1" title="第七个项目：瓷脉・通达天下"></iframe>
+          <iframe class="p7-embed" id="project7Frame" data-src="project7/index.html?embed=1" title="第七个项目：瓷脉・通达天下"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter8" aria-label="进入第八章">
@@ -222,7 +222,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project8">
-          <iframe class="p8-embed" id="project8Frame" src="project8/index.html?embed=1" data-src="project8/index.html?embed=1" title="第八个项目：窗间的二十四节气"></iframe>
+          <iframe class="p8-embed" id="project8Frame" data-src="project8/index.html?embed=1" title="第八个项目：窗间的二十四节气"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter9" aria-label="进入第九章：平面设计">
@@ -233,7 +233,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project9">
-          <iframe class="p9-embed" id="project9Frame" src="project9/index.html?embed=1" data-src="project9/index.html?embed=1" title="第九个项目：平面设计"></iframe>
+          <iframe class="p9-embed" id="project9Frame" data-src="project9/index.html?embed=1" title="第九个项目：平面设计"></iframe>
         </div>
 
         <canvas class="p1-sparks" data-p1-sparks aria-hidden="true"></canvas>
@@ -279,12 +279,33 @@
       var srcs = frames.map(function (f) { return f.getAttribute('data-src') || ''; });
       var idx = 0, started = false;
 
-      function loadNext() {
+      function makeEmbeddableDocument(markup, pageUrl) {
+        var baseUrl = new URL('.', new URL(pageUrl, window.location.href)).href;
+        var baseTag = '<base href="' + baseUrl.replace(/"/g, '&quot;') + '">';
+        if (!/<head\b[^>]*>/i.test(markup)) throw new Error('项目页面缺少 head 标签');
+        markup = markup.replace(/<head\b[^>]*>/i, function (head) { return head + '\n' + baseTag; });
+        markup = markup.replace(/<html\b([^>]*)>/i, function (tag) {
+          if (/\bclass\s*=/i.test(tag)) {
+            return tag.replace(/\bclass\s*=\s*(["'])(.*?)\1/i, function (_, quote, classes) {
+              return 'class=' + quote + (classes.split(/\s+/).includes('embed-mode') ? classes : (classes + ' embed-mode').trim()) + quote;
+            });
+          }
+          return tag.replace(/>$/, ' class="embed-mode">');
+        });
+        return markup;
+      }
+
+      function showLoadError(frame, url) {
+        var href = new URL(url, window.location.href).href.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+        frame.srcdoc = '<!doctype html><meta charset="utf-8"><style>body{font:16px/1.7 sans-serif;padding:32px;color:#333}a{color:#167a68}</style><p>这个项目暂时没有载入。可先<a target="_top" rel="noopener" href="' + href + '">单独打开项目页面</a>。</p>';
+      }
+
+      async function loadNext() {
         if (idx >= frames.length) return;
         var frame = frames[idx], url = srcs[idx];
         idx += 1;
         if (!url) { loadNext(); return; }
-        if (frame.getAttribute("src")) { loadNext(); return; }
+        if (frame.dataset.loaded === '1') { loadNext(); return; }
         var advanced = false;
         var advance = function () {
           if (advanced) return;
@@ -292,8 +313,16 @@
           setTimeout(loadNext, 300);
         };
         frame.addEventListener('load', advance, { once: true });
-        frame.src = url;
-        setTimeout(advance, 3500);
+        try {
+          var response = await fetch(url, { credentials: 'same-origin', cache: 'no-cache' });
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          frame.srcdoc = makeEmbeddableDocument(await response.text(), url);
+          frame.dataset.loaded = '1';
+        } catch (error) {
+          console.error('Portfolio project failed to load:', url, error);
+          showLoadError(frame, url);
+        }
+        setTimeout(advance, 10000);
       }
 
       function start() {

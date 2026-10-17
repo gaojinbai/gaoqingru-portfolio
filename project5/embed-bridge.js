@@ -1,5 +1,6 @@
 (() => {
-  if (new URLSearchParams(window.location.search).get('embed') !== '1') return;
+  if (new URLSearchParams(window.location.search).get('embed') !== '1' &&
+      !document.documentElement.classList.contains('embed-mode')) return;
 
   document.documentElement.classList.add('portfolio-embed');
   const style = document.createElement('style');
