@@ -1,0 +1,140 @@
+/* ============================================
+   动态成片卡片（B站外链版）video-hub v1
+   页面中放置：<div class="video-hub" data-vh="p1" ...></div>
+   链接配置：assets/video-hub-data.js
+   ============================================ */
+.video-hub { margin: 14px 0; }
+
+.vh {
+  --vh-ink: #2b2721;
+  --vh-muted: #8c8375;
+  --vh-line: rgba(70, 58, 36, .25);
+  --vh-paper: #f8f5ee;
+  --vh-accent: #5c6b4d;
+  --vh-btnbg: #f1f2e9;
+  border: 1px solid var(--vh-line);
+  border-radius: 10px;
+  background: var(--vh-paper);
+  padding: 18px 20px;
+  color: var(--vh-ink);
+  font-family: inherit;
+}
+.vh, .vh *, .vh *::before, .vh *::after { box-sizing: border-box; }
+
+.vh[data-theme="dark"] {
+  --vh-ink: #f1ebe0;
+  --vh-muted: #b9ad99;
+  --vh-line: rgba(255, 255, 255, .28);
+  --vh-paper: rgba(14, 10, 16, .5);
+  --vh-accent: #dcc99b;
+  --vh-btnbg: rgba(255, 255, 255, .12);
+}
+
+.vh-grid { display: flex; gap: 18px; align-items: stretch; }
+.vh-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+
+.vh-cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--vh-line);
+  display: block;
+  background: rgba(127, 127, 127, .15);
+}
+
+.vh-side { flex: 0 0 148px; display: flex; flex-direction: column; gap: 8px; }
+.vh-qrbox {
+  width: 148px; height: 148px;
+  background: #fff;
+  border: 1px solid var(--vh-line);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.vh-qrbox img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.vh-qrph {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column; gap: 5px;
+  align-items: center; justify-content: center;
+  color: #9c9280; font-size: 11px;
+}
+.vh-qrnote { font-size: 11px; color: var(--vh-muted); text-align: center; line-height: 1.5; }
+
+.vh-title { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 600; letter-spacing: .04em; }
+.vh-sub { margin: 3px 0 0; font-size: 12px; color: var(--vh-muted); letter-spacing: .06em; }
+.vh-lines { margin: 8px 0 0; font-size: 13px; line-height: 1.9; color: var(--vh-ink); }
+
+.vh-linkrow {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 16px; padding-top: 12px;
+  border-top: 1px solid var(--vh-line);
+}
+.vh-label { font-size: 12px; color: var(--vh-muted); flex: 0 0 auto; }
+.vh-url {
+  flex: 1; min-width: 0;
+  font-family: ui-monospace, Consolas, "Courier New", monospace;
+  font-size: 12px; color: var(--vh-ink);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--vh-line);
+  padding-bottom: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.vh-url--empty { color: var(--vh-muted); cursor: default; }
+.vh-copy {
+  flex: 0 0 auto;
+  font: inherit; font-size: 12px;
+  color: var(--vh-accent);
+  background: var(--vh-btnbg);
+  border: 1px solid var(--vh-line);
+  border-radius: 4px;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.vh-copy:hover { opacity: .78; }
+.vh-copy[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* bar 布局：无封面，用于嵌在既有画面容器（如 p2 电视机）下方 */
+.vh--bar .vh-grid { align-items: center; }
+.vh--bar .vh-main { gap: 0; }
+
+/* slot 紧凑布局：窄栏页面（p4/p7/p8），封面保持原视频 16:9 体量，二维码叠右上角 */
+.vh--slot { padding: 12px; }
+.vh-slot-media { position: relative; }
+.vh-slot-qr {
+  position: absolute; top: 10px; right: 10px;
+  width: 88px; height: 88px;
+  background: #fff;
+  border: 1px solid rgba(70, 58, 36, .3);
+  border-radius: 6px;
+  padding: 4px;
+  overflow: hidden;
+}
+.vh-slot-qr .vh-qrbox, .vh-slot-qr .vh-qrph { width: 100%; height: 100%; border: 0; border-radius: 4px; }
+.vh--slot .vh-title { margin-top: 10px; font-size: 14px; }
+.vh--slot .vh-sub { font-size: 11px; }
+.vh--slot .vh-lines { font-size: 12px; line-height: 1.8; margin-top: 5px; }
+.vh--slot .vh-linkrow { margin-top: 10px; padding-top: 9px; }
+
+/* p2 电视机屏幕内的静态封面 */
+.video-frame .vh-tv-still {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  object-fit: cover;
+}
+
+/* 手机端 */
+@media (max-width: 720px) {
+  .vh { padding: 14px; }
+  .vh-grid { gap: 12px; }
+  .vh-side { flex: 0 0 92px; }
+  .vh-qrbox { width: 92px; height: 92px; }
+  .vh-title { font-size: 14px; }
+  .vh-lines { font-size: 12px; line-height: 1.8; }
+  .vh-linkrow { flex-wrap: wrap; }
+  .vh-label { order: 1; }
+  .vh-url { order: 2; flex-basis: 100%; white-space: normal; word-break: break-all; padding: 4px 0; }
+  .vh-copy { order: 3; flex: 1 0 100%; padding: 7px 0; text-align: center; }
+}
