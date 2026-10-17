@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 38139)
-Total output lines: 3126
-
 <!doctype html>
 <html lang="zh-CN" style="--glow-rgb: 199, 158, 77; --visual-inset: 14px; --thumb-gap: 10px; --copy-image-gap: 15px; --page-pad: 100px; --transition-rgb: 154, 169, 130;"><head>
 <script src="../assets/media-fallback.js"></script>
@@ -780,7 +777,1724 @@ Total output lines: 3126
     .journey-card.has-image .journey-card__image { opacity: 1; }
     .journey-placeholder { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(43,83,36,.58); transition: opacity .4s ease; }
     .journey-card.has-image .journey-placeholder { opacity: 0; }
-    .journey-placeholder span { display: grid; width: 44%; aspect-ratio: 1; place-items: center; border: 1px solid rgba(255,255,225,.7); border-radius: 50%; font: 400 clamp(28px, 6vw, 68…23139 tokens truncated…set.edit.split('-')[1]) === current) captionTitle.innerHTML = node.innerHTML;
+    .journey-placeholder span { display: grid; width: 44%; aspect-ratio: 1; place-items: center; border: 1px solid rgba(255,255,225,.7); border-radius: 50%; font: 400 clamp(28px, 6vw, 68px)/1 Georgia, serif; }
+    .journey-card__meta { position: absolute; z-index: 3; left: 9%; right: 9%; bottom: 8%; color: #fbfbe7; text-shadow: 0 2px 20px rgba(32,65,26,.22); }
+    .journey-card__meta small { display: block; margin-bottom: 7px; font-size: clamp(7px, .7vw, 11px); font-weight: 700; letter-spacing: .2em; }
+    .journey-card__meta strong { display: block; font: 400 clamp(17px, 1.8vw, 29px)/1.05 Georgia, serif; }
+    .journey-upload { position: absolute; z-index: 8; top: 14px; right: 14px; display: grid; width: 34px; aspect-ratio: 1; place-items: center; border: 1px solid rgba(255,255,230,.72); border-radius: 50%; color: #fff; background: rgba(44,86,36,.38); backdrop-filter: blur(10px); cursor: pointer; font-size: 18px; }
+    .journey-upload input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+    .journey-nav { position: absolute; z-index: 40; top: 50%; display: grid; width: 45px; aspect-ratio: 1; place-items: center; border: 1px solid rgba(65,96,52,.24); border-radius: 50%; color: #4f713d; background: rgba(255,255,248,.68); cursor: pointer; transform: translateY(-50%); backdrop-filter: blur(12px); transition: transform .25s ease, background .25s ease; }
+    .journey-nav:hover { background: #e7ea9c; transform: translateY(-50%) scale(1.06); }
+    .journey-prev { left: 1.2%; }
+    .journey-next { right: 1.2%; }
+    .journey-footer { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px; color: #789068; font-size: 9px; letter-spacing: .13em; }
+    .journey-dots { display: flex; align-items: center; justify-content: center; gap: 7px; }
+    .journey-dot { width: 5px; height: 5px; padding: 0; border: 0; border-radius: 50%; background: #bdc9ad; cursor: pointer; transition: width .35s ease, background .35s ease; }
+    .journey-dot.active { width: 18px; border-radius: 999px; background: #789f50; }
+    .journey-count { justify-self: end; }
+    .journey-settings-toggle { position: absolute; z-index: 60; top: 24px; right: 28px; width: 42px; height: 42px; border: 1px solid rgba(74,110,57,.22); border-radius: 50%; color: #466d36; background: rgba(255,255,245,.72); cursor: pointer; }
+    body.journey-visible > .settings-toggle { opacity: 0; pointer-events: none; }
+    .journey-tools { position: absolute; z-index: 55; top: 76px; right: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; width: min(360px, calc(100vw - 32px)); padding: 18px; border: 1px solid rgba(77,112,58,.18); border-radius: 18px; background: rgba(251,250,239,.93); box-shadow: 0 24px 60px -28px rgba(38,70,31,.42); backdrop-filter: blur(20px); opacity: 0; pointer-events: none; transform: translateY(-8px); transition: opacity .25s ease, transform .25s ease; }
+    .journey-tools.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .journey-tools h3 { grid-column: 1 / -1; margin: 0 0 3px; font: 400 20px/1 Georgia, serif; }
+    .journey-tool { display: grid; gap: 5px; color: #526f47; font-size: 9px; font-weight: 700; letter-spacing: .07em; }
+    .journey-tool input { width: 100%; accent-color: #6d9749; }
+    [data-journey-edit] { outline: 1px dashed transparent; outline-offset: 4px; user-select: text; }
+    [data-journey-edit]:focus, [data-journey-edit].selected { outline-color: #8ead60; }
+    @media (max-width: 920px) {
+      html, body { height: auto; overflow-y: auto; }
+      .journey-section { --journey-spacing: 126px; padding-inline: 14px; }
+      .journey-stage { height: clamp(390px, 56vh, 560px); }
+      .journey-card { width: clamp(150px, 25vw, 220px); }
+      .journey-nav { width: 40px; }
+    }
+    @media (max-width: 540px) {
+      .journey-section { --journey-spacing: 92px; padding-top: 74px; }
+      .journey-heading { margin-bottom: 16px; padding-inline: 24px; }
+      .journey-title { font-size: clamp(32px, 11vw, 52px); }
+      .journey-subtitle { font-size: 10px; }
+      .journey-stage { height: 440px; }
+      .journey-card { width: min(58vw, 220px); }
+      .journey-prev { left: 0; }
+      .journey-next { right: 0; }
+      .journey-footer { grid-template-columns: 1fr auto; }
+      .journey-footer > span:first-child { display: none; }
+      .journey-tools { right: 16px; grid-template-columns: 1fr; max-height: 70vh; overflow: auto; }
+      .journey-tools h3 { grid-column: 1; }
+      .journey-settings-toggle { right: 16px; }
+    }
+
+    /* 第三屏：黑底绿色编辑拼贴作品墙。 */
+    .archive-section {
+      --archive-gap: 14px;
+      --archive-copy-gap: 7%;
+      position: relative;
+      min-height: 100svh;
+      padding: clamp(54px, 5.2vw, 82px) clamp(10px, 1.2vw, 24px) clamp(30px, 3vw, 52px);
+      overflow: hidden;
+      color: #315f2d;
+      background: linear-gradient(145deg, #fbfbf1 0%, #f3f5dd 52%, #e8edc4 100%);
+      font-family: Arial, "PingFang SC", sans-serif;
+    }
+    .archive-section::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .32; background: radial-gradient(circle at 78% 18%, #e7ea9c, transparent 25%), radial-gradient(circle at 5% 78%, #bfd564, transparent 30%); }
+    .archive-inner { position: relative; z-index: 1; width: min(1880px, 100%); margin: 0 auto; }
+    .archive-header { display: grid; grid-template-columns: minmax(0,1fr) minmax(260px,420px); align-items: end; gap: 32px; margin-bottom: clamp(22px, 2.6vw, 40px); }
+    .archive-kicker { margin: 0 0 14px; color: #568039; font-size: 10px; font-weight: 700; letter-spacing: .28em; }
+    .archive-title { margin: 0; max-width: 850px; color: #315f2d; font-size: clamp(48px, 7.2vw, 112px); font-weight: 700; line-height: .82; letter-spacing: -.07em; text-transform: uppercase; }
+    .archive-intro { margin: 0; padding-bottom: 5px; color: #6f865f; font-size: clamp(12px, 1vw, 15px); line-height: 1.7; }
+    .archive-grid { display: grid; grid-template-columns: repeat(12, minmax(0,1fr)); grid-template-rows: repeat(6, clamp(112px, 9.8vw, 184px)); gap: var(--archive-gap); }
+    .archive-card {
+      --archive-image-scale: 1;
+      --archive-image-x: 0%;
+      --archive-image-y: 0%;
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid rgba(49,95,45,.15);
+      border-radius: clamp(15px, 1.45vw, 24px);
+      background: var(--archive-card-color, #315f2d);
+      isolation: isolate;
+      transition: border-color .3s ease, transform .3s ease;
+    }
+    .archive-card:hover, .archive-card.active { border-color: rgba(49,95,45,.62); }
+    .archive-card:hover { transform: translateY(-3px); }
+    .archive-card:nth-child(1) { grid-column: 1 / 8; grid-row: 1 / 3; }
+    .archive-card:nth-child(2) { grid-column: 8 / 13; grid-row: 1 / 4; }
+    .archive-card:nth-child(3) { grid-column: 1 / 4; grid-row: 3 / 5; }
+    .archive-card:nth-child(4) { grid-column: 4 / 8; grid-row: 3 / 5; }
+    .archive-card:nth-child(5) { grid-column: 8 / 11; grid-row: 4 / 5; }
+    .archive-card:nth-child(6) { grid-column: 11 / 13; grid-row: 4 / 5; }
+    .archive-card:nth-child(7) { grid-column: 1 / 6; grid-row: 5 / 7; }
+    .archive-card:nth-child(8) { grid-column: 6 / 10; grid-row: 5 / 7; }
+    .archive-card:nth-child(9) { grid-column: 10 / 13; grid-row: 5 / 7; }
+    .archive-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: translate(var(--archive-image-x), var(--archive-image-y)) scale(var(--archive-image-scale)); transform-origin: center; transition: opacity .65s ease, transform .18s ease; }
+    .archive-card.has-image .archive-image { opacity: 1; }
+    .archive-card::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to top, rgba(246,249,220,.92), rgba(246,249,220,.08) 62%); }
+    .archive-card.accent::after { opacity: .34; }
+    .archive-placeholder { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(49,95,45,.7); transition: opacity .4s ease; }
+    .archive-card.has-image .archive-placeholder { opacity: 0; }
+    .archive-placeholder span { display: grid; width: clamp(58px, 24%, 110px); aspect-ratio: 1; place-items: center; border: 2px solid rgba(255,255,238,.82); border-radius: 50%; font: 700 clamp(18px,3vw,42px)/1 Arial,sans-serif; }
+    .archive-upload { position: absolute; z-index: 5; top: 13px; right: 13px; display: grid; width: 34px; aspect-ratio: 1; place-items: center; overflow: hidden; border: 1px solid rgba(49,95,45,.28); border-radius: 50%; color: #315f2d; background: rgba(255,255,238,.72); cursor: pointer; font-size: 18px; backdrop-filter: blur(8px); }
+    .archive-upload input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+    .archive-copy { position: absolute; z-index: 3; left: var(--archive-copy-gap); right: var(--archive-copy-gap); bottom: var(--archive-copy-gap); }
+    .archive-copy small { display: block; margin-bottom: 7px; color: #568039; font-size: clamp(7px,.75vw,11px); font-weight: 700; letter-spacing: .2em; }
+    .archive-copy strong { display: block; max-width: 12em; color: #24471f; font-size: clamp(18px,2.55vw,42px); font-weight: 700; line-height: .9; letter-spacing: -.055em; text-transform: uppercase; }
+    .archive-card:nth-child(1) .archive-copy strong { max-width: 9em; color: #315f2d; font-size: clamp(34px,4.8vw,76px); }
+    .archive-card:nth-child(5), .archive-card:nth-child(6) { color: #13230f; }
+    .archive-card:nth-child(5)::after, .archive-card:nth-child(6)::after { display: none; }
+    .archive-card:nth-child(5) .archive-copy, .archive-card:nth-child(6) .archive-copy { color: #183113; }
+    .archive-card:nth-child(5) .archive-copy small, .archive-card:nth-child(6) .archive-copy small, .archive-card:nth-child(5) .archive-copy strong, .archive-card:nth-child(6) .archive-copy strong { color: inherit; }
+    .archive-orb { position: absolute; z-index: 2; width: clamp(42px, 9vw, 110px); aspect-ratio: 1; border-radius: 50%; background: #e7ea9c; mix-blend-mode: multiply; opacity: .72; }
+    .archive-card:nth-child(2) .archive-orb { top: 8%; right: 8%; }
+    .archive-card:nth-child(7) .archive-orb { left: 8%; bottom: 13%; background: #e7ea9c; }
+    .archive-settings-toggle { position: absolute; z-index: 70; top: 24px; right: 28px; width: 43px; height: 43px; border: 1px solid rgba(49,95,45,.25); border-radius: 50%; color: #315f2d; background: rgba(255,255,238,.82); cursor: pointer; }
+    .archive-tools { position: absolute; z-index: 65; top: 76px; right: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 11px 15px; width: min(370px, calc(100vw - 32px)); padding: 18px; border: 1px solid rgba(49,95,45,.18); border-radius: 18px; color: #315f2d; background: rgba(251,252,235,.95); box-shadow: 0 26px 70px -30px rgba(49,95,45,.35); backdrop-filter: blur(20px); opacity: 0; pointer-events: none; transform: translateY(-8px); transition: opacity .25s ease, transform .25s ease; }
+    .archive-tools.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .archive-tools h3 { grid-column: 1/-1; margin: 0 0 3px; color: #315f2d; font: 400 21px/1 Georgia,serif; }
+    .archive-tool { display: grid; gap: 5px; color: #6f865f; font-size: 9px; font-weight: 700; letter-spacing: .08em; }
+    .archive-tool input { width: 100%; accent-color: #bfd564; }
+    [data-archive-edit] { outline: 1px dashed transparent; outline-offset: 4px; user-select: text; }
+    [data-archive-edit]:focus, [data-archive-edit].selected { outline-color: #dff16e; }
+    body.archive-visible > .settings-toggle { opacity: 0; pointer-events: none; }
+    @media (max-width: 900px) {
+      .archive-header { grid-template-columns: 1fr; }
+      .archive-grid { grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: none; grid-auto-rows: minmax(260px,42vw); }
+      .archive-card { grid-column: auto !important; grid-row: auto !important; }
+      .archive-card:nth-child(1), .archive-card:nth-child(2), .archive-card:nth-child(7) { grid-column: span 2 !important; }
+    }
+    @media (max-width: 560px) {
+      .archive-section { padding-inline: 14px; }
+      .archive-header { gap: 18px; }
+      .archive-title { font-size: clamp(45px,16vw,72px); }
+      .archive-grid { grid-template-columns: 1fr; grid-auto-rows: minmax(270px,115vw); }
+      .archive-card, .archive-card:nth-child(1), .archive-card:nth-child(2), .archive-card:nth-child(7) { grid-column: 1 !important; }
+      .archive-tools { right: 16px; grid-template-columns: 1fr; max-height: 72vh; overflow: auto; }
+      .archive-tools h3 { grid-column: 1; }
+      .archive-settings-toggle { right: 16px; }
+    }
+
+  </style>
+<style>.Po4BvhR1CK2tJaywJ6AN path {
+  fill: var(--icon-path-fill);
+}
+.Oz4yDjua3Qe6thqkZYf_ path {
+  transition: 0.2s all;
+}
+.Oz4yDjua3Qe6thqkZYf_:hover path {
+  fill: var(--icon-hover-fill);
+}
+</style><style>/* ！！！切勿直接改动该文件，该文件由 generator.ts 自动生成！！！ */
+/* !!! DONT MODIFY THIS FILE DIRECTLY, THIS FILE IS GENERATED BY generator.ts AUTOMATICALLY !!! */
+.ibW4Oa5B7s2zJKKZ4pCg {
+  user-select: none;
+}
+.AtqKyJetjrG4smuk35Np {
+  max-width: 346px;
+  width: auto;
+  height: 36px;
+  background-color: var(--quark-style-white-color, #fff);
+  padding-left: 10px;
+  padding-right: 4px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid var(--quark-style-gray-20-color, rgba(6, 10, 38, 0.12));
+  box-shadow: 0 12px 32px -6px var(--quark-style-gray-30-fixed-color, rgba(6, 10, 38, 0.24));
+  border-radius: 10px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .g6iGsZa_KHMeW2yICzQQ {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  margin-right: 6px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .e4UXx38MPgfHdym_Lzt0 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 28px;
+  padding: 0 6px;
+  margin-right: 2px;
+  border-radius: 6px;
+  column-gap: 4px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .e4UXx38MPgfHdym_Lzt0:hover:not(.ibW4Oa5B7s2zJKKZ4pCg .kNOcXLDT_cCrcoY8LTm8) {
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ibW4Oa5B7s2zJKKZ4pCg .kNOcXLDT_cCrcoY8LTm8 {
+  cursor: default;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .kNOcXLDT_cCrcoY8LTm8 .Va3czASiR9Zztyl_lD4M {
+  color: var(--quark-style-gray-40-color, rgba(6, 10, 38, 0.4)) !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .e4UXx38MPgfHdym_Lzt0 .Va3czASiR9Zztyl_lD4M {
+  font-size: 12px;
+  color: var(--quark-style-gray-color, #060A26);
+  line-height: 16px;
+  white-space: nowrap;
+  position: relative;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .llw0qsmiI_08u93bFdNg {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  overflow: visible !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .LEo8kpqIERehkv8AhAfG {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 6px;
+  overflow: visible !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .LEo8kpqIERehkv8AhAfG:hover {
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ibW4Oa5B7s2zJKKZ4pCg .zoNmooxAnbLEJSN8m1Jg {
+  box-sizing: border-box;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 110px;
+  max-height: 136px;
+  height: auto;
+  top: 36px;
+  right: -5px;
+  padding: 4px 0;
+  background-color: var(--quark-style-white-color, #fff);
+  border: 1px solid var(--quark-style-gray-20-color, rgba(6, 10, 38, 0.12));
+  box-shadow: 0 4px 16px -6px var(--quark-style-gray-20-fixed-color, rgba(6, 10, 38, 0.12));
+  border-radius: 8px;
+  overflow: visible !important;
+  row-gap: 4px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .O1imPofna4elG_8NcQnR {
+  top: -77px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .mdH0IY7jS3Swn5vdX6tz {
+  width: 102px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  column-gap: 8px;
+  border-radius: 6px;
+  padding: 0 6px;
+  box-sizing: border-box;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .mdH0IY7jS3Swn5vdX6tz:hover:not(.ibW4Oa5B7s2zJKKZ4pCg .dEdHLVmn_L2GAzb_cmwt) {
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ibW4Oa5B7s2zJKKZ4pCg .dEdHLVmn_L2GAzb_cmwt {
+  cursor: default;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .dEdHLVmn_L2GAzb_cmwt .zEraruudgjR2MToGu4Kw {
+  color: var(--quark-style-gray-40-color, rgba(6, 10, 38, 0.4)) !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .XfCMwvO0DsqFCeyzPYP2 {
+  width: 16px;
+  height: 16px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .zEraruudgjR2MToGu4Kw {
+  font-size: 12px;
+  color: var(--quark-style-gray-color, #060A26);
+}
+.ibW4Oa5B7s2zJKKZ4pCg .KZeoAuXbMIkWzOT4PcH5 {
+  width: 100%;
+  height: 1px;
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ZL32C_XdLL8UQRZ3zObd {
+  display: flex;
+  align-items: center;
+}
+.u5llx7cIQZLdrjP5Vag1 {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  cursor: pointer;
+  margin-right: 12px;
+  background: var(--quark-style-gray-60-color, rgba(6, 10, 38, 0.6));
+}
+.ZL32C_XdLL8UQRZ3zObd .LEo8kpqIERehkv8AhAfG {
+  border-radius: 16px !important;
+  background: var(--quark-style-gray-60-color, rgba(6, 10, 38, 0.6)) !important;
+}
+.ZL32C_XdLL8UQRZ3zObd .zoNmooxAnbLEJSN8m1Jg {
+  right: 0 !important;
+}
+.ZL32C_XdLL8UQRZ3zObd {
+  overflow: visible !important;
+}
+</style><style>.Po4BvhR1CK2tJaywJ6AN path {
+  fill: var(--icon-path-fill);
+}
+.Oz4yDjua3Qe6thqkZYf_ path {
+  transition: 0.2s all;
+}
+.Oz4yDjua3Qe6thqkZYf_:hover path {
+  fill: var(--icon-hover-fill);
+}
+</style><style>/* ！！！切勿直接改动该文件，该文件由 generator.ts 自动生成！！！ */
+/* !!! DONT MODIFY THIS FILE DIRECTLY, THIS FILE IS GENERATED BY generator.ts AUTOMATICALLY !!! */
+.ibW4Oa5B7s2zJKKZ4pCg {
+  user-select: none;
+}
+.AtqKyJetjrG4smuk35Np {
+  max-width: 346px;
+  width: auto;
+  height: 36px;
+  background-color: var(--quark-style-white-color, #fff);
+  padding-left: 10px;
+  padding-right: 4px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid var(--quark-style-gray-20-color, rgba(6, 10, 38, 0.12));
+  box-shadow: 0 12px 32px -6px var(--quark-style-gray-30-fixed-color, rgba(6, 10, 38, 0.24));
+  border-radius: 10px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .g6iGsZa_KHMeW2yICzQQ {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  margin-right: 6px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .e4UXx38MPgfHdym_Lzt0 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 28px;
+  padding: 0 6px;
+  margin-right: 2px;
+  border-radius: 6px;
+  column-gap: 4px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .e4UXx38MPgfHdym_Lzt0:hover:not(.ibW4Oa5B7s2zJKKZ4pCg .kNOcXLDT_cCrcoY8LTm8) {
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ibW4Oa5B7s2zJKKZ4pCg .kNOcXLDT_cCrcoY8LTm8 {
+  cursor: default;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .kNOcXLDT_cCrcoY8LTm8 .Va3czASiR9Zztyl_lD4M {
+  color: var(--quark-style-gray-40-color, rgba(6, 10, 38, 0.4)) !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .e4UXx38MPgfHdym_Lzt0 .Va3czASiR9Zztyl_lD4M {
+  font-size: 12px;
+  color: var(--quark-style-gray-color, #060A26);
+  line-height: 16px;
+  white-space: nowrap;
+  position: relative;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .llw0qsmiI_08u93bFdNg {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  overflow: visible !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .LEo8kpqIERehkv8AhAfG {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 6px;
+  overflow: visible !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .LEo8kpqIERehkv8AhAfG:hover {
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ibW4Oa5B7s2zJKKZ4pCg .zoNmooxAnbLEJSN8m1Jg {
+  box-sizing: border-box;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 110px;
+  max-height: 136px;
+  height: auto;
+  top: 36px;
+  right: -5px;
+  padding: 4px 0;
+  background-color: var(--quark-style-white-color, #fff);
+  border: 1px solid var(--quark-style-gray-20-color, rgba(6, 10, 38, 0.12));
+  box-shadow: 0 4px 16px -6px var(--quark-style-gray-20-fixed-color, rgba(6, 10, 38, 0.12));
+  border-radius: 8px;
+  overflow: visible !important;
+  row-gap: 4px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .O1imPofna4elG_8NcQnR {
+  top: -77px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .mdH0IY7jS3Swn5vdX6tz {
+  width: 102px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  column-gap: 8px;
+  border-radius: 6px;
+  padding: 0 6px;
+  box-sizing: border-box;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .mdH0IY7jS3Swn5vdX6tz:hover:not(.ibW4Oa5B7s2zJKKZ4pCg .dEdHLVmn_L2GAzb_cmwt) {
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ibW4Oa5B7s2zJKKZ4pCg .dEdHLVmn_L2GAzb_cmwt {
+  cursor: default;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .dEdHLVmn_L2GAzb_cmwt .zEraruudgjR2MToGu4Kw {
+  color: var(--quark-style-gray-40-color, rgba(6, 10, 38, 0.4)) !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .XfCMwvO0DsqFCeyzPYP2 {
+  width: 16px;
+  height: 16px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .zEraruudgjR2MToGu4Kw {
+  font-size: 12px;
+  color: var(--quark-style-gray-color, #060A26);
+}
+.ibW4Oa5B7s2zJKKZ4pCg .KZeoAuXbMIkWzOT4PcH5 {
+  width: 100%;
+  height: 1px;
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ZL32C_XdLL8UQRZ3zObd {
+  display: flex;
+  align-items: center;
+}
+.u5llx7cIQZLdrjP5Vag1 {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  cursor: pointer;
+  margin-right: 12px;
+  background: var(--quark-style-gray-60-color, rgba(6, 10, 38, 0.6));
+}
+.ZL32C_XdLL8UQRZ3zObd .LEo8kpqIERehkv8AhAfG {
+  border-radius: 16px !important;
+  background: var(--quark-style-gray-60-color, rgba(6, 10, 38, 0.6)) !important;
+}
+.ZL32C_XdLL8UQRZ3zObd .zoNmooxAnbLEJSN8m1Jg {
+  right: 0 !important;
+}
+.ZL32C_XdLL8UQRZ3zObd {
+  overflow: visible !important;
+}
+</style><style>.Po4BvhR1CK2tJaywJ6AN path {
+  fill: var(--icon-path-fill);
+}
+.Oz4yDjua3Qe6thqkZYf_ path {
+  transition: 0.2s all;
+}
+.Oz4yDjua3Qe6thqkZYf_:hover path {
+  fill: var(--icon-hover-fill);
+}
+</style><style>/* ！！！切勿直接改动该文件，该文件由 generator.ts 自动生成！！！ */
+/* !!! DONT MODIFY THIS FILE DIRECTLY, THIS FILE IS GENERATED BY generator.ts AUTOMATICALLY !!! */
+.ibW4Oa5B7s2zJKKZ4pCg {
+  user-select: none;
+}
+.AtqKyJetjrG4smuk35Np {
+  max-width: 346px;
+  width: auto;
+  height: 36px;
+  background-color: var(--quark-style-white-color, #fff);
+  padding-left: 10px;
+  padding-right: 4px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid var(--quark-style-gray-20-color, rgba(6, 10, 38, 0.12));
+  box-shadow: 0 12px 32px -6px var(--quark-style-gray-30-fixed-color, rgba(6, 10, 38, 0.24));
+  border-radius: 10px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .g6iGsZa_KHMeW2yICzQQ {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  margin-right: 6px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .e4UXx38MPgfHdym_Lzt0 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 28px;
+  padding: 0 6px;
+  margin-right: 2px;
+  border-radius: 6px;
+  column-gap: 4px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .e4UXx38MPgfHdym_Lzt0:hover:not(.ibW4Oa5B7s2zJKKZ4pCg .kNOcXLDT_cCrcoY8LTm8) {
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ibW4Oa5B7s2zJKKZ4pCg .kNOcXLDT_cCrcoY8LTm8 {
+  cursor: default;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .kNOcXLDT_cCrcoY8LTm8 .Va3czASiR9Zztyl_lD4M {
+  color: var(--quark-style-gray-40-color, rgba(6, 10, 38, 0.4)) !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .e4UXx38MPgfHdym_Lzt0 .Va3czASiR9Zztyl_lD4M {
+  font-size: 12px;
+  color: var(--quark-style-gray-color, #060A26);
+  line-height: 16px;
+  white-space: nowrap;
+  position: relative;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .llw0qsmiI_08u93bFdNg {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  overflow: visible !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .LEo8kpqIERehkv8AhAfG {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 6px;
+  overflow: visible !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .LEo8kpqIERehkv8AhAfG:hover {
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ibW4Oa5B7s2zJKKZ4pCg .zoNmooxAnbLEJSN8m1Jg {
+  box-sizing: border-box;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 110px;
+  max-height: 136px;
+  height: auto;
+  top: 36px;
+  right: -5px;
+  padding: 4px 0;
+  background-color: var(--quark-style-white-color, #fff);
+  border: 1px solid var(--quark-style-gray-20-color, rgba(6, 10, 38, 0.12));
+  box-shadow: 0 4px 16px -6px var(--quark-style-gray-20-fixed-color, rgba(6, 10, 38, 0.12));
+  border-radius: 8px;
+  overflow: visible !important;
+  row-gap: 4px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .O1imPofna4elG_8NcQnR {
+  top: -77px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .mdH0IY7jS3Swn5vdX6tz {
+  width: 102px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  column-gap: 8px;
+  border-radius: 6px;
+  padding: 0 6px;
+  box-sizing: border-box;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .mdH0IY7jS3Swn5vdX6tz:hover:not(.ibW4Oa5B7s2zJKKZ4pCg .dEdHLVmn_L2GAzb_cmwt) {
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ibW4Oa5B7s2zJKKZ4pCg .dEdHLVmn_L2GAzb_cmwt {
+  cursor: default;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .dEdHLVmn_L2GAzb_cmwt .zEraruudgjR2MToGu4Kw {
+  color: var(--quark-style-gray-40-color, rgba(6, 10, 38, 0.4)) !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .XfCMwvO0DsqFCeyzPYP2 {
+  width: 16px;
+  height: 16px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .zEraruudgjR2MToGu4Kw {
+  font-size: 12px;
+  color: var(--quark-style-gray-color, #060A26);
+}
+.ibW4Oa5B7s2zJKKZ4pCg .KZeoAuXbMIkWzOT4PcH5 {
+  width: 100%;
+  height: 1px;
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ZL32C_XdLL8UQRZ3zObd {
+  display: flex;
+  align-items: center;
+}
+.u5llx7cIQZLdrjP5Vag1 {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  cursor: pointer;
+  margin-right: 12px;
+  background: var(--quark-style-gray-60-color, rgba(6, 10, 38, 0.6));
+}
+.ZL32C_XdLL8UQRZ3zObd .LEo8kpqIERehkv8AhAfG {
+  border-radius: 16px !important;
+  background: var(--quark-style-gray-60-color, rgba(6, 10, 38, 0.6)) !important;
+}
+.ZL32C_XdLL8UQRZ3zObd .zoNmooxAnbLEJSN8m1Jg {
+  right: 0 !important;
+}
+.ZL32C_XdLL8UQRZ3zObd {
+  overflow: visible !important;
+}
+</style><style>.Po4BvhR1CK2tJaywJ6AN path {
+  fill: var(--icon-path-fill);
+}
+.Oz4yDjua3Qe6thqkZYf_ path {
+  transition: 0.2s all;
+}
+.Oz4yDjua3Qe6thqkZYf_:hover path {
+  fill: var(--icon-hover-fill);
+}
+</style><style>/* ！！！切勿直接改动该文件，该文件由 generator.ts 自动生成！！！ */
+/* !!! DONT MODIFY THIS FILE DIRECTLY, THIS FILE IS GENERATED BY generator.ts AUTOMATICALLY !!! */
+.ibW4Oa5B7s2zJKKZ4pCg {
+  user-select: none;
+}
+.AtqKyJetjrG4smuk35Np {
+  max-width: 346px;
+  width: auto;
+  height: 36px;
+  background-color: var(--quark-style-white-color, #fff);
+  padding-left: 10px;
+  padding-right: 4px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid var(--quark-style-gray-20-color, rgba(6, 10, 38, 0.12));
+  box-shadow: 0 12px 32px -6px var(--quark-style-gray-30-fixed-color, rgba(6, 10, 38, 0.24));
+  border-radius: 10px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .g6iGsZa_KHMeW2yICzQQ {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  margin-right: 6px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .e4UXx38MPgfHdym_Lzt0 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 28px;
+  padding: 0 6px;
+  margin-right: 2px;
+  border-radius: 6px;
+  column-gap: 4px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .e4UXx38MPgfHdym_Lzt0:hover:not(.ibW4Oa5B7s2zJKKZ4pCg .kNOcXLDT_cCrcoY8LTm8) {
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ibW4Oa5B7s2zJKKZ4pCg .kNOcXLDT_cCrcoY8LTm8 {
+  cursor: default;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .kNOcXLDT_cCrcoY8LTm8 .Va3czASiR9Zztyl_lD4M {
+  color: var(--quark-style-gray-40-color, rgba(6, 10, 38, 0.4)) !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .e4UXx38MPgfHdym_Lzt0 .Va3czASiR9Zztyl_lD4M {
+  font-size: 12px;
+  color: var(--quark-style-gray-color, #060A26);
+  line-height: 16px;
+  white-space: nowrap;
+  position: relative;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .llw0qsmiI_08u93bFdNg {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  overflow: visible !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .LEo8kpqIERehkv8AhAfG {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 6px;
+  overflow: visible !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .LEo8kpqIERehkv8AhAfG:hover {
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ibW4Oa5B7s2zJKKZ4pCg .zoNmooxAnbLEJSN8m1Jg {
+  box-sizing: border-box;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 110px;
+  max-height: 136px;
+  height: auto;
+  top: 36px;
+  right: -5px;
+  padding: 4px 0;
+  background-color: var(--quark-style-white-color, #fff);
+  border: 1px solid var(--quark-style-gray-20-color, rgba(6, 10, 38, 0.12));
+  box-shadow: 0 4px 16px -6px var(--quark-style-gray-20-fixed-color, rgba(6, 10, 38, 0.12));
+  border-radius: 8px;
+  overflow: visible !important;
+  row-gap: 4px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .O1imPofna4elG_8NcQnR {
+  top: -77px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .mdH0IY7jS3Swn5vdX6tz {
+  width: 102px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  column-gap: 8px;
+  border-radius: 6px;
+  padding: 0 6px;
+  box-sizing: border-box;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .mdH0IY7jS3Swn5vdX6tz:hover:not(.ibW4Oa5B7s2zJKKZ4pCg .dEdHLVmn_L2GAzb_cmwt) {
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ibW4Oa5B7s2zJKKZ4pCg .dEdHLVmn_L2GAzb_cmwt {
+  cursor: default;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .dEdHLVmn_L2GAzb_cmwt .zEraruudgjR2MToGu4Kw {
+  color: var(--quark-style-gray-40-color, rgba(6, 10, 38, 0.4)) !important;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .XfCMwvO0DsqFCeyzPYP2 {
+  width: 16px;
+  height: 16px;
+}
+.ibW4Oa5B7s2zJKKZ4pCg .zEraruudgjR2MToGu4Kw {
+  font-size: 12px;
+  color: var(--quark-style-gray-color, #060A26);
+}
+.ibW4Oa5B7s2zJKKZ4pCg .KZeoAuXbMIkWzOT4PcH5 {
+  width: 100%;
+  height: 1px;
+  background: var(--quark-style-gray-10-color, rgba(6, 10, 38, 0.06));
+}
+.ZL32C_XdLL8UQRZ3zObd {
+  display: flex;
+  align-items: center;
+}
+.u5llx7cIQZLdrjP5Vag1 {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  cursor: pointer;
+  margin-right: 12px;
+  background: var(--quark-style-gray-60-color, rgba(6, 10, 38, 0.6));
+}
+.ZL32C_XdLL8UQRZ3zObd .LEo8kpqIERehkv8AhAfG {
+  border-radius: 16px !important;
+  background: var(--quark-style-gray-60-color, rgba(6, 10, 38, 0.6)) !important;
+}
+.ZL32C_XdLL8UQRZ3zObd .zoNmooxAnbLEJSN8m1Jg {
+  right: 0 !important;
+}
+.ZL32C_XdLL8UQRZ3zObd {
+  overflow: visible !important;
+}
+</style></head>
+<body class="journey-visible">
+  <main class="hero" id="hero" aria-label="归鸟作品集首屏" style="--mx: 0.878; --my: -0.896; --pointer-x: 1963.3333740234375px; --pointer-y: 66px; --transition-x: 49%; --transition-y: 46%;">
+    <div class="visual-shell" aria-live="polite">
+      <div class="scene-stack" id="sceneStack">
+        <section class="scene has-image active" data-scene="0" aria-label="青蓝色白鹭与荷花主题" style="">
+          <div class="placeholder"><div class="placeholder-art"></div><div class="placeholder-label" data-edit="placeholder-0" contenteditable="false">白鹭与荷花 · IMAGE 01</div></div>
+          <img class="scene-image" alt="白鹭与荷花主题插画" src="assets/images/1116467c4731c5eb.webp">
+          <div class="scene-shade"></div>
+        </section>
+        <section class="scene has-image" data-scene="1" aria-label="豆绿色斑鸠与兰草主题" style="">
+          <div class="placeholder"><div class="placeholder-art"></div><div class="placeholder-label" data-edit="placeholder-1" contenteditable="false">斑鸠与兰草 · IMAGE 02</div></div>
+          <img class="scene-image" alt="斑鸠与兰草主题插画" src="assets/images/343fb0716f5978c7.webp">
+          <div class="scene-shade"></div>
+        </section>
+        <section class="scene has-image" data-scene="2" aria-label="淡紫柔粉鹦鹉与繁花主题" style="">
+          <div class="placeholder"><div class="placeholder-art"></div><div class="placeholder-label" data-edit="placeholder-2" contenteditable="false">鹦鹉与繁花 · IMAGE 03</div></div>
+          <img class="scene-image" alt="鹦鹉与繁花主题插画" src="assets/images/a93a9dcae531bd32.webp">
+          <div class="scene-shade"></div>
+        </section>
+        <section class="scene has-image" data-scene="3" aria-label="暖浅黄色水鸭与荷叶藤蔓主题" style="">
+          <div class="placeholder"><div class="placeholder-art"></div><div class="placeholder-label" data-edit="placeholder-3" contenteditable="false">水鸭与荷叶 · IMAGE 04</div></div>
+          <img class="scene-image" alt="水鸭与荷叶藤蔓主题插画" src="assets/images/8827bd2036474aa9.webp">
+          <div class="scene-shade"></div>
+        </section>
+      </div>
+      <div class="soft-wash"></div>
+    </div>
+
+    <canvas id="trailCanvas" aria-hidden="true" width="3159" height="1906" style="width: 2106px; height: 1271px;"></canvas>
+    <div class="transition-bloom" id="transitionBloom" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">鸟</span><span data-edit="brand" contenteditable="false">归鸟</span></div>
+      <nav class="nav" aria-label="主导航">
+        <a href="#" data-edit="nav-work" contenteditable="false">作品</a>
+        <a href="#" data-edit="nav-about" contenteditable="false">关于</a>
+        <a href="#" data-edit="nav-contact" contenteditable="false">联系</a>
+      </nav>
+    </header>
+
+    <section class="hero-copy">
+      <p class="eyebrow" data-edit="eyebrow" contenteditable="false">ILLUSTRATION · PORTFOLIO</p>
+      <h1 class="hero-title" data-edit="title" style="line-height: 1.05; font-size: 135px;" contenteditable="false">循光而行，<br><em>倦鸟归林</em></h1>
+      <p class="hero-lead" data-edit="lead" contenteditable="false">收集风、花朵、叶子、羽毛与未完的梦。这里陈列关于自然、角色与叙事的个人产品与插画作品</p>
+      <button class="enter-link" type="button" id="nextScene"><span data-edit="enter" contenteditable="false">浏览下一幅</span><span aria-hidden="true">↗</span></button>
+    </section>
+
+    <aside class="scene-caption" aria-label="当前作品信息">
+      <span class="caption-index" id="captionIndex">01 / 04</span>
+      <h2 class="caption-title selected-edit" id="captionTitle" data-edit="caption-0" contenteditable="false">暖荷·水鸭</h2>
+    </aside>
+
+    <div class="bottom-bar">
+      <div class="gesture-hint"><span class="mouse-icon" aria-hidden="true"></span><span data-edit="hint" style="font-size: 8px;" contenteditable="false">按下鼠标 · 切换画面</span></div>
+      <div class="thumbs" id="thumbs" aria-label="画面选择">
+        <button class="thumb has-image active" type="button" data-index="0" data-number="01" aria-label="切换至第一幅"><img class="thumb-preview" alt="" src="assets/images/1116467c4731c5eb.webp"></button>
+        <button class="thumb has-image" type="button" data-index="1" data-number="02" aria-label="切换至第二幅"><img class="thumb-preview" alt="" src="assets/images/343fb0716f5978c7.webp"></button>
+        <button class="thumb has-image" type="button" data-index="2" data-number="03" aria-label="切换至第三幅"><img class="thumb-preview" alt="" src="assets/images/a93a9dcae531bd32.webp"></button>
+        <button class="thumb has-image" type="button" data-index="3" data-number="04" aria-label="切换至第四幅"><img class="thumb-preview" alt="" src="assets/images/8827bd2036474aa9.webp"></button>
+      </div>
+    </div>
+    <div class="progress-line" aria-hidden="true"><span id="progressBar" style="transform: translateX(0%);"></span></div>
+
+    <div class="music-player" id="musicPlayer" aria-label="背景音乐控制器">
+      <button class="music-main" id="musicToggle" type="button" aria-label="播放背景音乐" title="播放背景音乐"><span class="play-glyph" aria-hidden="true"></span></button>
+      <div class="music-meta">
+        <span class="music-state" id="musicState">点击播放 · WAV</span>
+        <strong class="music-title" data-edit="music-title" contenteditable="false">爱琴海岛 · 纯音乐</strong>
+      </div>
+      <span class="music-eq" aria-hidden="true"><span></span><span></span><span></span></span>
+      <button class="music-mute" id="musicMute" type="button" aria-label="静音" title="静音"></button>
+      <label class="music-volume" aria-label="音乐音量">
+        <input id="musicVolume" type="range" min="0" max="100" value="42" aria-valuetext="音量 31%">
+      </label>
+    </div>
+    <audio id="backgroundMusic" src="爱琴海岛-纯音乐.mp3" preload="metadata" loop=""></audio>
+  </main>
+
+
+
+  <section class="journey-section" id="journeySection" aria-labelledby="journeyTitle">
+    <button class="journey-settings-toggle" id="journeySettingsToggle" type="button" aria-label="打开第二屏设置">✦</button>
+    <aside class="journey-tools" id="journeyTools" aria-label="第二屏自定义设置">
+      <h3>第二屏自定义</h3>
+      <label class="journey-tool"><span>占位符间距</span><input id="journeySpacing" type="range" min="72" max="220" value="154"></label>
+      <label class="journey-tool"><span>图文间距</span><input id="journeyCopyGap" type="range" min="8" max="90" value="34"></label>
+      <label class="journey-tool"><span>所选文字大小</span><input id="journeyFontSize" type="range" min="8" max="90" value="28"></label>
+      <label class="journey-tool"><span>所选文字间距</span><input id="journeyLetterSpacing" type="range" min="-4" max="20" step=".5" value="0"></label>
+      <label class="journey-tool"><span>当前图片大小</span><input id="journeyImageScale" type="range" min="70" max="240" value="100"></label>
+      <label class="journey-tool"><span>当前图片水平位置</span><input id="journeyImageX" type="range" min="-50" max="50" value="0"></label>
+      <label class="journey-tool"><span>当前图片垂直位置</span><input id="journeyImageY" type="range" min="-50" max="50" value="0"></label>
+    </aside>
+    <div class="journey-inner">
+      <header class="journey-heading">
+        <p class="journey-kicker" data-edit="journey-kicker" data-journey-edit="" contenteditable="false">RETURN. BIRD. ECHO.</p>
+        <h2 class="journey-title" id="journeyTitle" data-edit="journey-title" data-journey-edit="" contenteditable="false">FLY. ROOT. BLOOM.</h2>
+        <p class="journey-subtitle" data-edit="journey-subtitle" data-journey-edit="" contenteditable="false">振羽寻根，向美而生。</p>
+      </header>
+      <div class="journey-stage" id="journeyStage">
+        <button class="journey-nav journey-prev" id="journeyPrev" type="button" aria-label="上一张">←</button>
+        <div class="journey-track">        <article class="journey-card has-image" data-journey-card="0" style="--card-color: #e7ea9c; --card-x: -616px; --card-scale: 0.7; --card-rotate: 5.4deg; z-index: 16; opacity: 0.48; filter: saturate(0.84); pointer-events: auto;" aria-current="false">
+          <img class="journey-card__image" alt="作品图片 01" src="assets/images/126739dc3de5f707.webp" loading="lazy" decoding="async">
+          <div class="journey-placeholder"><span>01</span></div>
+          <label class="journey-upload" title="上传作品 01"><input type="file" accept="image/*" data-journey-upload="0">＋</label>
+          <div class="journey-card__meta"><small data-edit="journey-label-0" data-journey-edit="" contenteditable="false">BLOOM · 01</small><strong data-edit="journey-name-0" data-journey-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="journey-card has-image" data-journey-card="1" style="--card-color: #bfd564; --card-x: -462px; --card-scale: 0.775; --card-rotate: 4.050000000000001deg; z-index: 17; opacity: 0.61; filter: saturate(0.84); pointer-events: auto;" aria-current="false">
+          <img class="journey-card__image" alt="作品图片 02" src="assets/images/bfe8b8120ae6df84.webp" loading="lazy" decoding="async">
+          <div class="journey-placeholder"><span>02</span></div>
+          <label class="journey-upload" title="上传作品 02"><input type="file" accept="image/*" data-journey-upload="1">＋</label>
+          <div class="journey-card__meta"><small data-edit="journey-label-1" data-journey-edit="" contenteditable="false">BLOOM · 02</small><strong data-edit="journey-name-1" data-journey-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="journey-card has-image" data-journey-card="2" style="--card-color: #8caf63; --card-x: -308px; --card-scale: 0.85; --card-rotate: 2.7deg; z-index: 18; opacity: 0.74; filter: none; pointer-events: auto;" aria-current="false">
+          <img class="journey-card__image" alt="作品图片 03" src="assets/images/708925c693906f69.webp" loading="lazy" decoding="async">
+          <div class="journey-placeholder"><span>03</span></div>
+          <label class="journey-upload" title="上传作品 03"><input type="file" accept="image/*" data-journey-upload="2">＋</label>
+          <div class="journey-card__meta"><small data-edit="journey-label-2" data-journey-edit="" contenteditable="false">BLOOM · 03</small><strong data-edit="journey-name-2" data-journey-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="journey-card has-image" data-journey-card="3" style="--card-color: #568039; --card-x: -154px; --card-scale: 0.925; --card-rotate: 1.35deg; z-index: 19; opacity: 0.87; filter: none; pointer-events: auto;" aria-current="false">
+          <img class="journey-card__image" alt="作品图片 04" src="assets/images/47951848e8f198b4.webp" loading="lazy" decoding="async">
+          <div class="journey-placeholder"><span>04</span></div>
+          <label class="journey-upload" title="上传作品 04"><input type="file" accept="image/*" data-journey-upload="3">＋</label>
+          <div class="journey-card__meta"><small data-edit="journey-label-3" data-journey-edit="" contenteditable="false">BLOOM · 04</small><strong data-edit="journey-name-3" data-journey-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="journey-card has-image" data-journey-card="4" style="--card-color: #315f2d; --card-x: 0px; --card-scale: 1.1; --card-rotate: 0deg; z-index: 20; opacity: 1; filter: none; pointer-events: auto;" aria-current="true">
+          <img class="journey-card__image" alt="作品图片 05" src="assets/images/f383cd26119125c1.webp" loading="lazy" decoding="async">
+          <div class="journey-placeholder"><span>05</span></div>
+          <label class="journey-upload" title="上传作品 05"><input type="file" accept="image/*" data-journey-upload="4">＋</label>
+          <div class="journey-card__meta"><small data-edit="journey-label-4" data-journey-edit="" contenteditable="false">BLOOM · 05</small><strong data-edit="journey-name-4" data-journey-edit="" contenteditable="false" class="selected"><br></strong></div>
+        </article>
+        <article class="journey-card has-image" data-journey-card="5" style="--card-color: #bfd564; --card-x: 154px; --card-scale: 0.925; --card-rotate: -1.35deg; z-index: 19; opacity: 0.87; filter: none; pointer-events: auto;" aria-current="false">
+          <img class="journey-card__image" alt="作品图片 06" src="assets/images/42251027f62b854d.webp" loading="lazy" decoding="async">
+          <div class="journey-placeholder"><span>06</span></div>
+          <label class="journey-upload" title="上传作品 06"><input type="file" accept="image/*" data-journey-upload="5">＋</label>
+          <div class="journey-card__meta"><small data-edit="journey-label-5" data-journey-edit="" contenteditable="false">BLOOM · 06</small><strong data-edit="journey-name-5" data-journey-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="journey-card has-image" data-journey-card="6" style="--card-color: #8caf63; --card-x: 308px; --card-scale: 0.85; --card-rotate: -2.7deg; z-index: 18; opacity: 0.74; filter: none; pointer-events: auto;" aria-current="false">
+          <img class="journey-card__image" alt="作品图片 07" src="assets/images/ec2687af807cd72e.webp" loading="lazy" decoding="async">
+          <div class="journey-placeholder"><span>07</span></div>
+          <label class="journey-upload" title="上传作品 07"><input type="file" accept="image/*" data-journey-upload="6">＋</label>
+          <div class="journey-card__meta"><small data-edit="journey-label-6" data-journey-edit="" contenteditable="false">BLOOM · 07</small><strong data-edit="journey-name-6" data-journey-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="journey-card has-image" data-journey-card="7" style="--card-color: #568039; --card-x: 462px; --card-scale: 0.775; --card-rotate: -4.050000000000001deg; z-index: 17; opacity: 0.61; filter: saturate(0.84); pointer-events: auto;" aria-current="false">
+          <img class="journey-card__image" alt="作品图片 08" src="assets/images/0140868d69c31012.webp" loading="lazy" decoding="async">
+          <div class="journey-placeholder"><span>08</span></div>
+          <label class="journey-upload" title="上传作品 08"><input type="file" accept="image/*" data-journey-upload="7">＋</label>
+          <div class="journey-card__meta"><small data-edit="journey-label-7" data-journey-edit="" contenteditable="false">BLOOM · 08</small><strong data-edit="journey-name-7" data-journey-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="journey-card has-image" data-journey-card="8" style="--card-color: #315f2d; --card-x: 616px; --card-scale: 0.7; --card-rotate: -5.4deg; z-index: 16; opacity: 0.48; filter: saturate(0.84); pointer-events: auto; --image-scale: 1; --image-x: -35%; --image-y: 0%;" aria-current="false" data-image-scale="1" data-image-x="-35" data-image-y="0">
+          <img class="journey-card__image" alt="作品图片 09" src="assets/images/2f4b3d7fd11abf62.webp" loading="lazy" decoding="async">
+          <div class="journey-placeholder"><span>09</span></div>
+          <label class="journey-upload" title="上传作品 09"><input type="file" accept="image/*" data-journey-upload="8">＋</label>
+          <div class="journey-card__meta"><small data-edit="journey-label-8" data-journey-edit="" contenteditable="false">BLOOM · 09</small><strong data-edit="journey-name-8" data-journey-edit="" contenteditable="false" class=""><br></strong></div>
+        </article></div>
+        <button class="journey-nav journey-next" id="journeyNext" type="button" aria-label="下一张">→</button>
+      </div>
+      <footer class="journey-footer"><span data-edit="journey-footer-label" data-journey-edit="" contenteditable="false" class="">02 /&nbsp;RETURN. BIRD. ECHO.</span><div class="journey-dots"><button class="journey-dot" type="button" data-journey-dot="0" aria-label="查看作品 1"></button><button class="journey-dot" type="button" data-journey-dot="1" aria-label="查看作品 2"></button><button class="journey-dot" type="button" data-journey-dot="2" aria-label="查看作品 3"></button><button class="journey-dot" type="button" data-journey-dot="3" aria-label="查看作品 4"></button><button class="journey-dot active" type="button" data-journey-dot="4" aria-label="查看作品 5"></button><button class="journey-dot" type="button" data-journey-dot="5" aria-label="查看作品 6"></button><button class="journey-dot" type="button" data-journey-dot="6" aria-label="查看作品 7"></button><button class="journey-dot" type="button" data-journey-dot="7" aria-label="查看作品 8"></button><button class="journey-dot" type="button" data-journey-dot="8" aria-label="查看作品 9"></button></div><span class="journey-count" id="journeyCount">05 / 09</span></footer>
+    </div>
+  </section>
+
+  <section class="archive-section" id="archiveSection" aria-labelledby="archiveTitle">
+    <button class="archive-settings-toggle" id="archiveSettingsToggle" type="button" aria-label="打开第三屏设置">✦</button>
+    <aside class="archive-tools" id="archiveTools" aria-label="第三屏自定义设置">
+      <h3>第三屏自定义</h3>
+      <label class="archive-tool"><span>占位符间距</span><input id="archiveGap" type="range" min="4" max="42" value="14"></label>
+      <label class="archive-tool"><span>文字与图片间距</span><input id="archiveCopyGap" type="range" min="3" max="18" step=".5" value="7"></label>
+      <label class="archive-tool"><span>所选文字大小</span><input id="archiveFontSize" type="range" min="8" max="120" value="36"></label>
+      <label class="archive-tool"><span>所选文字间距</span><input id="archiveLetterSpacing" type="range" min="-5" max="24" step=".5" value="0"></label>
+      <label class="archive-tool"><span>当前图片大小</span><input id="archiveImageScale" type="range" min="70" max="260" value="100"></label>
+      <label class="archive-tool"><span>当前图片水平位置</span><input id="archiveImageX" type="range" min="-50" max="50" value="0"></label>
+      <label class="archive-tool"><span>当前图片垂直位置</span><input id="archiveImageY" type="range" min="-50" max="50" value="0"></label>
+    </aside>
+    <div class="archive-inner">
+      <header class="archive-header">
+        <div><p class="archive-kicker selected" data-edit="archive-kicker" data-archive-edit="" contenteditable="false">03 / VISUAL ARCHIVE</p><h2 class="archive-title" id="archiveTitle" data-edit="archive-heading" data-archive-edit="" contenteditable="false">RETURN. BIRD. ECHO.</h2></div>
+        <p class="archive-intro" data-edit="archive-intro" data-archive-edit="" contenteditable="false">让光、风与羽毛成为叙事的坐标。这里收录角色的片刻、自然的纹理，以及每一段尚未结束的归途。</p>
+      </header>
+      <div class="archive-grid">        <article class="archive-card has-image" data-archive-card="0" style="--archive-card-color:#e7ea9c">
+          <img class="archive-image" alt="第三屏作品 01" src="assets/images/4a6ebbc88a7f8cee.webp" loading="lazy" decoding="async">
+          <div class="archive-placeholder"><span>01</span></div>
+          <label class="archive-upload" title="上传第三屏作品 01"><input type="file" accept="image/*" data-archive-upload="0">＋</label>
+          <div class="archive-copy"><small data-edit="archive-label-0" data-archive-edit="" contenteditable="false" class=""><br></small><strong data-edit="archive-title-0" data-archive-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="archive-card has-image active" data-archive-card="1" style="--archive-card-color: #bfd564; --archive-image-scale: 1.03; --archive-image-x: 0%; --archive-image-y: 0%;" data-image-scale="1.03" data-image-x="0" data-image-y="0">
+          <img class="archive-image" alt="第三屏作品 02" src="assets/images/767cddbf387d5dd1.webp" loading="lazy" decoding="async">
+          <div class="archive-placeholder"><span>02</span></div><i class="archive-orb" aria-hidden="true"></i>
+          <label class="archive-upload" title="上传第三屏作品 02"><input type="file" accept="image/*" data-archive-upload="1">＋</label>
+          <div class="archive-copy"><small data-edit="archive-label-1" data-archive-edit="" contenteditable="false">ARCHIVE · 02</small><strong data-edit="archive-title-1" data-archive-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="archive-card has-image" data-archive-card="2" style="--archive-card-color: #8caf63; --archive-image-scale: 1.13; --archive-image-x: 0%; --archive-image-y: 0%;" data-image-scale="1.13" data-image-x="0" data-image-y="0">
+          <img class="archive-image" alt="第三屏作品 03" src="assets/images/3a02aa79cee45827.webp" loading="lazy" decoding="async">
+          <div class="archive-placeholder"><span>03</span></div>
+          <label class="archive-upload" title="上传第三屏作品 03"><input type="file" accept="image/*" data-archive-upload="2">＋</label>
+          <div class="archive-copy"><small data-edit="archive-label-2" data-archive-edit="" contenteditable="false">ARCHIVE · 03</small><strong data-edit="archive-title-2" data-archive-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="archive-card has-image" data-archive-card="3" style="--archive-card-color: #d7e6a3; --archive-image-scale: 1.06; --archive-image-x: 0%; --archive-image-y: 0%;" data-image-scale="1.06" data-image-x="0" data-image-y="0">
+          <img class="archive-image" alt="第三屏作品 04" src="assets/images/6a83db2a2f496193.webp" loading="lazy" decoding="async">
+          <div class="archive-placeholder"><span>04</span></div>
+          <label class="archive-upload" title="上传第三屏作品 04"><input type="file" accept="image/*" data-archive-upload="3">＋</label>
+          <div class="archive-copy"><small data-edit="archive-label-3" data-archive-edit="" contenteditable="false">ARCHIVE · 04</small><strong data-edit="archive-title-3" data-archive-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="archive-card accent has-image" data-archive-card="4" style="--archive-card-color: #bfd564; --archive-image-scale: 1.06; --archive-image-x: 0%; --archive-image-y: 0%;" data-image-scale="1.06" data-image-x="0" data-image-y="0">
+          <img class="archive-image" alt="第三屏作品 05" src="assets/images/5184ff1cbca62821.webp" loading="lazy" decoding="async">
+          <div class="archive-placeholder"><span>05</span></div>
+          <label class="archive-upload" title="上传第三屏作品 05"><input type="file" accept="image/*" data-archive-upload="4">＋</label>
+          <div class="archive-copy"><small data-edit="archive-label-4" data-archive-edit="" contenteditable="false">ARCHIVE · 05</small><strong data-edit="archive-title-4" data-archive-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="archive-card accent has-image" data-archive-card="5" style="--archive-card-color:#edf0b7">
+          <img class="archive-image" alt="第三屏作品 06" src="assets/images/0b0c2e30ea77a1d3.webp" loading="lazy" decoding="async">
+          <div class="archive-placeholder"><span>06</span></div>
+          <label class="archive-upload" title="上传第三屏作品 06"><input type="file" accept="image/*" data-archive-upload="5">＋</label>
+          <div class="archive-copy"><small data-edit="archive-label-5" data-archive-edit="" contenteditable="false">ARCHIVE · 06</small><strong data-edit="archive-title-5" data-archive-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="archive-card has-image" data-archive-card="6" style="--archive-card-color: #aac779; --archive-image-scale: 1.1; --archive-image-x: 0%; --archive-image-y: 0%;" data-image-scale="1.1" data-image-x="0" data-image-y="0">
+          <img class="archive-image" alt="第三屏作品 07" src="assets/images/a7d4177079eca609.webp" loading="lazy" decoding="async">
+          <div class="archive-placeholder"><span>07</span></div><i class="archive-orb" aria-hidden="true"></i>
+          <label class="archive-upload" title="上传第三屏作品 07"><input type="file" accept="image/*" data-archive-upload="6">＋</label>
+          <div class="archive-copy"><small data-edit="archive-label-6" data-archive-edit="" contenteditable="false">ARCHIVE · 07</small><strong data-edit="archive-title-6" data-archive-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="archive-card has-image" data-archive-card="7" style="--archive-card-color:#8caf63">
+          <img class="archive-image" alt="第三屏作品 08" src="assets/images/4a2316fb3a808653.webp" loading="lazy" decoding="async">
+          <div class="archive-placeholder"><span>08</span></div>
+          <label class="archive-upload" title="上传第三屏作品 08"><input type="file" accept="image/*" data-archive-upload="7">＋</label>
+          <div class="archive-copy"><small data-edit="archive-label-7" data-archive-edit="" contenteditable="false">ARCHIVE · 08</small><strong data-edit="archive-title-7" data-archive-edit="" contenteditable="false" class=""><br></strong></div>
+        </article>
+        <article class="archive-card has-image" data-archive-card="8" style="--archive-card-color: #dce7ad; --archive-image-scale: 1.1; --archive-image-x: 0%; --archive-image-y: 0%;" data-image-scale="1.1" data-image-x="0" data-image-y="0">
+          <img class="archive-image" alt="第三屏作品 09" src="assets/images/9937b6f0876ae34c.webp" loading="lazy" decoding="async">
+          <div class="archive-placeholder"><span>09</span></div>
+          <label class="archive-upload" title="上传第三屏作品 09"><input type="file" accept="image/*" data-archive-upload="8">＋</label>
+          <div class="archive-copy"><small data-edit="archive-label-8" data-archive-edit="" contenteditable="false">ARCHIVE · 09</small><strong data-edit="archive-title-8" data-archive-edit="" contenteditable="false" class=""><br></strong></div>
+        </article></div>
+    </div>
+  </section>
+
+  <div class="cursor" id="cursor" aria-hidden="true" style="transform: translate3d(1941.33px, 44px, 0px);">DRAG</div>
+  <button class="settings-toggle" id="settingsToggle" type="button" aria-label="打开自定义面板" aria-expanded="false">✦</button>
+
+  <aside class="editor" id="editor" aria-label="网页自定义面板">
+    <div class="editor-drag-handle" id="editorDragHandle"><h2>自定义作品集</h2></div>
+    <p class="editor-intro">本页面为最终发布版本，内容已固定，无需再进行本地编辑。</p>
+
+    <section class="editor-section">
+      <h3>01 · 上传画面</h3>
+      <div class="upload-grid">
+        <label class="upload-card"><input type="file" accept="image/*" data-upload="0"><span><strong>画面 01</strong><small>8B83B27D93A53B641D57E0B12F08D0D6.jpg</small></span></label>
+        <label class="upload-card"><input type="file" accept="image/*" data-upload="1"><span><strong>画面 02</strong><small>图片节点 11.webp</small></span></label>
+        <label class="upload-card"><input type="file" accept="image/*" data-upload="2"><span><strong>画面 03</strong><small>图片节点 10 (3).png</small></span></label>
+        <label class="upload-card"><input type="file" accept="image/*" data-upload="3"><span><strong>画面 04</strong><small>图片节点 9.png</small></span></label>
+      </div>
+    </section>
+
+    <section class="editor-section">
+      <h3>02 · 当前文字</h3>
+      <p class="selected-text" id="selectedTextLabel">已选择：·水镜·白鹭</p>
+      <label class="control">
+        <span class="control-head"><span>字体大小</span><output id="fontSizeOut">31px</output></span>
+        <input id="fontSize" type="range" min="8" max="180" value="16">
+      </label>
+      <label class="control">
+        <span class="control-head"><span>文字间距</span><output id="letterSpacingOut">1.24px</output></span>
+        <input id="letterSpacing" type="range" min="-5" max="30" step="0.5" value="0">
+      </label>
+      <label class="control">
+        <span class="control-head"><span>文字行距</span><output id="lineHeightOut">1.15</output></span>
+        <input id="lineHeight" type="range" min="0.7" max="3" step="0.05" value="1.2">
+      </label>
+    </section>
+
+    <section class="editor-section">
+      <h3>03 · 版式间距</h3>
+      <label class="control">
+        <span class="control-head"><span>画面边距</span><output id="visualInsetOut">14px</output></span>
+        <input id="visualInset" type="range" min="0" max="80" value="14">
+      </label>
+      <label class="control">
+        <span class="control-head"><span>图片占位符间距</span><output id="thumbGapOut">10px</output></span>
+        <input id="thumbGap" type="range" min="0" max="40" value="10">
+      </label>
+      <label class="control">
+        <span class="control-head"><span>文字与图片间距</span><output id="copyImageGapOut">15px</output></span>
+        <input id="copyImageGap" type="range" min="0" max="160" value="42">
+      </label>
+      <label class="control">
+        <span class="control-head"><span>页面水平边距</span><output id="pagePadOut">100px</output></span>
+        <input id="pagePad" type="range" min="12" max="120" value="48">
+      </label>
+    </section>
+
+    <section class="editor-section">
+      <h3>04 · 保存与导出</h3>
+      <div class="editor-actions">
+        <button class="editor-btn primary wide" id="exportPage" type="button" hidden>导出备份</button>
+        <button class="editor-btn" id="clearImages" type="button">清空图片</button>
+        <button class="editor-btn" id="resetLayout" type="button">恢复版式</button>
+      </div>
+    </section>
+  </aside>
+
+  <div class="toast" id="toast" role="status">已从本地恢复 4 张图片</div>
+  <script id="portfolio-snapshot" type="application/json">{"text":{"title":"循光而行，\u003cbr>\u003cem>倦鸟归林\u003c/em>","hint":"按下鼠标 · 切换画面","lead":"收集风、花朵、叶子、羽毛与未完的梦。这里陈列关于自然、角色与叙事的个人产品与插画作品","placeholder-0":"白鹭与荷花 · IMAGE 01","placeholder-1":"斑鸠与兰草 · IMAGE 02","placeholder-2":"鹦鹉与繁花 · IMAGE 03","placeholder-3":"水鸭与荷叶 · IMAGE 04","brand":"归鸟","nav-work":"作品","nav-about":"关于","nav-contact":"联系","eyebrow":"ILLUSTRATION · PORTFOLIO","enter":"浏览下一幅","caption-2":"花信 · 鹦鹉","music-title":"爱琴海岛 · 纯音乐","caption-0":"暖荷·水鸭","caption-3":"水镜·白鹭","archive-title-0":"\u003cbr>","archive-label-0":"\u003cbr>","archive-title-2":"\u003cbr>","archive-title-6":"\u003cbr>","archive-title-3":"\u003cbr>","archive-title-7":"\u003cbr>","archive-title-4":"\u003cbr>","archive-title-5":"\u003cbr>","archive-title-8":"\u003cbr>","archive-title-1":"\u003cbr>","journey-title":"FLY. ROOT. BLOOM.","journey-kicker":"RETURN. BIRD. ECHO.","journey-subtitle":"振羽寻根，向美而生。","journey-footer-label":"02 /&nbsp;RETURN. BIRD. ECHO.","archive-heading":"RETURN. BIRD. ECHO.","journey-name-8":"\u003cbr>","journey-name-0":"\u003cbr>","journey-name-1":"\u003cbr>","journey-name-2":"\u003cbr>","journey-name-3":"\u003cbr>","journey-name-7":"\u003cbr>","journey-name-6":"\u003cbr>","journey-name-5":"\u003cbr>","journey-name-4":"\u003cbr>","journey-label-0":"BLOOM · 01","journey-label-1":"BLOOM · 02","journey-label-2":"BLOOM · 03","journey-label-3":"BLOOM · 04","journey-label-4":"BLOOM · 05","journey-label-5":"BLOOM · 06","journey-label-6":"BLOOM · 07","journey-label-7":"BLOOM · 08","journey-label-8":"BLOOM · 09","archive-kicker":"03 / VISUAL ARCHIVE","archive-intro":"让光、风与羽毛成为叙事的坐标。这里收录角色的片刻、自然的纹理，以及每一段尚未结束的归途。","archive-label-1":"ARCHIVE · 02","archive-label-2":"ARCHIVE · 03","archive-label-3":"ARCHIVE · 04","archive-label-4":"ARCHIVE · 05","archive-label-5":"ARCHIVE · 06","archive-label-6":"ARCHIVE · 07","archive-label-7":"ARCHIVE · 08","archive-label-8":"ARCHIVE · 09"},"textStyles":{"title":{"lineHeight":"1.05","fontSize":"135px"},"hint":{"fontSize":"8px"}},"layout":{"visualInset":14,"thumbGap":10,"copyImageGap":15,"pagePad":100},"images":["assets/images/1116467c4731c5eb.webp","assets/images/343fb0716f5978c7.webp","assets/images/a93a9dcae531bd32.webp","assets/images/8827bd2036474aa9.webp"],"glowColors":[[199,158,77],[169,206,101],[128,82,200],[91,183,203]],"music":{"volume":0.31,"muted":false}}</script>
+  <script>
+    (() => {
+      'use strict';
+
+      const root = document.documentElement;
+      const hero = document.getElementById('hero');
+      const scenes = [...document.querySelectorAll('.scene')];
+      const thumbs = [...document.querySelectorAll('.thumb')];
+      const cursor = document.getElementById('cursor');
+      const captionIndex = document.getElementById('captionIndex');
+      const captionTitle = document.getElementById('captionTitle');
+      const progressBar = document.getElementById('progressBar');
+      const musicPlayer = document.getElementById('musicPlayer');
+      const musicToggle = document.getElementById('musicToggle');
+      const musicMute = document.getElementById('musicMute');
+      const musicVolume = document.getElementById('musicVolume');
+      const musicState = document.getElementById('musicState');
+      const backgroundMusic = document.getElementById('backgroundMusic');
+      const transitionBloom = document.getElementById('transitionBloom');
+      const toggle = document.getElementById('settingsToggle');
+      const editor = document.getElementById('editor');
+      const editableNodes = [...document.querySelectorAll('[data-edit]')];
+      const toast = document.getElementById('toast');
+      const sceneTitles = ['水镜 · 白鹭', '兰野 · 斑鸠', '花信 · 鹦鹉', '暖荷 · 水鸭'];
+      let current = 0;
+      let transitioning = false;
+      let selectedEdit = null;
+      let pointerStart = null;
+      let dragTriggered = false;
+      let toastTimer;
+
+      const DEFAULT_GLOW_COLORS = [[181,229,241], [184,211,157], [220,175,232], [244,218,126]];
+      const SUBJECT_POINTS = [
+        { x: .62, y: .45 },
+        { x: .64, y: .44 },
+        { x: .68, y: .38 },
+        // 蓝色白鹭主题：从人物胸前深青色衣襟（参考图红圈中心）向外扩散
+        { x: .49, y: .46 }
+      ];
+      const IMAGE_DB_NAME = 'gui-niao-portfolio-assets';
+      const IMAGE_STORE_NAME = 'images';
+      const IMAGE_STORAGE_SCOPE = location.pathname || location.href.split(/[?#]/)[0];
+      let imageDatabasePromise = null;
+      const state = {
+        text: {},
+        textStyles: {},
+        layout: { visualInset: 14, thumbGap: 10, copyImageGap: 42, pagePad: 48 },
+        images: [null, null, null, null],
+        glowColors: DEFAULT_GLOW_COLORS.map(color => [...color]),
+        music: { volume: .42, muted: false }
+      };
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2300);
+      }
+
+      function isInteractive(target) {
+        return !!target.closest('button, a, input, label, .editor, [data-edit], [contenteditable="true"]');
+      }
+
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      const SCENE_CHORDS = [
+        [110.00, 146.83, 164.81, 220.00],
+        [146.83, 174.61, 220.00, 329.63],
+        [116.54, 155.56, 196.00, 233.08],
+        [130.81, 164.81, 196.00, 246.94]
+      ];
+      const SCENE_FILTERS = [1780, 980, 1460, 1280];
+      let audioContext = null;
+      let musicMaster = null;
+      let musicFilter = null;
+      let musicBus = null;
+      let padVoices = [];
+      let chimeTimer = null;
+      let isMusicPlaying = false;
+
+      function createReverbImpulse(context, seconds = 2.8, decay = 3.2) {
+        const length = Math.floor(context.sampleRate * seconds);
+        const impulse = context.createBuffer(2, length, context.sampleRate);
+        for (let channel = 0; channel < 2; channel++) {
+          const data = impulse.getChannelData(channel);
+          for (let i = 0; i < length; i++) {
+            data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
+          }
+        }
+        return impulse;
+      }
+
+      function initializeMusicEngine() {
+        if (audioContext) return true;
+        if (!AudioContextClass) {
+          musicToggle.disabled = true;
+          showToast('当前浏览器不支持背景音乐');
+          return false;
+        }
+        audioContext = new AudioContextClass();
+        musicBus = audioContext.createGain();
+        musicFilter = audioContext.createBiquadFilter();
+        musicFilter.type = 'lowpass';
+        musicFilter.frequency.value = SCENE_FILTERS[current];
+        musicFilter.Q.value = .45;
+
+        const dryGain = audioContext.createGain();
+        const wetGain = audioContext.createGain();
+        const convolver = audioContext.createConvolver();
+        const compressor = audioContext.createDynamicsCompressor();
+        musicMaster = audioContext.createGain();
+        dryGain.gain.value = .78;
+        wetGain.gain.value = .34;
+        musicMaster.gain.value = .0001;
+        convolver.buffer = createReverbImpulse(audioContext);
+        compressor.threshold.value = -24;
+        compressor.knee.value = 18;
+        compressor.ratio.value = 3;
+        compressor.attack.value = .08;
+        compressor.release.value = .7;
+
+        musicBus.connect(musicFilter);
+        musicFilter.connect(dryGain);
+        musicFilter.connect(convolver);
+        dryGain.connect(musicMaster);
+        convolver.connect(wetGain);
+        wetGain.connect(musicMaster);
+        musicMaster.connect(compressor);
+        compressor.connect(audioContext.destination);
+
+        const chord = SCENE_CHORDS[current];
+        padVoices = chord.map((frequency, index) => {
+          const oscillator = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          oscillator.type = index === 1 ? 'triangle' : 'sine';
+          oscillator.frequency.value = frequency;
+          oscillator.detune.value = [-4, 3, -2, 5][index];
+          gain.gain.value = .0001;
+          oscillator.connect(gain);
+          gain.connect(musicBus);
+          oscillator.start();
+          return { oscillator, gain };
+        });
+        return true;
+      }
+
+      function updateMusicInterface() {
+        musicPlayer.classList.toggle('playing', isMusicPlaying);
+        musicPlayer.classList.toggle('muted', state.music.muted);
+        musicToggle.setAttribute('aria-label', isMusicPlaying ? '暂停背景音乐' : '播放背景音乐');
+        musicToggle.title = isMusicPlaying ? '暂停背景音乐' : '播放背景音乐';
+        musicMute.setAttribute('aria-label', state.music.muted ? '取消静音' : '静音');
+        musicMute.title = state.music.muted ? '取消静音' : '静音';
+        musicState.textContent = isMusicPlaying ? (state.music.muted ? '已静音 · WAV' : '正在播放 · WAV') : '点击播放 · WAV';
+        musicVolume.value = Math.round(state.music.volume * 100);
+        musicVolume.setAttribute('aria-valuetext', `音量 ${Math.round(state.music.volume * 100)}%`);
+      }
+
+      function applyMusicGain(duration = .35) {
+        backgroundMusic.volume = Math.max(0, Math.min(1, state.music.volume));
+        backgroundMusic.muted = state.music.muted;
+      }
+
+      function playChime(accent = false) {
+        if (!audioContext || !musicBus || !isMusicPlaying || audioContext.state !== 'running') return;
+        const chord = SCENE_CHORDS[current];
+        const now = audioContext.currentTime;
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        const panner = audioContext.createStereoPanner ? audioContext.createStereoPanner() : null;
+        const note = chord[Math.floor(Math.random() * chord.length)] * (Math.random() > .28 ? 2 : 4);
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(note, now);
+        oscillator.frequency.exponentialRampToValueAtTime(note * 1.004, now + 3.4);
+        gain.gain.setValueAtTime(.0001, now);
+        gain.gain.exponentialRampToValueAtTime(accent ? .052 : .032, now + .06);
+        gain.gain.exponentialRampToValueAtTime(.0001, now + (accent ? 4.2 : 3.4));
+        oscillator.connect(gain);
+        if (panner) {
+          panner.pan.value = Math.random() * 1.2 - .6;
+          gain.connect(panner);
+          panner.connect(musicBus);
+        } else {
+          gain.connect(musicBus);
+        }
+        oscillator.start(now);
+        oscillator.stop(now + 4.4);
+      }
+
+      function updateMusicScene(index, immediate = false) {
+        if (!audioContext || !musicFilter || !padVoices.length) return;
+        const now = audioContext.currentTime;
+        const duration = immediate ? .08 : 2.1;
+        const chord = SCENE_CHORDS[index];
+        padVoices.forEach((voice, voiceIndex) => {
+          const parameter = voice.oscillator.frequency;
+          parameter.cancelScheduledValues(now);
+          parameter.setValueAtTime(Math.max(1, parameter.value), now);
+          parameter.exponentialRampToValueAtTime(chord[voiceIndex], now + duration);
+        });
+        musicFilter.frequency.cancelScheduledValues(now);
+        musicFilter.frequency.setValueAtTime(Math.max(80, musicFilter.frequency.value), now);
+        musicFilter.frequency.exponentialRampToValueAtTime(SCENE_FILTERS[index], now + duration);
+        if (isMusicPlaying && !immediate) setTimeout(() => playChime(true), 260);
+      }
+
+      async function startMusic() {
+        applyMusicGain();
+        try {
+          await backgroundMusic.play();
+          isMusicPlaying = true;
+          updateMusicInterface();
+        } catch (_) {
+          isMusicPlaying = false;
+          updateMusicInterface();
+          showToast('音乐文件未找到或浏览器阻止播放');
+        }
+      }
+
+      function pauseMusic() {
+        isMusicPlaying = false;
+        backgroundMusic.pause();
+        updateMusicInterface();
+      }
+
+      musicToggle.addEventListener('click', () => isMusicPlaying ? pauseMusic() : startMusic());
+      musicMute.addEventListener('click', () => {
+        state.music.muted = !state.music.muted;
+        applyMusicGain(.3);
+        updateMusicInterface();
+        saveLocalState();
+      });
+      musicVolume.addEventListener('input', () => {
+        state.music.volume = Number(musicVolume.value) / 100;
+        applyMusicGain(.12);
+        updateMusicInterface();
+        saveLocalState();
+      });
+      backgroundMusic.addEventListener('error', () => {
+        isMusicPlaying = false;
+        updateMusicInterface();
+        showToast('无法读取背景音乐');
+      });
+      applyMusicGain();
+      updateMusicInterface();
+
+      function goToScene(index, direction = 1) {
+        index = (index + scenes.length) % scenes.length;
+        if (index === current || transitioning) return;
+        const previousIndex = current;
+        transitioning = true;
+        hero.classList.add('is-transitioning');
+        const previous = scenes[current];
+        const next = scenes[index];
+        startDiffusionTransition(previousIndex, index);
+        previous.classList.remove('active');
+        previous.classList.add('leaving');
+        next.style.transformOrigin = direction > 0 ? '72% 48%' : '28% 48%';
+        requestAnimationFrame(() => next.classList.add('active'));
+        thumbs[current].classList.remove('active');
+        thumbs[index].classList.add('active');
+        current = index;
+        setGlowTarget(current);
+        updateMusicScene(current);
+        captionIndex.textContent = String(current + 1).padStart(2, '0') + ' / 04';
+        const captionKey = `caption-${current}`;
+        captionTitle.innerHTML = state.text[captionKey] !== undefined ? state.text[captionKey] : sceneTitles[current];
+        captionTitle.dataset.edit = `caption-${current}`;
+        captionTitle.style.fontSize = '';
+        captionTitle.style.letterSpacing = '';
+        captionTitle.style.lineHeight = '';
+        Object.assign(captionTitle.style, state.textStyles[captionKey] || {});
+        progressBar.style.transform = `translateX(${current * 100}%)`;
+        setTimeout(() => {
+          previous.classList.remove('leaving');
+          previous.style.transformOrigin = '';
+          next.style.transformOrigin = '';
+          hero.classList.remove('is-transitioning');
+          transitioning = false;
+        }, 1080);
+      }
+
+      document.getElementById('nextScene').addEventListener('click', () => goToScene(current + 1, 1));
+      thumbs.forEach((thumb) => thumb.addEventListener('click', () => {
+        const next = Number(thumb.dataset.index);
+        goToScene(next, next >= current ? 1 : -1);
+      }));
+
+      function updatePointer(event) {
+        const rect = hero.getBoundingClientRect();
+        const x = Math.max(0, Math.min(rect.width, event.clientX - rect.left));
+        const y = Math.max(0, Math.min(rect.height, event.clientY - rect.top));
+        const nx = x / rect.width * 2 - 1;
+        const ny = y / rect.height * 2 - 1;
+        hero.style.setProperty('--mx', nx.toFixed(3));
+        hero.style.setProperty('--my', ny.toFixed(3));
+        hero.style.setProperty('--pointer-x', `${x}px`);
+        hero.style.setProperty('--pointer-y', `${y}px`);
+        cursor.style.transform = `translate3d(${event.clientX - cursor.offsetWidth / 2}px, ${event.clientY - cursor.offsetHeight / 2}px, 0)`;
+        pointer.x = event.clientX;
+        pointer.y = event.clientY;
+        pointer.active = true;
+      }
+
+      hero.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'mouse') cursor.classList.add('visible');
+        pointer.px = event.clientX;
+        pointer.py = event.clientY;
+        updatePointer(event);
+      });
+      hero.addEventListener('pointerleave', () => { cursor.classList.remove('visible'); pointer.active = false; });
+      hero.addEventListener('pointermove', (event) => {
+        updatePointer(event);
+        if (!pointerStart || dragTriggered) return;
+        const dx = event.clientX - pointerStart.x;
+        const dy = event.clientY - pointerStart.y;
+        if (Math.hypot(dx, dy) > 58) {
+          dragTriggered = true;
+          goToScene(current + (Math.abs(dx) > Math.abs(dy) && dx > 0 ? -1 : 1), dx > 0 ? -1 : 1);
+        }
+      });
+      hero.addEventListener('pointerdown', (event) => {
+        if (isInteractive(event.target)) return;
+        updatePointer(event);
+        pointerStart = { x: event.clientX, y: event.clientY };
+        dragTriggered = false;
+        hero.classList.add('is-pressing');
+        cursor.classList.add('down');
+        try { hero.setPointerCapture(event.pointerId); } catch (_) {}
+      });
+      hero.addEventListener('pointerup', (event) => {
+        if (!pointerStart) return;
+        if (!dragTriggered && !isInteractive(event.target)) goToScene(current + 1, 1);
+        pointerStart = null;
+        hero.classList.remove('is-pressing');
+        cursor.classList.remove('down');
+      });
+      hero.addEventListener('pointercancel', () => {
+        pointerStart = null;
+        hero.classList.remove('is-pressing');
+        cursor.classList.remove('down');
+      });
+
+      const canvas = document.getElementById('trailCanvas');
+      const ctx = canvas.getContext('2d');
+      const pointer = { x: innerWidth / 2, y: innerHeight / 2, px: innerWidth / 2, py: innerHeight / 2, active: false };
+      const particles = [];
+      const transitionParticles = [];
+      const glowColor = {
+        current: [...state.glowColors[0]],
+        target: [...state.glowColors[0]]
+      };
+
+      function setGlowTarget(index, immediate = false) {
+        const next = state.glowColors[index] || DEFAULT_GLOW_COLORS[index] || DEFAULT_GLOW_COLORS[0];
+        glowColor.target = [...next];
+        if (immediate) glowColor.current = [...next];
+      }
+
+      function resizeCanvas() {
+        const dpr = Math.min(devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(innerWidth * dpr);
+        canvas.height = Math.floor(innerHeight * dpr);
+        canvas.style.width = innerWidth + 'px';
+        canvas.style.height = innerHeight + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function mixColor(from, to, amount) {
+        return from.map((value, index) => Math.round(value + (to[index] - value) * amount));
+      }
+
+      function startDiffusionTransition(fromIndex, toIndex) {
+        const point = SUBJECT_POINTS[fromIndex] || SUBJECT_POINTS[0];
+        const fromColor = state.glowColors[fromIndex] || DEFAULT_GLOW_COLORS[fromIndex];
+        const toColor = state.glowColors[toIndex] || DEFAULT_GLOW_COLORS[toIndex];
+        const washColor = mixColor(fromColor, toColor, .58);
+        const rect = hero.getBoundingClientRect();
+        const originX = rect.width * point.x;
+        const originY = rect.height * point.y;
+        hero.style.setProperty('--transition-x', `${point.x * 100}%`);
+        hero.style.setProperty('--transition-y', `${point.y * 100}%`);
+        root.style.setProperty('--transition-rgb', washColor.join(', '));
+        transitionBloom.classList.remove('active');
+        void transitionBloom.offsetWidth;
+        transitionBloom.classList.add('active');
+        setTimeout(() => transitionBloom.classList.remove('active'), 1080);
+
+        const particleTypes = ['light', 'feather', 'petal', 'leaf'];
+        const amount = innerWidth < 760 ? 96 : 156;
+        for (let i = 0; i < amount; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 2.8 + Math.random() * 7.5;
+          const color = mixColor(fromColor, toColor, Math.random() * .88);
+          transitionParticles.push({
+            x: originX + (Math.random() - .5) * 44,
+            y: originY + (Math.random() - .5) * 44,
+            vx: Math.cos(angle) * speed * (1.08 + Math.random() * .42),
+            vy: Math.sin(angle) * speed * (.82 + Math.random() * .34),
+            gravity: .005 + Math.random() * .018,
+            life: 1,
+            fade: .009 + Math.random() * .008,
+            delay: Math.floor(Math.random() * 16),
+            size: 6 + Math.random() * 14,
+            rotation: Math.random() * Math.PI * 2,
+            spin: (Math.random() - .5) * .12,
+            wobble: Math.random() * Math.PI * 2,
+            type: particleTypes[i % particleTypes.length],
+            color
+          });
+        }
+        if (transitionParticles.length > 300) transitionParticles.splice(0, transitionParticles.length - 300);
+      }
+
+      function spawnTrail() {
+        if (!pointer.active) return;
+        const distance = Math.hypot(pointer.x - pointer.px, pointer.y - pointer.py);
+        if (distance < 1.2) return;
+        const count = Math.min(4, Math.max(1, Math.ceil(distance / 18)));
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: pointer.x + (Math.random() - .5) * 10,
+            y: pointer.y + (Math.random() - .5) * 10,
+            vx: (pointer.x - pointer.px) * -.022 + (Math.random() - .5) * .38,
+            vy: (pointer.y - pointer.py) * -.022 + (Math.random() - .5) * .38,
+            radius: 12 + Math.random() * 18,
+            life: 1,
+            fade: .02 + Math.random() * .014,
+            growth: 1.003,
+            intensity: .16 + Math.random() * .08,
+            color: glowColor.current.map(value => Math.round(value))
+          });
+        }
+        if (particles.length > 120) particles.splice(0, particles.length - 120);
+        pointer.px += (pointer.x - pointer.px) * .42;
+        pointer.py += (pointer.y - pointer.py) * .42;
+      }
+
+      function drawTransitionParticle(particle) {
+        const [r, g, b] = particle.color;
+        const alpha = Math.max(0, particle.life) * .92;
+        const size = particle.size;
+        ctx.save();
+        ctx.translate(particle.x, particle.y);
+        ctx.rotate(particle.rotation);
+        ctx.shadowColor = `rgba(${r},${g},${b},${alpha * .65})`;
+        ctx.shadowBlur = particle.type === 'light' ? size * 1.8 : size * .65;
+
+        if (particle.type === 'light') {
+          ctx.globalCompositeOperation = 'lighter';
+          const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 1.35);
+          glow.addColorStop(0, `rgba(255,255,255,${alpha * .9})`);
+          glow.addColorStop(.28, `rgba(${r},${g},${b},${alpha * .76})`);
+          glow.addColorStop(1, `rgba(${r},${g},${b},0)`);
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(0, 0, size * 1.35, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.globalCompositeOperation = 'source-over';
+          ctx.fillStyle = `rgba(${r},${g},${b},${alpha * .74})`;
+          ctx.strokeStyle = `rgba(255,255,255,${alpha * .64})`;
+          ctx.lineWidth = Math.max(.55, size * .065);
+          ctx.beginPath();
+          if (particle.type === 'feather') {
+            ctx.moveTo(-size * .66, 0);
+            ctx.bezierCurveTo(-size * .18, -size * .42, size * .52, -size * .28, size * .7, 0);
+            ctx.bezierCurveTo(size * .4, size * .25, -size * .24, size * .34, -size * .66, 0);
+          } else if (particle.type === 'petal') {
+            ctx.moveTo(0, size * .64);
+            ctx.bezierCurveTo(-size * .68, size * .2, -size * .55, -size * .58, 0, -size * .7);
+            ctx.bezierCurveTo(size * .55, -size * .58, size * .68, size * .2, 0, size * .64);
+          } else {
+            ctx.moveTo(-size * .72, 0);
+            ctx.bezierCurveTo(-size * .2, -size * .55, size * .56, -size * .38, size * .72, 0);
+            ctx.bezierCurveTo(size * .34, size * .52, -size * .3, size * .42, -size * .72, 0);
+          }
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(-size * .48, 0);
+          ctx.lineTo(size * .52, 0);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function animateTrail() {
+        ctx.clearRect(0, 0, innerWidth, innerHeight);
+        ctx.globalCompositeOperation = 'lighter';
+        for (let channel = 0; channel < 3; channel++) {
+          glowColor.current[channel] += (glowColor.target[channel] - glowColor.current[channel]) * .055;
+        }
+        root.style.setProperty('--glow-rgb', glowColor.current.map(value => Math.round(value)).join(', '));
+        spawnTrail();
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vx *= .985;
+          p.vy = p.vy * .985 - .012;
+          p.life -= p.fade;
+          p.radius *= p.growth;
+          if (p.life <= 0) { particles.splice(i, 1); continue; }
+          const [r, g, b] = p.color;
+          const alpha = p.life * p.intensity;
+          const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
+          gradient.addColorStop(0, `rgba(255,255,255,${alpha * .42})`);
+          gradient.addColorStop(.2, `rgba(${r},${g},${b},${alpha * .72})`);
+          gradient.addColorStop(.52, `rgba(${r},${g},${b},${alpha * .3})`);
+          gradient.addColorStop(1, `rgba(${r},${g},${b},0)`);
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        for (let i = transitionParticles.length - 1; i >= 0; i--) {
+          const particle = transitionParticles[i];
+          if (particle.delay > 0) { particle.delay--; continue; }
+          particle.wobble += .12;
+          particle.x += particle.vx + Math.sin(particle.wobble) * .18;
+          particle.y += particle.vy;
+          particle.vx *= .989;
+          particle.vy = particle.vy * .989 + particle.gravity;
+          particle.rotation += particle.spin;
+          particle.life -= particle.fade;
+          if (particle.life <= 0) { transitionParticles.splice(i, 1); continue; }
+          drawTransitionParticle(particle);
+        }
+        requestAnimationFrame(animateTrail);
+      }
+      addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      animateTrail();
+
+      function setEditing(enabled) {
+        document.body.classList.toggle('editor-open', enabled);
+        document.body.classList.toggle('editing', enabled);
+        toggle.setAttribute('aria-expanded', String(enabled));
+        toggle.setAttribute('aria-label', enabled ? '关闭自定义面板' : '打开自定义面板');
+        toggle.textContent = enabled ? '×' : '✦';
+        editableNodes.forEach(node => node.setAttribute('contenteditable', String(enabled)));
+      }
+      toggle.addEventListener('click', () => setEditing(!document.body.classList.contains('editor-open')));
+
+      const editorDragHandle = document.getElementById('editorDragHandle');
+      const editorPosition = { x: 0, y: 0 };
+      let editorDrag = null;
+
+      function renderEditorPosition() {
+        editor.style.setProperty('--editor-x', editorPosition.x + 'px');
+        editor.style.setProperty('--editor-y', editorPosition.y + 'px');
+      }
+
+      function clampEditorPosition(x, y) {
+        if (innerWidth <= 760) return { x: 0, y: 0 };
+        const baseLeft = innerWidth - 12 - editor.offsetWidth;
+        const minX = 12 - baseLeft;
+        const maxY = Math.max(0, innerHeight - 24 - editor.offsetHeight);
+        return {
+          x: Math.max(minX, Math.min(0, x)),
+          y: Math.max(0, Math.min(maxY, y))
+        };
+      }
+
+      editorDragHandle.addEventListener('pointerdown', event => {
+        if (innerWidth <= 760 || event.button !== 0) return;
+        editorDrag = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, startX: editorPosition.x, startY: editorPosition.y };
+        editor.classList.add('dragging');
+        editorDragHandle.setPointerCapture(event.pointerId);
+        event.preventDefault();
+      });
+      editorDragHandle.addEventListener('pointermove', event => {
+        if (!editorDrag || editorDrag.pointerId !== event.pointerId) return;
+        const next = clampEditorPosition(
+          editorDrag.startX + event.clientX - editorDrag.x,
+          editorDrag.startY + event.clientY - editorDrag.y
+        );
+        editorPosition.x = next.x;
+        editorPosition.y = next.y;
+        renderEditorPosition();
+      });
+      function finishEditorDrag(event) {
+        if (!editorDrag || editorDrag.pointerId !== event.pointerId) return;
+        editorDrag = null;
+        editor.classList.remove('dragging');
+      }
+      editorDragHandle.addEventListener('pointerup', finishEditorDrag);
+      editorDragHandle.addEventListener('pointercancel', finishEditorDrag);
+      addEventListener('resize', () => {
+        const next = clampEditorPosition(editorPosition.x, editorPosition.y);
+        editorPosition.x = next.x;
+        editorPosition.y = next.y;
+        renderEditorPosition();
+      });
+
+      function selectEditable(node) {
+        if (selectedEdit) selectedEdit.classList.remove('selected-edit');
+        selectedEdit = node;
+        selectedEdit.classList.add('selected-edit');
+        const label = selectedEdit.innerText.replace(/\s+/g, ' ').trim();
+        document.getElementById('selectedTextLabel').textContent = `已选择：${label || '空文字'}`;
+        const style = getComputedStyle(selectedEdit);
+        const size = Math.round(parseFloat(style.fontSize));
+        const spacing = parseFloat(style.letterSpacing) || 0;
+        const line = parseFloat(style.lineHeight) / parseFloat(style.fontSize) || 1.2;
+        syncTextControl('fontSize', size, 'px');
+        syncTextControl('letterSpacing', spacing, 'px');
+        syncTextControl('lineHeight', line, '');
+      }
+
+      editableNodes.forEach(node => {
+        node.addEventListener('dblclick', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          if (!document.body.classList.contains('editing')) setEditing(true);
+          selectEditable(node);
+          node.focus();
+          const selection = window.getSelection();
+          if (selection && document.createRange) {
+            const range = document.createRange();
+            range.selectNodeContents(node);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+          }
+        });
+        node.addEventListener('click', (event) => {
+          if (!document.body.classList.contains('editing')) return;
+          event.preventDefault();
+          event.stopPropagation();
+          selectEditable(node);
+        });
+        node.addEventListener('input', () => {
+          state.text[node.dataset.edit] = node.innerHTML;
+          if (node.dataset.edit.startsWith('caption-') && Number(node.dataset.edit.split('-')[1]) === current) captionTitle.innerHTML = node.innerHTML;
           saveLocalState();
         });
       });
@@ -1406,7 +3120,3 @@ Total output lines: 3126
   </style>
   <script src="embed-bridge.js"></script>
 </body></html>
-
-
-
-

@@ -292,6 +292,13 @@
           }
           return tag.replace(/>$/, ' class="embed-mode">');
         });
+        // PocketBay 的隔离域会拦截子页面里的 iframe。先去掉 src，
+        // 再以同源 fetch + srcdoc 递归载入，避免浏览器跳到 --e 子域。
+        markup = markup.replace(/<iframe\b([^>]*?)\s+src=(['"])(.*?)\2([^>]*)>/gi, function (_, before, quote, src, after) {
+          return '<iframe' + before + ' data-pb-src=' + quote + src + quote + after + '>';
+        });
+        var nestedLoader = '<script>(function(){var frames=[].slice.call(document.querySelectorAll("iframe[data-pb-src]"));frames.forEach(async function(frame){var src=frame.getAttribute("data-pb-src");try{var url=new URL(src,document.baseURI);var response=await fetch(url.href,{credentials:"same-origin"});if(!response.ok)throw new Error("HTTP "+response.status);var html=await response.text();var base="<base href=\""+new URL(".",url).href+"\">";html=html.replace(/<head\\b[^>]*>/i,function(head){return head+base});html=html.replace(/<html\\b[^>]*>/i,function(tag){return /\\bclass="/i.test(tag)?tag.replace(/\\bclass="([^"]*)"/i,function(_,c){return "class=\""+(c.split(/\\s+/).includes("embed-mode")?c:(c+" embed-mode").trim())+"\""}):tag.replace(/>$/, " class=\"embed-mode\">")});frame.srcdoc=html}catch(error){console.error("Nested portfolio page failed:",src,error)}})})();<\/scr' + 'ipt>';
+        markup = markup.replace(/<\/head>/i, function (headEnd) { return nestedLoader + headEnd; });
         return markup;
       }
 
