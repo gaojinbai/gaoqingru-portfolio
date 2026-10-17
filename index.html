@@ -167,7 +167,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project3">
-          <iframe class="p3-embed" id="project3Frame" data-src="project3/index.html?embed=1" title="第三个项目：NOVA 双形态视觉"></iframe>
+          <iframe class="p3-embed" id="project3Frame" src="project3/index.html?embed=1" data-src="project3/index.html?embed=1" title="第三个项目：NOVA 双形态视觉"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter4" aria-label="进入第四章">
@@ -178,7 +178,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project4">
-          <iframe class="p4-embed" id="project4Frame" data-src="project4/index.html?embed=1" title="第四个项目：南红·觉醒"></iframe>
+          <iframe class="p4-embed" id="project4Frame" src="project4/index.html?embed=1" data-src="project4/index.html?embed=1" title="第四个项目：南红·觉醒"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter5" aria-label="进入第五章">
@@ -189,7 +189,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project5">
-          <iframe class="p5-embed" id="project5Frame" data-src="project5/index.html?embed=1" title="第五个项目：归鸟"></iframe>
+          <iframe class="p5-embed" id="project5Frame" src="project5/index.html?embed=1" data-src="project5/index.html?embed=1" title="第五个项目：归鸟"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter6" aria-label="进入第六章">
@@ -200,7 +200,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project6">
-          <iframe class="p6-embed" id="project6Frame" data-src="project6/index.html?embed=1" title="第六个项目：瓷与鸟"></iframe>
+          <iframe class="p6-embed" id="project6Frame" src="project6/index.html?embed=1" data-src="project6/index.html?embed=1" title="第六个项目：瓷与鸟"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter7" aria-label="进入第七章">
@@ -211,7 +211,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project7">
-          <iframe class="p7-embed" id="project7Frame" data-src="project7/index.html?embed=1" title="第七个项目：瓷脉・通达天下"></iframe>
+          <iframe class="p7-embed" id="project7Frame" src="project7/index.html?embed=1" data-src="project7/index.html?embed=1" title="第七个项目：瓷脉・通达天下"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter8" aria-label="进入第八章">
@@ -222,7 +222,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project8">
-          <iframe class="p8-embed" id="project8Frame" data-src="project8/index.html?embed=1" title="第八个项目：窗间的二十四节气"></iframe>
+          <iframe class="p8-embed" id="project8Frame" src="project8/index.html?embed=1" data-src="project8/index.html?embed=1" title="第八个项目：窗间的二十四节气"></iframe>
         </div>
 
         <section class="next-chapter" id="chapter9" aria-label="进入第九章：平面设计">
@@ -233,7 +233,7 @@
         </section>
 
         <div class="project-scroll-host" data-project-host="project9">
-          <iframe class="p9-embed" id="project9Frame" data-src="project9/index.html?embed=1" title="第九个项目：平面设计"></iframe>
+          <iframe class="p9-embed" id="project9Frame" src="project9/index.html?embed=1" data-src="project9/index.html?embed=1" title="第九个项目：平面设计"></iframe>
         </div>
 
         <canvas class="p1-sparks" data-p1-sparks aria-hidden="true"></canvas>
@@ -284,6 +284,7 @@
         var frame = frames[idx], url = srcs[idx];
         idx += 1;
         if (!url) { loadNext(); return; }
+        if (frame.getAttribute("src")) { loadNext(); return; }
         var advanced = false;
         var advance = function () {
           if (advanced) return;
@@ -321,4 +322,9 @@
 <script src="assets/video-hub.js"></script>
 </body>
 </html>
+
+
+
+
+
 
