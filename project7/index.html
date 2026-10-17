@@ -39,7 +39,7 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      background: url("assets/bg-ink.png") center / cover no-repeat;
+      background: url("assets/bg-ink.webp") center / cover no-repeat;
     }
     .scenery::after {
       content: "";
@@ -381,6 +381,7 @@
       html.embed-mode .wall { flex: none; grid-template-rows: none; grid-auto-rows: minmax(70px, 10vw); }
     }
   </style>
+<link rel="stylesheet" href="../assets/video-hub.css" />
 </head>
 <body>
   <div class="scenery" aria-hidden="true"></div>
@@ -441,16 +442,13 @@
         <!-- 媒体列 -->
         <div class="r-media">
           <div class="video-box">
-            <video id="cimai-film" controls playsinline preload="metadata" poster="assets/image20.png" aria-label="《瓷脉・通达天下》公益广告影片，片长1分22秒">
-              <source src="assets/ci-mai-tongda-tianxia.mp4" type="video/mp4">
-              您的浏览器不支持视频播放。
-            </video>
+            <div class="video-hub" data-vh="p7" data-vh-layout="slot" data-vh-theme="dark" data-vh-cover="assets/image20.webp" data-vh-title="《瓷脉・通达天下》公益广告影片" data-vh-sub="古意纪实 · 片长 01:22" data-vh-qr="../assets/qr/p7.png"></div>
           </div>
           <div class="story-block">
             <h3 class="cell-title">故事背景<i></i></h3>
             <div class="story-grid">
               <p>《瓷脉・通达天下》是一部<strong>“古意纪实”</strong>风格的公益广告动画。作品以诗句为骨，用<strong>“陶舍 — 江舟 — 匠人 — 天下”</strong>的脉络，跟随晨雾中的窑火出发，看舟帆蔽江、匠人揉泥拉坯，直至白帆如瓷龙蜿蜒远去。不刻意强调技艺之“巧”，而突出“拙”中的坚韧——让泥土成为“郡国之材”的根基，传递<strong>“文化源于生活，惠及天下”</strong>的公益理念。</p>
-              <figure class="story-fig"><img src="assets/image10.png" alt="老匠人揉泥的手 · 特写"></figure>
+              <figure class="story-fig"><img src="assets/image10.webp" alt="老匠人揉泥的手 · 特写"></figure>
             </div>
           </div>
           <div class="wall-block">
@@ -470,10 +468,10 @@
           <span class="r-rule" aria-hidden="true"></span>
           <p class="r-intro">以<strong>瓷</strong>为脉，依江右诗篇为线，在窑火与江声之间，遇见陶瓷从工坊到天下的旅程。——平凡中见伟大，也看见人与泥土、传统与当下的<strong>温柔连接</strong>。</p>
           <ul class="poem-row" id="poem-row">
-            <li data-jump="0"><span class="p-dot"><img src="assets/image2.png" alt="陶舍重重倚岸开"></span><b>陶舍重重倚岸开</b><i>窑火连江</i></li>
-            <li data-jump="4"><span class="p-dot"><img src="assets/image6.png" alt="舟帆日日蔽江来"></span><b>舟帆日日蔽江来</b><i>江路舟瓷</i></li>
-            <li data-jump="7"><span class="p-dot"><img src="assets/image9.png" alt="工人莫献天机巧"></span><b>工人莫献天机巧</b><i>匠心藏巧</i></li>
-            <li data-jump="15"><span class="p-dot"><img src="assets/image17.png" alt="此器能输郡国材"></span><b>此器能输郡国材</b><i>瓷通天下</i></li>
+            <li data-jump="0"><span class="p-dot"><img src="assets/image2.webp" alt="陶舍重重倚岸开"></span><b>陶舍重重倚岸开</b><i>窑火连江</i></li>
+            <li data-jump="4"><span class="p-dot"><img src="assets/image6.webp" alt="舟帆日日蔽江来"></span><b>舟帆日日蔽江来</b><i>江路舟瓷</i></li>
+            <li data-jump="7"><span class="p-dot"><img src="assets/image9.webp" alt="工人莫献天机巧"></span><b>工人莫献天机巧</b><i>匠心藏巧</i></li>
+            <li data-jump="15"><span class="p-dot"><img src="assets/image17.webp" alt="此器能输郡国材"></span><b>此器能输郡国材</b><i>瓷通天下</i></li>
           </ul>
           <footer class="r-foot">
             <p>陶瓷文化 × 江右诗篇 × 古意纪实动画</p>
@@ -507,26 +505,26 @@
     (() => {
       /* —— 分镜数据：图 / 诗句或幕名 / 篇章 —— */
       const SCENES = [
-        ["image2.png",  "陶舍重重倚岸开", "窑火连江", "kiln"],
-        ["image3.png",  "窑口微光",       "窑火连江", "kiln"],
-        ["image4.png",  "推门而出",       "窑火连江", "kiln"],
-        ["image5.png",  "窑工扛薪",       "窑火连江", "kiln"],
-        ["image6.png",  "舟帆日日蔽江来", "江路舟瓷", "river"],
-        ["image7.png",  "卸载瓷土",       "江路舟瓷", "river"],
-        ["image8.png",  "船桨划水",       "江路舟瓷", "river"],
-        ["image9.png",  "工人莫献天机巧", "匠心藏巧", "craft"],
-        ["image10.png", "揉泥",           "匠心藏巧", "craft"],
-        ["image11.png", "拉坯",           "匠心藏巧", "craft"],
-        ["image12.png", "利坯",           "匠心藏巧", "craft"],
-        ["image13.png", "画坯",           "匠心藏巧", "craft"],
-        ["image14.png", "施釉",           "匠心藏巧", "craft"],
-        ["image15.png", "烧窑",           "匠心藏巧", "craft"],
-        ["image16.png", "青花入箱",       "匠心藏巧", "craft"],
-        ["image17.png", "此器能输郡国材", "瓷通天下", "world"],
-        ["image18.png", "边塞驿碗",       "瓷通天下", "world"],
-        ["image19.png", "京城商铺",       "瓷通天下", "world"],
-        ["image20.png", "瓷龙入海",       "瓷通天下", "world"],
-        ["image21.png", "陶舍灯火",       "瓷通天下", "world"]
+        ["image2.webp",  "陶舍重重倚岸开", "窑火连江", "kiln"],
+        ["image3.webp",  "窑口微光",       "窑火连江", "kiln"],
+        ["image4.webp",  "推门而出",       "窑火连江", "kiln"],
+        ["image5.webp",  "窑工扛薪",       "窑火连江", "kiln"],
+        ["image6.webp",  "舟帆日日蔽江来", "江路舟瓷", "river"],
+        ["image7.webp",  "卸载瓷土",       "江路舟瓷", "river"],
+        ["image8.webp",  "船桨划水",       "江路舟瓷", "river"],
+        ["image9.webp",  "工人莫献天机巧", "匠心藏巧", "craft"],
+        ["image10.webp", "揉泥",           "匠心藏巧", "craft"],
+        ["image11.webp", "拉坯",           "匠心藏巧", "craft"],
+        ["image12.webp", "利坯",           "匠心藏巧", "craft"],
+        ["image13.webp", "画坯",           "匠心藏巧", "craft"],
+        ["image14.webp", "施釉",           "匠心藏巧", "craft"],
+        ["image15.webp", "烧窑",           "匠心藏巧", "craft"],
+        ["image16.webp", "青花入箱",       "匠心藏巧", "craft"],
+        ["image17.webp", "此器能输郡国材", "瓷通天下", "world"],
+        ["image18.webp", "边塞驿碗",       "瓷通天下", "world"],
+        ["image19.webp", "京城商铺",       "瓷通天下", "world"],
+        ["image20.webp", "瓷龙入海",       "瓷通天下", "world"],
+        ["image21.webp", "陶舍灯火",       "瓷通天下", "world"]
       ];
 
       const fan = document.getElementById("fan");
@@ -692,5 +690,7 @@
       });
     })();
   </script>
+<script src="../assets/video-hub-data.js"></script>
+<script src="../assets/video-hub.js"></script>
 </body>
 </html>
