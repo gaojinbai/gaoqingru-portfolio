@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#dde8e6">
+  <meta name="description" content="《瓷脉・通达天下》— 以瓷为脉，连起千里江山的烟火与底气。">
+  <title>瓷脉・通达天下</title>
+  <script>if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode')</script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #24343a;
+      --muted: #5f7378;
+      --blue: #2b5f8a;
+      --blue-deep: #1f4a70;
+      --red: #b5432f;
+      --line: rgba(36, 52, 58, .16);
+      --serif: "Songti SC", "STSong", "SimSun", serif;
+      --kai: "KaiTi", "Kaiti SC", "STKaiti", "SimSun", serif;
+      --xing: "STXingkai", "华文行楷", "Xingkai SC", "KaiTi", serif;
+      --sans: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: linear-gradient(180deg, #e3ecea 0%, #dce8e6 46%, #d2e1df 100%);
+      overscroll-behavior: none;
+    }
+
+    /* ───── 水墨背景：AI 生成整幅底图 + 纸纹 ───── */
+    .scenery {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: url("assets/bg-ink.png") center / cover no-repeat;
+    }
+    .scenery::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .1;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    .stage {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(14px, 1.6vw, 26px);
+      padding: clamp(14px, 2.4vh, 30px) clamp(16px, 2.2vw, 38px);
+    }
+    @media (max-width: 1060px), (max-height: 620px) {
+      body { overflow: auto; }
+      .stage { height: auto; min-height: 100vh; grid-template-columns: 1fr; }
+    }
+
+    /* ───── 窗口面板：近乎透明，融入水墨背景 ───── */
+    .panel {
+      min-width: 0;
+      min-height: 0;
+      background: linear-gradient(180deg, rgba(250, 253, 252, .58), rgba(247, 252, 250, .30));
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(255, 255, 255, .55);
+      border-radius: 18px;
+      box-shadow: 0 20px 50px rgba(52, 84, 88, .14), 0 2px 6px rgba(52, 84, 88, .06);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .win-top {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px clamp(14px, 1.4vw, 22px) 9px;
+      border-bottom: 1px solid rgba(36, 52, 58, .12);
+      background: linear-gradient(180deg, rgba(255, 255, 255, .72), rgba(255, 255, 255, .30));
+    }
+    .dots { display: flex; gap: 6px; }
+    .dots i { width: 9px; height: 9px; border-radius: 50%; }
+    .dots i:nth-child(1) { background: #b5432f; }
+    .dots i:nth-child(2) { background: #7fa9a0; }
+    .dots i:nth-child(3) { background: #2b5f8a; }
+    .win-logo { font: 400 clamp(15px, 1.35vw, 21px)/1 var(--xing); letter-spacing: .16em; margin: 0; }
+    .win-logo em { font-style: normal; color: var(--blue); }
+    .win-nav { margin-left: auto; display: flex; align-items: center; gap: clamp(10px, 1.2vw, 20px); }
+    .win-nav button, .win-nav a {
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      padding: 4px 1px;
+      font: 600 clamp(12px, .95vw, 15px)/1 var(--serif);
+      letter-spacing: .18em;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color .2s ease, border-color .2s ease;
+    }
+    .win-nav button:hover, .win-nav a:hover { color: var(--red); }
+    .win-nav [data-on="true"] { color: var(--red); border-bottom-color: var(--red); }
+
+    .panel-body { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+
+    /* ───── 左面板：书法大标题 + 图廊轮播 ───── */
+    .hero { text-align: center; padding: clamp(12px, 2.6vh, 30px) 16px 0; }
+    .hero-row { display: inline-flex; align-items: flex-start; gap: 10px; }
+    .hero h1 {
+      margin: 0;
+      font: 400 clamp(34px, 4.2vw, 62px)/1.1 var(--xing);
+      letter-spacing: .1em;
+      color: #1d2f36;
+    }
+    .hero-seal {
+      width: clamp(24px, 2vw, 32px);
+      height: auto;
+      margin-top: clamp(4px, .8vh, 10px);
+      filter: drop-shadow(0 2px 4px rgba(160, 50, 30, .3));
+    }
+    .hero-divider { display: block; width: 1px; height: clamp(14px, 2.2vh, 22px); margin: clamp(4px, .9vh, 10px) auto 0; background: rgba(36, 52, 58, .4); }
+    .hero p {
+      margin: clamp(4px, .8vh, 9px) 0 0;
+      font: 500 clamp(11px, .9vw, 14px)/1 var(--serif);
+      letter-spacing: .46em;
+      text-indent: .46em;
+      color: #43585e;
+    }
+
+    .fan { position: relative; flex: 1; min-height: 0; perspective: 1500px; touch-action: pan-y; }
+    .fan-item {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 74%;
+      max-width: 560px;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: #eef3f1;
+      border: clamp(4px, .5vw, 7px) solid #fbfdfc;
+      outline: 1px solid rgba(36, 52, 58, .16);
+      box-shadow: 0 18px 44px rgba(38, 66, 70, .22);
+      will-change: transform, opacity;
+      transition: transform .7s cubic-bezier(.2, .75, .18, 1), opacity .5s ease;
+      -webkit-box-reflect: below 8px linear-gradient(transparent 62%, rgba(0, 0, 0, .16));
+    }
+    .fan-item img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .fan-item[aria-hidden="true"] { pointer-events: none; }
+    .fan-arrow {
+      position: absolute;
+      z-index: 30;
+      top: 50%;
+      transform: translateY(-50%);
+      width: clamp(30px, 2.6vw, 42px);
+      height: clamp(30px, 2.6vw, 42px);
+      border: 1px solid rgba(36, 52, 58, .28);
+      border-radius: 50%;
+      background: rgba(250, 253, 252, .88);
+      color: var(--ink);
+      font-size: clamp(14px, 1.2vw, 18px);
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .fan-arrow:hover { background: #2c4b57; color: #f2f7f5; transform: translateY(-50%) scale(1.06); }
+    .fan-arrow.prev { left: clamp(8px, 1.4vw, 22px); }
+    .fan-arrow.next { right: clamp(8px, 1.4vw, 22px); }
+
+    .fan-caption {
+      position: absolute;
+      z-index: 30;
+      left: 50%;
+      bottom: clamp(6px, 1.6vh, 18px);
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font: 600 clamp(11px, .9vw, 14px)/1 var(--serif);
+      letter-spacing: .26em;
+      text-indent: .26em;
+      color: #f5f8f6;
+      background: rgba(31, 58, 66, .58);
+      padding: 8px 18px;
+      border-radius: 999px;
+      backdrop-filter: blur(3px);
+      white-space: nowrap;
+      max-width: 92%;
+    }
+    .fan-caption b { font-weight: 600; color: #fdf3ea; letter-spacing: .26em; }
+    .fan-caption s { text-decoration: none; font-weight: 400; opacity: .78; letter-spacing: .16em; }
+
+    /* 进度：数字 + 点状虚线 + 红点 */
+    .fan-progress {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(5px, 1vh, 9px);
+      padding: 0 16px clamp(12px, 2.2vh, 24px);
+    }
+    .fan-count { font: 700 clamp(11px, .85vw, 13px)/1 "Times New Roman", serif; letter-spacing: 3px; color: var(--ink); }
+    .fan-line {
+      position: relative;
+      width: min(46%, 340px);
+      height: 3px;
+      background-image: radial-gradient(circle, rgba(36, 52, 58, .38) 1.2px, transparent 1.7px);
+      background-size: 26px 3px;
+      background-repeat: repeat-x;
+      background-position: center;
+    }
+    .fan-line i {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 3px rgba(181, 67, 47, .18);
+      transform: translate(-50%, -50%);
+      transition: left .5s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    /* ───── 右面板：双列（媒体列 + 文案列） ───── */
+    .right-body {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(0, .92fr);
+      gap: clamp(12px, 1.6vw, 26px);
+      padding: clamp(10px, 1.8vh, 20px) clamp(14px, 1.5vw, 24px) clamp(8px, 1.4vh, 14px);
+    }
+    .r-media { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto auto minmax(0, 1fr); gap: clamp(8px, 1.5vh, 15px); }
+
+    .video-box {
+      overflow: hidden;
+      border-radius: 15px;
+      border: clamp(3px, .38vw, 5px) solid var(--blue);
+      box-shadow: 0 12px 30px rgba(38, 66, 70, .2), inset 0 0 0 1px rgba(255, 255, 255, .5);
+      background: #1d2f36;
+    }
+    .video-box video { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; background: #1d2f36; }
+
+    .cell-title { margin: 0; font: 700 clamp(12px, 1vw, 16px)/1 var(--serif); letter-spacing: .28em; color: #2c4b57; }
+    .cell-title i { display: inline-block; width: 22px; height: 1px; background: #2c4b57; vertical-align: middle; margin-left: 8px; }
+
+    .story-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .92fr); gap: clamp(8px, 1vw, 14px); margin-top: clamp(5px, 1vh, 10px); }
+    .story-grid p { margin: 0; font: 400 clamp(10px, .78vw, 12px)/1.8 var(--sans); letter-spacing: .04em; opacity: .9; }
+    .story-grid p strong { color: var(--ink); }
+    .story-fig { margin: 0; overflow: hidden; border-radius: 6px; border: 1px solid rgba(36, 52, 58, .16); }
+    .story-fig img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 4 / 3; }
+
+    .wall-block { min-height: 0; display: flex; flex-direction: column; }
+    .wall { flex: 1; min-height: 0; margin-top: clamp(5px, 1vh, 10px); display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(5, 1fr); gap: clamp(3px, .4vw, 6px); }
+    .wall figure { margin: 0; overflow: hidden; border: 1px solid rgba(36, 52, 58, .16); background: #eef3f1; position: relative; transition: opacity .3s ease, box-shadow .3s ease; }
+    .wall figure img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .45s ease; }
+    .wall figure:hover { box-shadow: 0 8px 18px rgba(38, 66, 70, .24); z-index: 2; }
+    .wall figure:hover img { transform: scale(1.09); }
+    .wall figure figcaption {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      font: 500 clamp(8px, .62vw, 10px)/1.4 var(--serif);
+      letter-spacing: .12em;
+      color: #f2f6f4;
+      background: linear-gradient(180deg, transparent, rgba(24, 46, 52, .78));
+      padding: 12px 4px 4px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+    .wall figure:hover figcaption { opacity: 1; }
+    .wall[data-focus="kiln"] figure:not([data-chapter="kiln"]),
+    .wall[data-focus="river"] figure:not([data-chapter="river"]),
+    .wall[data-focus="craft"] figure:not([data-chapter="craft"]),
+    .wall[data-focus="world"] figure:not([data-chapter="world"]) { opacity: .2; }
+
+    /* 文案列 */
+    .r-copy { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+    .slogan-row { display: flex; align-items: flex-start; gap: 8px; margin-top: clamp(4px, 1.6vh, 18px); }
+    .r-copy h2 { margin: 0; font: 700 clamp(17px, 1.62vw, 26px)/1.5 var(--serif); letter-spacing: .1em; color: #23404c; }
+    .slogan-seal { width: clamp(20px, 1.7vw, 28px); height: auto; margin-top: 4px; filter: drop-shadow(0 2px 4px rgba(160, 50, 30, .3)); }
+    .r-rule { width: 34px; height: 2px; background: rgba(181, 67, 47, .75); margin: clamp(8px, 1.6vh, 16px) 0 0 2px; }
+    .r-intro { margin: clamp(8px, 1.8vh, 18px) 0 0; font: 400 clamp(11px, .86vw, 13px)/2 var(--serif); letter-spacing: .1em; color: #3f555c; }
+    .r-intro strong { color: var(--ink); font-weight: 600; }
+
+    .poem-row { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(6px, .9vw, 16px); margin: clamp(10px, 3vh, 30px) 0 0; padding: 0; }
+    .poem-row li { text-align: center; cursor: pointer; }
+    .p-dot {
+      display: block;
+      width: clamp(46px, 4.2vw, 68px);
+      height: clamp(46px, 4.2vw, 68px);
+      margin: 0 auto;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(36, 52, 58, .12), 0 8px 18px rgba(38, 66, 70, .16);
+      transition: transform .25s ease;
+    }
+    .p-dot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .poem-row li:hover .p-dot { transform: translateY(-4px); }
+    .poem-row b { display: block; margin-top: clamp(4px, 1vh, 9px); font: 400 clamp(12px, 1.05vw, 17px)/1.55 var(--kai); letter-spacing: .06em; color: #1f3640; }
+    .poem-row i { display: block; margin-top: clamp(3px, .7vh, 7px); font: 400 clamp(9px, .74vw, 12px)/1 var(--serif); font-style: normal; letter-spacing: .18em; color: #5d747b; }
+
+    .r-foot { margin-top: auto; padding-top: clamp(8px, 1.8vh, 18px); border-top: 1px solid rgba(36, 52, 58, .12); }
+    .r-foot p { margin: 0; text-align: center; font: 500 clamp(9px, .72vw, 12px)/1.9 var(--serif); letter-spacing: .2em; color: #4c636b; }
+
+    /* ───── 关于作品：浮层 ───── */
+    .about {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      place-items: center;
+      background: rgba(20, 38, 44, .42);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s ease, visibility .3s ease;
+    }
+    .about[data-open="true"] { opacity: 1; visibility: visible; }
+    .about-card {
+      width: min(560px, 88vw);
+      max-height: 86vh;
+      overflow: auto;
+      background: linear-gradient(180deg, rgba(252, 254, 253, .97), rgba(246, 251, 250, .95));
+      border: 1px solid rgba(255, 255, 255, .8);
+      border-radius: 16px;
+      box-shadow: 0 30px 70px rgba(20, 40, 46, .35);
+      padding: clamp(22px, 3vw, 38px) clamp(22px, 3vw, 42px);
+      text-align: center;
+    }
+    .about-card h3 { margin: 0; font: 400 clamp(26px, 2.4vw, 38px)/1.2 var(--xing); letter-spacing: .1em; color: #1d2f36; }
+    .about-card .a-sub { margin: 10px 0 0; font: 500 12px/1 var(--serif); letter-spacing: .4em; text-indent: .4em; color: #5d747b; }
+    .about-card .a-line { width: 40px; height: 2px; background: rgba(181, 67, 47, .75); margin: 18px auto; }
+    .about-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; text-align: left; font: 400 13px/1.7 var(--serif); color: #3f555c; }
+    .about-card dt { color: #5d747b; letter-spacing: .1em; white-space: nowrap; }
+    .about-card dd { margin: 0; color: var(--ink); }
+    .about-card .a-poem { margin: 22px 0 0; font: 400 15px/2 var(--kai); letter-spacing: .06em; color: #23404c; }
+    .about-card button {
+      margin-top: 26px;
+      border: 1px solid rgba(36, 52, 58, .3);
+      background: transparent;
+      color: var(--ink);
+      font: 600 13px/1 var(--serif);
+      letter-spacing: .3em;
+      text-indent: .3em;
+      padding: 10px 26px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s ease, color .2s ease;
+    }
+    .about-card button:hover { background: #2c4b57; color: #f2f7f5; }
+
+    @media (max-width: 1060px) {
+      .right-body { grid-template-columns: 1fr; }
+      .fan-item { width: 86%; }
+      .hero h1 { font-size: 32px; }
+      .wall { grid-template-rows: none; grid-auto-rows: minmax(56px, 1fr); }
+      .about-card dl { grid-template-columns: 1fr; gap: 2px 0; }
+      .about-card dt { margin-top: 8px; }
+    }
+    html.embed-mode, html.embed-mode body { overflow: hidden; }
+    html.embed-mode { scrollbar-width: none; }
+    html.embed-mode::-webkit-scrollbar { display: none; }
+    @media (max-width: 1060px), (max-height: 620px) {
+      html.embed-mode .stage { height: auto; min-height: 0; align-items: start; }
+      html.embed-mode .panel { min-height: 0; }
+      html.embed-mode .panel-body { flex: none; }
+      html.embed-mode .fan { flex: none; min-height: clamp(250px, 55vw, 480px); }
+      html.embed-mode .r-media { grid-template-rows: auto auto auto; }
+      html.embed-mode .wall { flex: none; grid-template-rows: none; grid-auto-rows: minmax(70px, 10vw); }
+    }
+  </style>
+</head>
+<body>
+  <div class="scenery" aria-hidden="true"></div>
+
+  <div class="stage">
+    <!-- ═════ 左窗口：标题 + 分镜图廊 ═════ -->
+    <section class="panel" aria-label="分镜图廊">
+      <header class="win-top">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <p class="win-logo">瓷脉・<em>通达天下</em></p>
+        <nav class="win-nav" aria-label="篇章导览">
+          <button type="button" data-chapter="kiln" data-on="true">窑火</button>
+          <button type="button" data-chapter="river">江路</button>
+          <button type="button" data-chapter="craft">匠心</button>
+          <button type="button" data-chapter="world">天下</button>
+          <a href="#" class="about-link">关于</a>
+        </nav>
+      </header>
+      <div class="panel-body">
+        <div class="hero">
+          <div class="hero-row">
+            <h1>瓷脉・通达天下</h1>
+            <svg class="hero-seal" viewBox="0 0 40 40" aria-hidden="true">
+              <rect x="1.5" y="1.5" width="37" height="37" rx="7" fill="#b5432f"/>
+              <text x="20" y="17" text-anchor="middle" font-size="13" fill="#fdf3ea" font-family="KaiTi, STKaiti, serif" font-weight="700">瓷</text>
+              <text x="20" y="33" text-anchor="middle" font-size="13" fill="#fdf3ea" font-family="KaiTi, STKaiti, serif" font-weight="700">脉</text>
+            </svg>
+          </div>
+          <span class="hero-divider" aria-hidden="true"></span>
+          <p>以瓷为脉 · 连起千里江山的烟火与底气</p>
+        </div>
+        <div class="fan" id="fan" aria-roledescription="图廊">
+          <button class="fan-arrow prev" id="fan-prev" type="button" aria-label="上一张">‹</button>
+          <button class="fan-arrow next" id="fan-next" type="button" aria-label="下一张">›</button>
+          <div class="fan-caption" id="fan-caption"><b>陶舍重重倚岸开</b><s>窑火连江</s></div>
+        </div>
+        <div class="fan-progress">
+          <span class="fan-count" id="fan-count">01 / 20</span>
+          <span class="fan-line"><i id="fan-dot"></i></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════ 右窗口：影片 + 故事 + 图墙 + 文案 ═════ -->
+    <section class="panel" aria-label="影片与故事">
+      <header class="win-top">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <p class="win-logo">瓷脉・<em>通达天下</em></p>
+        <nav class="win-nav" aria-label="篇章导览">
+          <button type="button" data-chapter="kiln" data-on="true">窑火</button>
+          <button type="button" data-chapter="river">江路</button>
+          <button type="button" data-chapter="craft">匠心</button>
+          <button type="button" data-chapter="world">天下</button>
+          <a href="#" class="about-link">关于</a>
+        </nav>
+      </header>
+      <div class="panel-body right-body">
+        <!-- 媒体列 -->
+        <div class="r-media">
+          <div class="video-box">
+            <video id="cimai-film" controls playsinline preload="metadata" poster="assets/image20.png" aria-label="《瓷脉・通达天下》公益广告影片，片长1分22秒">
+              <source src="assets/ci-mai-tongda-tianxia.mp4" type="video/mp4">
+              您的浏览器不支持视频播放。
+            </video>
+          </div>
+          <div class="story-block">
+            <h3 class="cell-title">故事背景<i></i></h3>
+            <div class="story-grid">
+              <p>《瓷脉・通达天下》是一部<strong>“古意纪实”</strong>风格的公益广告动画。作品以诗句为骨，用<strong>“陶舍 — 江舟 — 匠人 — 天下”</strong>的脉络，跟随晨雾中的窑火出发，看舟帆蔽江、匠人揉泥拉坯，直至白帆如瓷龙蜿蜒远去。不刻意强调技艺之“巧”，而突出“拙”中的坚韧——让泥土成为“郡国之材”的根基，传递<strong>“文化源于生活，惠及天下”</strong>的公益理念。</p>
+              <figure class="story-fig"><img src="assets/image10.png" alt="老匠人揉泥的手 · 特写"></figure>
+            </div>
+          </div>
+          <div class="wall-block">
+            <h3 class="cell-title">《瓷脉・通达天下》分镜集锦<i></i></h3>
+            <div class="wall" id="wall" data-focus=""></div>
+          </div>
+        </div>
+        <!-- 文案列 -->
+        <div class="r-copy">
+          <div class="slogan-row">
+            <h2>一窑瓷，连起千里江山；<br>一双手，托举万家生计</h2>
+            <svg class="slogan-seal" viewBox="0 0 40 40" aria-hidden="true">
+              <rect x="1.5" y="1.5" width="37" height="37" rx="7" fill="#b5432f"/>
+              <text x="20" y="27" text-anchor="middle" font-size="18" fill="#fdf3ea" font-family="KaiTi, STKaiti, serif" font-weight="700">瓷</text>
+            </svg>
+          </div>
+          <span class="r-rule" aria-hidden="true"></span>
+          <p class="r-intro">以<strong>瓷</strong>为脉，依江右诗篇为线，在窑火与江声之间，遇见陶瓷从工坊到天下的旅程。——平凡中见伟大，也看见人与泥土、传统与当下的<strong>温柔连接</strong>。</p>
+          <ul class="poem-row" id="poem-row">
+            <li data-jump="0"><span class="p-dot"><img src="assets/image2.png" alt="陶舍重重倚岸开"></span><b>陶舍重重倚岸开</b><i>窑火连江</i></li>
+            <li data-jump="4"><span class="p-dot"><img src="assets/image6.png" alt="舟帆日日蔽江来"></span><b>舟帆日日蔽江来</b><i>江路舟瓷</i></li>
+            <li data-jump="7"><span class="p-dot"><img src="assets/image9.png" alt="工人莫献天机巧"></span><b>工人莫献天机巧</b><i>匠心藏巧</i></li>
+            <li data-jump="15"><span class="p-dot"><img src="assets/image17.png" alt="此器能输郡国材"></span><b>此器能输郡国材</b><i>瓷通天下</i></li>
+          </ul>
+          <footer class="r-foot">
+            <p>陶瓷文化 × 江右诗篇 × 古意纪实动画</p>
+            <p>2025年江西省广播电视公益广告宣传创意大赛 · 电视类 · 景德镇陶瓷大学</p>
+          </footer>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═════ 关于作品 ═════ -->
+  <div class="about" id="about" data-open="false" role="dialog" aria-modal="true" aria-label="关于作品">
+    <div class="about-card">
+      <h3>瓷脉・通达天下</h3>
+      <p class="a-sub">以瓷为脉 · 连起千里江山的烟火与底气</p>
+      <div class="a-line"></div>
+      <dl>
+        <dt>作品类别</dt><dd>电视类 · 公益广告（学校组）</dd>
+        <dt>作品时长</dt><dd>1 分 22 秒</dd>
+        <dt>作品风格</dt><dd>古意纪实 · 水墨国画</dd>
+        <dt>报送单位</dt><dd>景德镇陶瓷大学</dd>
+        <dt>作者</dt><dd>高清茹</dd>
+        <dt>赛事</dt><dd>2025年江西省广播电视公益广告宣传创意大赛</dd>
+      </dl>
+      <p class="a-poem">陶舍重重倚岸开，舟帆日日蔽江来。<br>工人莫献天机巧，此器能输郡国材。</p>
+      <button type="button" id="about-close">关闭</button>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      /* —— 分镜数据：图 / 诗句或幕名 / 篇章 —— */
+      const SCENES = [
+        ["image2.png",  "陶舍重重倚岸开", "窑火连江", "kiln"],
+        ["image3.png",  "窑口微光",       "窑火连江", "kiln"],
+        ["image4.png",  "推门而出",       "窑火连江", "kiln"],
+        ["image5.png",  "窑工扛薪",       "窑火连江", "kiln"],
+        ["image6.png",  "舟帆日日蔽江来", "江路舟瓷", "river"],
+        ["image7.png",  "卸载瓷土",       "江路舟瓷", "river"],
+        ["image8.png",  "船桨划水",       "江路舟瓷", "river"],
+        ["image9.png",  "工人莫献天机巧", "匠心藏巧", "craft"],
+        ["image10.png", "揉泥",           "匠心藏巧", "craft"],
+        ["image11.png", "拉坯",           "匠心藏巧", "craft"],
+        ["image12.png", "利坯",           "匠心藏巧", "craft"],
+        ["image13.png", "画坯",           "匠心藏巧", "craft"],
+        ["image14.png", "施釉",           "匠心藏巧", "craft"],
+        ["image15.png", "烧窑",           "匠心藏巧", "craft"],
+        ["image16.png", "青花入箱",       "匠心藏巧", "craft"],
+        ["image17.png", "此器能输郡国材", "瓷通天下", "world"],
+        ["image18.png", "边塞驿碗",       "瓷通天下", "world"],
+        ["image19.png", "京城商铺",       "瓷通天下", "world"],
+        ["image20.png", "瓷龙入海",       "瓷通天下", "world"],
+        ["image21.png", "陶舍灯火",       "瓷通天下", "world"]
+      ];
+
+      const fan = document.getElementById("fan");
+      const prevBtn = document.getElementById("fan-prev");
+      const nextBtn = document.getElementById("fan-next");
+      const countEl = document.getElementById("fan-count");
+      const dotEl = document.getElementById("fan-dot");
+      const capEl = document.getElementById("fan-caption");
+      const wall = document.getElementById("wall");
+      const navButtons = Array.from(document.querySelectorAll(".win-nav button[data-chapter]"));
+      const poemItems = Array.from(document.querySelectorAll("#poem-row li"));
+      let active = 0;
+      let timer = null;
+
+      /* —— 构建立体图廊 —— */
+      const items = SCENES.map(([file, name, chap, key], index) => {
+        const fig = document.createElement("div");
+        fig.className = "fan-item";
+        fig.innerHTML = `<img src="assets/${file}" alt="${name}" draggable="false">`;
+        fig.title = name;
+        fig.addEventListener("click", () => { if (index !== active) { select(index); play(); } });
+        fan.insertBefore(fig, capEl);
+        return fig;
+      });
+
+      /* —— 构建分镜集锦图墙 —— */
+      SCENES.forEach(([file, name, chap, key]) => {
+        const f = document.createElement("figure");
+        f.dataset.chapter = key;
+        f.title = `${name} · ${chap}`;
+        f.innerHTML = `<img src="assets/${file}" alt="${name}"><figcaption>${name}</figcaption>`;
+        wall.appendChild(f);
+      });
+      const wallFigs = Array.from(wall.querySelectorAll("figure"));
+
+      const render = () => {
+        const total = items.length;
+        items.forEach((item, index) => {
+          let offset = index - active;
+          if (offset > total / 2) offset -= total;
+          if (offset < -total / 2) offset += total;
+          const distance = Math.abs(offset);
+          const x = offset * 42 * (1 - Math.min(distance, 3) * .1);
+          const scale = 1 - Math.min(distance, 4) * .05;
+          const opacity = distance > 2 ? 0 : Math.max(.3, 1 - distance * .3);
+          item.style.transform = `translate(-50%, -50%) translateX(${x}%) rotateY(${offset * -7}deg) rotate(${offset * 1.2}deg) scale(${scale})`;
+          item.style.opacity = opacity;
+          item.style.zIndex = String(20 - distance * 2);
+          item.setAttribute("aria-hidden", String(distance > 1));
+        });
+        countEl.textContent = `${String(active + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+        dotEl.style.left = `${(active / (total - 1)) * 100}%`;
+        const [, name, chap] = SCENES[active];
+        capEl.innerHTML = `<b>${name}</b><s>${chap}</s>`;
+      };
+
+      const highlightNav = (key) => {
+        navButtons.forEach((b) => { b.dataset.on = String(b.dataset.chapter === key); });
+      };
+      const focusWall = (key) => { wall.dataset.focus = key; };
+
+      const select = (index) => {
+        active = (index + items.length) % items.length;
+        render();
+        highlightNav(SCENES[active][3]);
+      };
+
+      const play = () => { stop(); timer = setInterval(() => select(active + 1), 4200); };
+      const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+
+      prevBtn.addEventListener("click", () => { select(active - 1); play(); });
+      nextBtn.addEventListener("click", () => { select(active + 1); play(); });
+      fan.addEventListener("pointerdown", (e) => {
+        const startX = e.clientX;
+        const up = (ev) => {
+          const delta = ev.clientX - startX;
+          if (Math.abs(delta) > 40) { select(active + (delta < 0 ? 1 : -1)); play(); }
+          window.removeEventListener("pointerup", up);
+        };
+        window.addEventListener("pointerup", up);
+      });
+      fan.addEventListener("mouseenter", stop);
+      fan.addEventListener("mouseleave", play);
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") { select(active - 1); play(); }
+        if (e.key === "ArrowRight") { select(active + 1); play(); }
+      });
+
+      /* —— 顶部篇章导航：跳转图廊 + 筛选图墙 —— */
+      const firstOf = (key) => SCENES.findIndex((s) => s[3] === key);
+      navButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const key = button.dataset.chapter;
+          select(firstOf(key));
+          focusWall(key);
+          play();
+        });
+      });
+
+      /* —— 诗句圆图：跳转对应分镜 —— */
+      poemItems.forEach((li) => {
+        li.addEventListener("click", () => {
+          select(Number(li.dataset.jump));
+          play();
+        });
+      });
+
+      /* —— 关于作品浮层 —— */
+      const about = document.getElementById("about");
+      document.querySelectorAll(".about-link").forEach((a) => {
+        a.addEventListener("click", (e) => { e.preventDefault(); about.dataset.open = "true"; stop(); });
+      });
+      document.getElementById("about-close").addEventListener("click", () => { about.dataset.open = "false"; play(); });
+      about.addEventListener("click", (e) => { if (e.target === about) { about.dataset.open = "false"; play(); } });
+      window.addEventListener("keydown", (e) => { if (e.key === "Escape") about.dataset.open = "false"; });
+
+      select(0);
+      play();
+    })();
+  </script>
+  <script>
+    (() => {
+      if (!document.documentElement.classList.contains('embed-mode')) return;
+
+      const reportHeight = () => parent.postMessage({
+        type: 'project-scroll-metrics',
+        height: document.documentElement.scrollHeight
+      }, '*');
+      window.addEventListener('load', reportHeight);
+      window.addEventListener('resize', reportHeight, { passive: true });
+      new ResizeObserver(reportHeight).observe(document.querySelector('.stage'));
+      reportHeight();
+
+      const forwardScroll = (deltaY) => parent.postMessage({ type: 'project-global-wheel', deltaY }, '*');
+      window.addEventListener('wheel', (event) => {
+        if (event.target.closest('.about-card')) return;
+        event.preventDefault();
+        const scale = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+        forwardScroll(event.deltaY * scale);
+      }, { passive: false });
+
+      let touchX = 0;
+      let touchY = 0;
+      window.addEventListener('touchstart', (event) => {
+        touchX = event.touches[0]?.clientX || 0;
+        touchY = event.touches[0]?.clientY || 0;
+      }, { passive: true });
+      window.addEventListener('touchmove', (event) => {
+        if (event.target.closest('.about-card, video')) return;
+        const touch = event.touches[0];
+        if (!touch) return;
+        const dx = touch.clientX - touchX;
+        const dy = touch.clientY - touchY;
+        if (Math.abs(dy) <= Math.abs(dx)) return;
+        event.preventDefault();
+        forwardScroll(-dy);
+        touchX = touch.clientX;
+        touchY = touch.clientY;
+      }, { passive: false });
+
+      window.addEventListener('message', (event) => {
+        if (event.data?.type === 'portfolio-global-scroll') window.scrollTo(0, Number(event.data.scrollTop) || 0);
+      });
+    })();
+  </script>
+</body>
+</html>

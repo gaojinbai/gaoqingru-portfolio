@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#ececee" />
+    <meta name="description" content="高清茹个人作品集开场" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23151310'/%3E%3Cpath d='M18 20h28v13H18zM14 30h36v20H14z' fill='%23f4f1e8'/%3E%3Ccircle cx='44' cy='35' r='3' fill='%2357c760'/%3E%3Cpath d='M21 39h22v16H21z' fill='white'/%3E%3C/svg%3E" />
+    <title>高清茹·作品集</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body class="stage-open">
+    <canvas class="cursor-trail" id="cursorTrail" aria-hidden="true"></canvas>
+
+    <main class="portfolio-stages">
+
+      <!-- ===== 屏 1：打印机开场 ===== -->
+      <section class="stage stage--opening" id="stageOpening" aria-label="作品集打印机开场">
+        <div class="media-stage" id="mediaStage">
+          <video id="openingVideo" class="opening-video" src="assets/printer-intro-hd-corrected.mp4" poster="assets/printer-intro-hd-poster.jpg" preload="auto" playsinline aria-label="打印机打印个人简历的开场动画"></video>
+
+          <div class="resume-sharpener" id="resumeSharpener" aria-hidden="true">
+            <img src="assets/resume.png" alt="" draggable="false" />
+          </div>
+
+          <button class="print-trigger" id="printTrigger" type="button" aria-label="点击打印">
+            <span class="energy-ring energy-ring--one" aria-hidden="true"></span>
+            <span class="energy-ring energy-ring--two" aria-hidden="true"></span>
+            <span class="particle-field" id="particleField" aria-hidden="true"></span>
+            <span class="sr-only">点击打印</span>
+          </button>
+
+          <button class="tear-trigger" id="tearTrigger" type="button" aria-label="点击撕开作品集">
+            <span class="tear-trigger__label">点击撕开作品集</span>
+            <span class="tear-trigger__hint">向下撕开进入作品集</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ===== 撕开后直接进入作品集目录 ===== -->
+      <section class="stage stage--contents" id="stageContents" aria-label="作品集目录">
+        <div class="contents-scroll">
+          <div class="contents-backdrop" aria-hidden="true"></div>
+          <div class="contents-board">
+            <div class="contents-moon" aria-hidden="true"></div>
+            <header class="contents-head">
+              <p class="contents-eyebrow">PORTFOLIO &middot; 2026</p>
+              <h2 class="contents-title">目录</h2>
+              <p class="contents-sub">/ Contents</p>
+            </header>
+            <ol class="contents-list">
+              <li class="contents-item"><span class="contents-num">01</span><span class="contents-label"><strong>暖焰花信</strong><em>儿童 IP &middot; 交互叙事</em></span></li>
+              <li class="contents-item"><span class="contents-num">02</span><span class="contents-label"><strong>金陵花记</strong><em>AI 水墨动画</em></span></li>
+              <li class="contents-item"><span class="contents-num">03</span><span class="contents-label"><strong>NOVA</strong><em>赛博角色设计</em></span></li>
+              <li class="contents-item"><span class="contents-num">04</span><span class="contents-label"><strong>南红&middot;觉醒</strong><em>虚拟偶像设计</em></span></li>
+              <li class="contents-item"><span class="contents-num">05</span><span class="contents-label"><strong>归鸟</strong><em>插画系列</em></span></li>
+              <li class="contents-item"><span class="contents-num">06</span><span class="contents-label"><strong>瓷与鸟</strong><em>实验影像 &middot; 交互</em></span></li>
+              <li class="contents-item"><span class="contents-num">07</span><span class="contents-label"><strong>瓷脉&middot;通达天下</strong><em>公益广告</em></span></li>
+              <li class="contents-item"><span class="contents-num">08</span><span class="contents-label"><strong>窗间的二十四节气</strong><em>水彩概念动画</em></span></li>
+              <li class="contents-item"><span class="contents-num">09</span><span class="contents-label"><strong>平面设计</strong><em>海报 &middot; 品牌 &middot; 版式</em></span></li>
+            </ol>
+          </div>
+          <div class="contents-scroll-cue" aria-hidden="true">
+            <span class="contents-scroll-cue__line"></span>
+            <span class="contents-scroll-cue__text">下滑进入第一个项目</span>
+          </div>
+        </div>
+          <div class="contents-grain" aria-hidden="true"></div>
+          <canvas class="spark-canvas" data-spark-canvas aria-hidden="true"></canvas>
+        </div>
+      </section>
+
+      <!-- ===== 屏 4：第一个项目 · 灯灯「暖焰花信」IP ===== -->
+      <section class="stage stage--project1" id="stageProject1" aria-label="第一个项目：灯灯·暖焰花信 IP">
+        <div class="project1-backdrop" aria-hidden="true"></div>
+
+        <section class="next-chapter" id="chapter1" aria-label="进入第一章">
+          <p class="next-chapter__eyebrow">FIRST CHAPTER</p>
+          <p class="next-chapter__number">01</p>
+          <h2>暖焰花信</h2>
+          <p class="next-chapter__hint">继续下滑·进入第一章</p>
+        </section>
+
+        <!-- ① 首屏交互：红发小女孩视频，蝴蝶跟随鼠标 -->
+        <article class="p1-hero" id="p1Hero">
+          <video id="p1HeroVideo" class="p1-hero__video" src="assets/project1-hero.mp4" poster="assets/project1-film-cover.png" muted playsinline preload="auto"></video>
+          <div class="p1-hero__veil" aria-hidden="true"></div>
+          <div class="p1-hero__copy">
+            <p class="p1-hero__kicker">SELECTED WORKS · 2026</p>
+            <h1 class="p1-hero__title">想象力的诗</h1>
+            <p class="p1-hero__meta">视觉设计｜角色创作｜三维艺术</p>
+          </div>
+          <svg class="p1-hero__butterfly" id="p1HeroButterfly" viewBox="0 0 120 120" aria-hidden="true">
+            <defs>
+              <linearGradient id="p1WingFill" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#fffdf6" />
+                <stop offset="1" stop-color="#ffd6a2" />
+              </linearGradient>
+              <filter id="p1WingGlow" x="-60%" y="-60%" width="220%" height="220%">
+                <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#8d2f12" flood-opacity=".38" />
+                <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#fff3cf" flood-opacity=".9" />
+              </filter>
+            </defs>
+            <g filter="url(#p1WingGlow)">
+              <path class="p1-wing p1-wing--left" d="M58 59C45 35 16 25 11 42C7 55 23 65 39 66C22 70 18 89 31 95C45 101 57 83 61 67Z" fill="url(#p1WingFill)" />
+              <path class="p1-wing p1-wing--right" d="M62 59C75 35 104 25 109 42C113 55 97 65 81 66C98 70 102 89 89 95C75 101 63 83 59 67Z" fill="url(#p1WingFill)" />
+              <path class="p1-body" d="M57 55C55 48 56 41 60 41C64 41 65 48 63 55L65 82C65 90 55 90 55 82Z" fill="#7a3b2a" />
+            </g>
+          </svg>
+          <p class="p1-hero__hint">移动鼠标 · 让她看见你</p>
+        </article>
+
+        <!-- ② 按截图一完整还原的第二页 -->
+        <img class="p1-fullimg p1-reference-page" src="assets/layout-second-page.png" alt="When The Light Blooms 项目封面" />
+
+        <!-- ③ 按截图二的固定顺序与原比例排版 -->
+        <img class="p1-fullimg p1-reference-page" src="assets/sec-about-body.png" alt="关于这个项目" loading="lazy" />
+        <img class="p1-fullimg p1-reference-page" src="assets/sec-ve.png" alt="项目信息与 Visual Exploration" loading="lazy" />
+        <img class="p1-fullimg p1-reference-page" src="assets/sec-film-title.png" alt="视觉探索画面与项目小结" loading="lazy" />
+        <img class="p1-fullimg p1-reference-page" src="assets/sec-film.png" alt="暖焰花信动画设计标题" loading="lazy" />
+
+        <section class="p1-film-board" id="filmTitle" aria-label="暖焰花信完整动画">
+          <img class="p1-fullimg" src="assets/sec-cards.png" alt="暖焰花信动画播放版面" loading="lazy" />
+          <video class="p1-film-board__video" src="assets/warm-flame-letter.mp4" poster="assets/project1-warm-flame-poster.png" controls playsinline preload="metadata">您的浏览器暂不支持视频播放。</video>
+        </section>
+
+        <img class="p1-fullimg p1-reference-page" src="assets/sec-particle-statement.png" alt="动画设计说明" loading="lazy" />
+
+        <!-- ④ 原有第三个视频与 Canvas 粒子交互保持不变 -->
+        <section class="p1-interactive" aria-labelledby="particleTitle">
+          <div class="p1-interactive__stage" id="p1ParticleStage">
+            <video class="p1-interactive__video" src="assets/seventh-light.mp4" poster="assets/project1-light-poster.jpg" autoplay muted loop playsinline preload="metadata"></video>
+            <canvas class="p1-interactive__canvas" id="p1ParticleCanvas" aria-hidden="true"></canvas>
+            <p class="p1-interactive__hint">移动鼠标或手指 · 拨开星尘</p>
+          </div>
+          <header class="p1-interactive__head">
+            <p class="p1-interactive__overline">07 / INTERACTIVE FILM</p>
+            <h2 class="p1-interactive__title" id="particleTitle">微光会记得<br />每一次靠近</h2>
+            <p class="p1-interactive__intro">灯灯提着一盏小小的光。触碰星尘，让沉睡的微光随指尖散开，离开后再慢慢回到她身边。</p>
+          </header>
+        </section>
+
+        <!-- ⑤ 粒子互动之后完全依照截图三的位置、图片和尺寸 -->
+        <img class="p1-fullimg p1-reference-page" id="ipTitle" src="assets/layout-after-interaction.png" alt="DENG DENG 角色设定、三视图、表情系统与产品延展" loading="lazy" />
+
+        <section class="next-chapter" id="chapter2" aria-label="进入下一章">
+          <p class="next-chapter__eyebrow">NEXT CHAPTER</p>
+          <p class="next-chapter__number">02</p>
+          <h2>金陵花记</h2>
+          <p class="next-chapter__hint">继续下滑·进入下一章</p>
+        </section>
+
+        <div class="project-scroll-host" data-project-host="project2">
+          <iframe class="p2-embed" id="project2Frame" src="project2/index.html?embed=1" title="第二个项目：金陵花记" loading="lazy"></iframe>
+        </div>
+
+        <section class="next-chapter" id="chapter3" aria-label="进入第三章">
+          <p class="next-chapter__eyebrow">THIRD CHAPTER</p>
+          <p class="next-chapter__number">03</p>
+          <h2>NOVA</h2>
+          <p class="next-chapter__hint">继续下滑·进入第三章</p>
+        </section>
+
+        <div class="project-scroll-host" data-project-host="project3">
+          <iframe class="p3-embed" id="project3Frame" src="project3/index.html?embed=1" title="第三个项目：NOVA 双形态视觉" loading="lazy"></iframe>
+        </div>
+
+        <section class="next-chapter" id="chapter4" aria-label="进入第四章">
+          <p class="next-chapter__eyebrow">FOURTH CHAPTER</p>
+          <p class="next-chapter__number">04</p>
+          <h2>南红·觉醒</h2>
+          <p class="next-chapter__hint">继续下滑·进入第四章</p>
+        </section>
+
+        <div class="project-scroll-host" data-project-host="project4">
+          <iframe class="p4-embed" id="project4Frame" src="project4/index.html?embed=1" title="第四个项目：南红·觉醒" loading="lazy"></iframe>
+        </div>
+
+        <section class="next-chapter" id="chapter5" aria-label="进入第五章">
+          <p class="next-chapter__eyebrow">FIFTH CHAPTER</p>
+          <p class="next-chapter__number">05</p>
+          <h2>归鸟</h2>
+          <p class="next-chapter__hint">继续下滑·进入第五章</p>
+        </section>
+
+        <div class="project-scroll-host" data-project-host="project5">
+          <iframe class="p5-embed" id="project5Frame" src="project5/index.html?embed=1" title="第五个项目：归鸟" loading="lazy"></iframe>
+        </div>
+
+        <section class="next-chapter" id="chapter6" aria-label="进入第六章">
+          <p class="next-chapter__eyebrow">SIXTH CHAPTER</p>
+          <p class="next-chapter__number">06</p>
+          <h2>瓷与鸟</h2>
+          <p class="next-chapter__hint">继续下滑·进入第六章</p>
+        </section>
+
+        <div class="project-scroll-host" data-project-host="project6">
+          <iframe class="p6-embed" id="project6Frame" src="project6/index.html?embed=1" title="第六个项目：瓷与鸟" loading="lazy"></iframe>
+        </div>
+
+        <section class="next-chapter" id="chapter7" aria-label="进入第七章">
+          <p class="next-chapter__eyebrow">SEVENTH CHAPTER</p>
+          <p class="next-chapter__number">07</p>
+          <h2>瓷脉・通达天下</h2>
+          <p class="next-chapter__hint">继续下滑·进入第七章</p>
+        </section>
+
+        <div class="project-scroll-host" data-project-host="project7">
+          <iframe class="p7-embed" id="project7Frame" src="project7/index.html?embed=1" title="第七个项目：瓷脉・通达天下" loading="lazy"></iframe>
+        </div>
+
+        <section class="next-chapter" id="chapter8" aria-label="进入第八章">
+          <p class="next-chapter__eyebrow">EIGHTH CHAPTER</p>
+          <p class="next-chapter__number">08</p>
+          <h2>窗间的二十四节气</h2>
+          <p class="next-chapter__hint">继续下滑·进入第八章</p>
+        </section>
+
+        <div class="project-scroll-host" data-project-host="project8">
+          <iframe class="p8-embed" id="project8Frame" src="project8/index.html?embed=1" title="第八个项目：窗间的二十四节气" loading="lazy"></iframe>
+        </div>
+
+        <section class="next-chapter" id="chapter9" aria-label="进入第九章：平面设计">
+          <p class="next-chapter__eyebrow">NINTH CHAPTER</p>
+          <p class="next-chapter__number">09</p>
+          <h2>平面设计</h2>
+          <p class="next-chapter__hint">继续下滑·进入第九章</p>
+        </section>
+
+        <div class="project-scroll-host" data-project-host="project9">
+          <iframe class="p9-embed" id="project9Frame" src="project9/index.html?embed=1" title="第九个项目：平面设计" loading="lazy"></iframe>
+        </div>
+
+        <canvas class="p1-sparks" data-p1-sparks aria-hidden="true"></canvas>
+      </section>
+
+      <!-- ===== 撕纸飘离过渡层：屏1 → 屏2，从中间撕开、两半纸向左右飘离 ===== -->
+      <div class="tear-layer" id="tearLayer" aria-hidden="true">
+        <div class="tear-half tear-half--left"></div>
+        <div class="tear-half tear-half--right"></div>
+        <svg class="tear-svg" width="0" height="0" aria-hidden="true">
+          <defs>
+            <filter id="tearRough">
+              <feTurbulence type="fractalNoise" baseFrequency="0.02 0.11" numOctaves="3" seed="7" result="noise" />
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="14" />
+            </filter>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- ===== 返回 / 前进控制 ===== -->
+      <button class="stage-nav stage-nav--back" id="backBtn" type="button" aria-label="返回上一屏">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4 7 12l8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="stage-dots" id="stageDots" aria-hidden="true">
+        <span class="dot is-on" data-dot="0"></span>
+        <span class="dot" data-dot="1"></span>
+        <span class="dot" data-dot="2"></span>
+        <span class="dot" data-dot="3"></span>
+      </div>
+      <div class="global-scrollbar" id="globalScrollbar" aria-hidden="true">
+        <div class="global-scrollbar__track" id="globalScrollTrack">
+          <div class="global-scrollbar__thumb" id="globalScrollThumb" role="scrollbar" aria-label="作品集全局滚动条" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"></div>
+        </div>
+      </div>
+
+    </main>
+  </body>
+</html>

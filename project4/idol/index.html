@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="zh-CN" data-page-node-id="ZyqWcwEvQWon8M09tjr2BC">
+<head data-page-node-id="w1oddSeMypHmiZIZM5yVEj">
+  <meta charset="utf-8" data-page-node-id="I7tRQoQ2RkDsfoFfcDK3IK">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" data-page-node-id="QDKcNWxMkUIvc2wP0VKzW7">
+  <meta name="theme-color" content="#1c0b26" data-page-node-id="h0ImVJx40cX8XQH3WHtDEX">
+  <meta name="description" content="《偶像》—— 虚拟偶像南红角色概念网站：在宇宙级的璀璨舞台，绽放钻石般的光芒。" data-page-node-id="WY6QaZaoGc638NlStlAdmI">
+  <title>偶像 · 南红 | 虚拟偶像角色概念网站</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #fff0f7;
+      --muted: #e9bbd3;
+      --dim: #c86d9c;
+      --neon: #ff4f9a;
+      --neon-soft: rgba(255, 79, 154, .45);
+      --red: #c0392b;
+      --line: rgba(255, 158, 198, .22);
+      --kai: "KaiTi", "Kaiti SC", "STKaiti", "SimSun", serif;
+      --serif: "Songti SC", "STSong", "SimSun", serif;
+      --sans: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: linear-gradient(135deg, #1c0b26 0%, #3a1040 55%, #551243 100%);
+    }
+
+    /* ───── 背景画面：AI 生成整幅底图（方案A · 玫瑰瓷纹霓虹） ───── */
+    .scenery {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: url("assets/gen/bg-main.jpg") center / cover no-repeat;
+    }
+    .scenery::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .16;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    .stage {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(14px, 1.6vw, 26px);
+      padding: clamp(14px, 2.4vh, 30px) clamp(16px, 2.2vw, 38px);
+    }
+    @media (max-width: 1060px), (max-height: 620px) {
+      body { overflow: auto; }
+      .stage { height: auto; min-height: 100vh; grid-template-columns: 1fr; }
+    }
+
+    /* ───── 舞台面板：半透明深紫，霓虹描边 ───── */
+    .panel {
+      min-width: 0;
+      min-height: 0;
+      background: linear-gradient(180deg, rgba(52, 18, 60, .78), rgba(30, 11, 38, .86));
+      backdrop-filter: blur(4px);
+      border: 1px solid var(--neon-soft);
+      border-radius: 18px;
+      box-shadow: 0 20px 50px rgba(10, 2, 14, .5), 0 0 0 1px rgba(255, 158, 198, .06) inset;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .win-top {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px clamp(14px, 1.4vw, 22px) 9px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(70, 26, 82, .65), rgba(48, 17, 58, .35));
+    }
+    .dots { display: flex; gap: 6px; }
+    .dots i { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 6px currentColor; }
+    .dots i:nth-child(1) { background: #ff6b8a; color: #ff6b8a; }
+    .dots i:nth-child(2) { background: #ffb86b; color: #ffb86b; }
+    .dots i:nth-child(3) { background: #8ae0b0; color: #8ae0b0; }
+    .win-logo { font: 400 clamp(15px, 1.35vw, 21px)/1 var(--kai); letter-spacing: .16em; margin: 0; }
+    .win-logo em { font-style: normal; color: var(--neon); text-shadow: 0 0 12px var(--neon-soft); }
+    .win-nav { margin-left: auto; display: flex; align-items: center; gap: clamp(10px, 1.2vw, 20px); }
+    .win-nav button, .win-nav a {
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      padding: 4px 1px;
+      font: 600 clamp(12px, .95vw, 15px)/1 var(--serif);
+      letter-spacing: .18em;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color .2s ease, border-color .2s ease;
+    }
+    .win-nav button:hover, .win-nav a:hover { color: var(--neon); }
+    .win-nav [data-on="true"] { color: var(--neon); border-bottom-color: var(--neon); text-shadow: 0 0 10px var(--neon-soft); }
+
+    .panel-body { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+
+    /* ───── 左面板：大标题 + 立绘轮播 ───── */
+    .hero { text-align: center; padding: clamp(12px, 2.6vh, 30px) 16px 0; }
+    .hero-row { display: inline-flex; align-items: flex-start; gap: 10px; }
+    .hero h1 {
+      margin: 0;
+      font: 400 clamp(38px, 4.6vw, 68px)/1.1 var(--kai);
+      letter-spacing: .18em;
+      color: #fff0f7;
+      text-shadow: 0 0 24px rgba(255, 79, 154, .45), 0 0 60px rgba(255, 79, 154, .2);
+    }
+    .hero-seal {
+      width: clamp(24px, 2vw, 32px);
+      height: auto;
+      margin-top: clamp(4px, .8vh, 10px);
+      filter: drop-shadow(0 2px 4px rgba(120, 20, 30, .5));
+    }
+    .hero-divider { display: block; width: 1px; height: clamp(12px, 2vh, 20px); margin: clamp(4px, .9vh, 10px) auto 0; background: rgba(233, 187, 211, .5); }
+    .hero p {
+      margin: clamp(4px, .8vh, 9px) 0 0;
+      font: 500 clamp(11px, .9vw, 14px)/1 var(--serif);
+      letter-spacing: .5em;
+      text-indent: .5em;
+      color: var(--muted);
+    }
+
+    .fan { position: relative; flex: 1; min-height: 0; perspective: 1500px; touch-action: pan-y; }
+    .fan-item {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 74%;
+      max-width: 600px;
+      aspect-ratio: 1.85 / 1;
+      overflow: hidden;
+      background: #2a1030;
+      border: clamp(3px, .45vw, 6px) solid rgba(253, 243, 236, .92);
+      outline: 1px solid var(--neon-soft);
+      box-shadow: 0 18px 44px rgba(8, 1, 12, .55), 0 0 24px rgba(255, 79, 154, .12);
+      will-change: transform, opacity;
+      transition: transform .7s cubic-bezier(.2, .75, .18, 1), opacity .5s ease;
+      -webkit-box-reflect: below 8px linear-gradient(transparent 62%, rgba(0, 0, 0, .18));
+    }
+    .fan-item img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .fan-item[aria-hidden="true"] { pointer-events: none; }
+    .fan-arrow {
+      position: absolute;
+      z-index: 30;
+      top: 50%;
+      transform: translateY(-50%);
+      width: clamp(30px, 2.6vw, 42px);
+      height: clamp(30px, 2.6vw, 42px);
+      border: 1px solid var(--neon-soft);
+      border-radius: 50%;
+      background: rgba(46, 18, 54, .88);
+      color: #ffdce9;
+      font-size: clamp(14px, 1.2vw, 18px);
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .fan-arrow:hover { background: var(--neon); color: #2a0818; transform: translateY(-50%) scale(1.06); }
+    .fan-arrow.prev { left: clamp(8px, 1.4vw, 22px); }
+    .fan-arrow.next { right: clamp(8px, 1.4vw, 22px); }
+
+    .fan-progress {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(5px, 1vh, 9px);
+      padding: 0 16px clamp(10px, 1.8vh, 20px);
+    }
+    .fan-count { font: 700 clamp(11px, .85vw, 13px)/1 "Times New Roman", serif; letter-spacing: 3px; color: #ffdce9; }
+    .fan-line {
+      position: relative;
+      width: min(42%, 300px);
+      height: 3px;
+      background-image: radial-gradient(circle, rgba(233, 187, 211, .5) 1.2px, transparent 1.7px);
+      background-size: 26px 3px;
+      background-repeat: repeat-x;
+      background-position: center;
+    }
+    .fan-line i {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--neon);
+      box-shadow: 0 0 0 3px rgba(255, 79, 154, .2), 0 0 10px var(--neon);
+      transform: translate(-50%, -50%);
+      transition: left .5s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    /* ───── 右面板：双列（媒体列 + 文案列） ───── */
+    .right-body {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(0, .92fr);
+      gap: clamp(12px, 1.6vw, 26px);
+      padding: clamp(10px, 1.8vh, 20px) clamp(14px, 1.5vw, 24px) clamp(8px, 1.4vh, 14px);
+    }
+    .r-media { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto auto minmax(0, 1fr); gap: clamp(8px, 1.5vh, 15px); }
+
+    .video-box {
+      overflow: hidden;
+      border-radius: 15px;
+      border: clamp(3px, .38vw, 5px) solid var(--neon);
+      box-shadow: 0 12px 30px rgba(8, 1, 12, .5), 0 0 22px rgba(255, 79, 154, .22);
+      background: #160818;
+    }
+    .video-box video { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; background: #160818; }
+
+    .cell-title { margin: 0; font: 700 clamp(12px, 1vw, 16px)/1 var(--serif); letter-spacing: .28em; color: #ff9ec6; }
+    .cell-title i { display: inline-block; width: 22px; height: 1px; background: #ff9ec6; vertical-align: middle; margin-left: 8px; }
+
+    .story-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .72fr); gap: clamp(8px, 1vw, 14px); margin-top: clamp(5px, 1vh, 10px); }
+    .story-grid p { margin: 0; font: 400 clamp(10px, .76vw, 12px)/1.85 var(--sans); letter-spacing: .04em; color: #e3c3d6; }
+    .story-grid p strong { color: #fff0f7; font-weight: 600; }
+    .story-fig { margin: 0; overflow: hidden; border-radius: 6px; border: 1px solid var(--line); }
+    .story-fig img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 4 / 3.4; }
+
+    .wall-block { min-height: 0; display: flex; flex-direction: column; }
+    .wall { flex: 1; min-height: 0; margin-top: clamp(5px, 1vh, 10px); display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: clamp(3px, .4vw, 6px); }
+    .wall figure { margin: 0; overflow: hidden; border: 1px solid var(--line); background: #2a1030; transition: opacity .3s ease, box-shadow .3s ease; }
+    .wall figure img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .45s ease; }
+    .wall figure:hover { box-shadow: 0 8px 18px rgba(8, 1, 12, .6), 0 0 14px rgba(255, 79, 154, .3); z-index: 2; }
+    .wall figure:hover img { transform: scale(1.09); }
+
+    /* 文案列 */
+    .r-copy { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+    .slogan-row { display: flex; align-items: flex-start; gap: 8px; margin-top: clamp(4px, 1.6vh, 18px); }
+    .r-copy h2 {
+      margin: 0;
+      font: 700 clamp(24px, 2.35vw, 38px)/1.5 var(--serif);
+      letter-spacing: .14em;
+      color: #fff0f7;
+      text-shadow: 0 0 18px rgba(255, 79, 154, .35);
+    }
+    .r-copy h2 em { font-style: normal; color: var(--neon); }
+    .slogan-seal { width: clamp(20px, 1.7vw, 28px); height: auto; margin-top: 4px; filter: drop-shadow(0 2px 4px rgba(120, 20, 30, .5)); }
+    .r-rule { width: 34px; height: 2px; background: var(--neon); box-shadow: 0 0 8px var(--neon); margin: clamp(8px, 1.6vh, 16px) 0 0 2px; }
+    .r-intro { margin: clamp(8px, 1.8vh, 18px) 0 0; font: 400 clamp(11px, .86vw, 13.5px)/2 var(--serif); letter-spacing: .1em; color: #dfb6cd; }
+    .r-intro strong { color: #fff0f7; font-weight: 600; }
+
+    .emote-row { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(6px, .9vw, 16px); margin: clamp(10px, 2.6vh, 26px) 0 0; padding: 0; }
+    .emote-row li { text-align: center; }
+    .e-dot {
+      display: block;
+      width: clamp(46px, 4.2vw, 68px);
+      height: clamp(46px, 4.2vw, 68px);
+      margin: 0 auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid var(--neon-soft);
+      box-shadow: 0 8px 18px rgba(8, 1, 12, .45), 0 0 12px rgba(255, 79, 154, .15);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .e-dot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .emote-row li:hover .e-dot { transform: translateY(-4px); box-shadow: 0 10px 22px rgba(8, 1, 12, .55), 0 0 16px rgba(255, 79, 154, .4); }
+    .emote-row b { display: block; margin-top: clamp(4px, 1vh, 9px); font: 400 clamp(15px, 1.4vw, 21px)/1 var(--kai); letter-spacing: .2em; text-indent: .2em; color: #ffdce9; }
+
+    .style-strip { margin-top: clamp(10px, 2.4vh, 24px); }
+    .style-strip .strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(4px, .5vw, 8px); margin-top: clamp(5px, 1vh, 10px); }
+    .style-strip figure { margin: 0; overflow: hidden; border-radius: 6px; border: 1px solid var(--line); }
+    .style-strip img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 3 / 4; transition: transform .45s ease; }
+    .style-strip figure:hover img { transform: scale(1.08); }
+
+    .r-foot { margin-top: auto; padding-top: clamp(8px, 1.6vh, 16px); border-top: 1px solid var(--line); }
+    .r-foot p { margin: 0; text-align: center; font: 500 clamp(9px, .74vw, 12px)/1.9 var(--serif); letter-spacing: .22em; color: #d6a8c2; }
+
+    @media (max-width: 1060px) {
+      .right-body { grid-template-columns: 1fr; }
+      .fan-item { width: 86%; }
+      .hero h1 { font-size: 34px; }
+      .wall { grid-auto-rows: minmax(64px, 1fr); }
+    }
+
+    html.embed-mode, html.embed-mode body { overflow: hidden; }
+    html.embed-mode { scrollbar-width: none; }
+    html.embed-mode::-webkit-scrollbar { display: none; }
+    @media (max-width: 1060px), (max-height: 620px) {
+      html.embed-mode .stage { height: auto; min-height: 0; align-items: start; }
+      html.embed-mode .panel { min-height: 0; }
+      html.embed-mode .panel-body { flex: none; }
+      html.embed-mode .fan { flex: none; min-height: clamp(250px, 55vw, 480px); }
+      html.embed-mode .r-media { grid-template-rows: auto auto auto; }
+      html.embed-mode .wall { flex: none; grid-auto-rows: minmax(70px, 10vw); }
+    }
+
+  </style>
+</head>
+<body data-page-node-id="FUfjPhlCZi1566cCYqBNRv">
+  <div class="scenery" aria-hidden="true" data-page-node-id="HWoKV1jBU7ZEBVomEaEFJb"></div>
+
+  <div class="stage" data-page-node-id="GYWxmyCUyLlOP2CHzGEqZT">
+    <!-- ═════ 左窗口：标题 + 立绘轮播 + 背景故事 ═════ -->
+    <section class="panel" aria-label="角色立绘" data-page-node-id="HDiINmHKMsvpv7HSMkSIga">
+      <header class="win-top" data-page-node-id="hINTCAwIkUzWZBfOSq1KQU">
+        <span class="dots" aria-hidden="true" data-page-node-id="T6ZSW58LtwwIR541ITXaTy"><i data-page-node-id="8MwvRkcgstCcst1Fq5q2bK"></i><i data-page-node-id="Gyv3Cm4x7sT8Q2omJsB0xI"></i><i data-page-node-id="h7cVLcfcbtbAz58TI2iej4"></i></span>
+        <p class="win-logo" data-page-node-id="h5gJFBw9iZF5x9E5uj1XLk">偶像·<em data-page-node-id="yIwFvwKT8BAdnrRueM6Xpk">南红</em></p>
+        <nav class="win-nav" aria-label="栏目导览" data-page-node-id="C8192LA7mxmkBQIRbtYWjf">
+          <button type="button" data-tag="art" data-jump="0" data-on="true" data-page-node-id="rd7iB3HLOFIuduZk0c4cLR">立绘</button>
+          <button type="button" data-tag="view" data-jump="1" data-page-node-id="F40KaYN6xPbibqNB8iraGh">三视图</button>
+          <button type="button" data-tag="scene" data-jump="4" data-page-node-id="SDIyzHI2kE9vIe4MIqamaF">影像</button>
+          <a href="assets/img/hero-poster.jpg" target="_blank" rel="noopener" data-page-node-id="FBGC7cyBq7NLFrRl1I4YYx">海报</a>
+        </nav>
+      </header>
+      <div class="panel-body" data-page-node-id="d2FFq3HGCjWlpa3hWg1M3b">
+        <div class="hero" data-page-node-id="Pw4a50IcOjblX0w1UTs6jM">
+          <div class="hero-row" data-page-node-id="AxS8cfOA5DjMEeZ4epkxZi">
+            <h1 data-page-node-id="d4G1FIPDLU3AB31mm5xA6o">偶像</h1>
+            <svg class="hero-seal" viewBox="0 0 40 40" aria-hidden="true" data-page-node-id="pyY85M6KxtH6x7cboTIXsz">
+              <rect x="1.5" y="1.5" width="37" height="37" rx="7" fill="#c0392b" data-page-node-id="QHEheHIcDKZSH5LA7ToY9Q"/>
+              <text x="20" y="17" text-anchor="middle" font-size="13" fill="#fdf3ec" font-family="KaiTi, STKaiti, serif" font-weight="700" data-page-node-id="qidjwbbZ0F1TDKRdzJqB6r">南</text>
+              <text x="20" y="33" text-anchor="middle" font-size="13" fill="#fdf3ec" font-family="KaiTi, STKaiti, serif" font-weight="700" data-page-node-id="ZjmFojbvHWUSmWyqYusgFz">红</text>
+            </svg>
+          </div>
+          <span class="hero-divider" aria-hidden="true" data-page-node-id="lxDEBh12pnA1I4WUSK11TB"></span>
+          <p data-page-node-id="Tsf5mF2FzgPzZE3WeZqEeO">在宇宙级的璀璨舞台 · 绽放钻石般的光芒</p>
+        </div>
+        <div class="fan" id="fan" aria-roledescription="图廊" data-page-node-id="XvGCpvQbv8SKrElpbb8fv4">
+          <button class="fan-arrow prev" id="fan-prev" type="button" aria-label="上一张" data-page-node-id="vup4lEez3cZo4H7DVttkpb">‹</button>
+          <button class="fan-arrow next" id="fan-next" type="button" aria-label="下一张" data-page-node-id="LLe6SmUhAD5kKoLOATa3rC">›</button>
+        </div>
+        <div class="fan-progress" data-page-node-id="S8zI8UNwKyD8wrNaebBTqP">
+          <span class="fan-count" id="fan-count" data-page-node-id="gy1HFfqz3Q1i5FGIgA5t89">01 / 08</span>
+          <span class="fan-line" data-page-node-id="rV7yzN2x7nlKOBDMmRmkcF"><i id="fan-dot" data-page-node-id="GWn6z7C6iagXYsQpDD5Gf9"></i></span>
+        </div>
+        <div class="story-block" style="padding: 0 clamp(16px, 1.8vw, 28px) clamp(12px, 2vh, 22px);" data-page-node-id="SLNV8ffSRrslk7mYrdapH4">
+          <h3 class="cell-title" data-page-node-id="DEzD7eoXFn4jARkZFViiGi">核心背景故事<i data-page-node-id="jm3yutYLruUoiuu7k2GW8N"></i></h3>
+          <div class="story-grid" style="grid-template-columns: 1fr;" data-page-node-id="5pcsPJwfXaSL6FrdQE3tCi">
+            <p data-page-node-id="d9ZEMWvvrksCw8kDslrD8z">在未来科技与虚拟光影交织的舞台战场，女性虚拟偶像以<strong data-page-node-id="1VnLRHIPRb4c6HklvffVun">追梦为战</strong>，冲破次元边界与挫折壁垒，用歌声书写独属于她的英雄传奇。镜头跟随她的英雄成长轨迹：从角落默默练习的千万次磨砺，是为战场蓄力的隐忍；灯光亮起前颤抖的指尖，藏着直面"敌人"的紧张与坚定；撕掉旧剧本、定义自我的勇气，是打破规训的破阵之举；风雨里的伤疤，皆成胸前闪耀的<strong data-page-node-id="gWrwZshyRXjGOgc8udfyC6">战斗勋章</strong>。当她与姐妹战友并肩站上舞台，所有目光汇集的瞬间，她们紧握彼此的手，将挫折踩在脚下，在电子节奏的炸裂旋律中发起冲锋，迎来属于自己的<strong data-page-node-id="E04FNOEL6NTUDuo1Gq0UpW">高光凯旋时刻</strong>。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════ 右窗口：影片 + 人设 + 截图墙 + 文案 ═════ -->
+    <section class="panel" aria-label="影片与人设" data-page-node-id="l7QEtayC9qo53vaDDUpTQ4">
+      <header class="win-top" data-page-node-id="IWjOUp7PSDOxePNeCCgKlt">
+        <span class="dots" aria-hidden="true" data-page-node-id="B9Nz7YwKMwvvKuB3JqDicE"><i data-page-node-id="6J3SZDKnAsicpkDkBAgTDF"></i><i data-page-node-id="T0xenucGxXDOGncWLWL0s1"></i><i data-page-node-id="r2iDeCSanQgB04Q7Gj7SBs"></i></span>
+        <p class="win-logo" data-page-node-id="cDY5NekJd6dEvAEWwvRlz5">偶像·<em data-page-node-id="4tnnKn8xF2lshdmMqkzuuA">南红</em></p>
+        <nav class="win-nav" aria-label="栏目导览" data-page-node-id="C10XwhHpmWf3qfkdk5aJOb">
+          <button type="button" data-tag="art" data-jump="0" data-page-node-id="dlEW8VgN00Q0OiMrHg25Yd">立绘</button>
+          <button type="button" data-tag="view" data-jump="1" data-page-node-id="6KWuzQYMnK1hMUqu6J9SeH">三视图</button>
+          <button type="button" data-tag="scene" data-jump="4" data-on="true" data-page-node-id="0ARGHBoClxzHpoE7uEoqqB">影像</button>
+          <a href="assets/img/hero-poster.jpg" target="_blank" rel="noopener" data-page-node-id="WPBiI2fDQ9DuxBUGj9M9no">海报</a>
+        </nav>
+      </header>
+      <div class="panel-body right-body" data-page-node-id="HjUhm5ujkWpYFuOxhfHBOn">
+        <!-- 媒体列 -->
+        <div class="r-media" data-page-node-id="4c0lGI81WTWVdJvfAo2W53">
+          <div class="video-box" data-page-node-id="0won6Ig1woI23nzzGIkAxR">
+            <video id="nanhong-film" controls playsinline preload="metadata" poster="assets/img/still-05.jpg" aria-label="《偶像》完整影片" data-page-node-id="RHbS2YGxD0o9SzOn8hbxu5">
+              <source src="assets/video/nanhong-film.mp4" type="video/mp4" data-page-node-id="lwtgH27Lz2cKxYWMeQWFm7">
+              您的浏览器不支持视频播放。
+            </video>
+          </div>
+          <div class="story-block" data-page-node-id="UljzpMY49bYQH1xxfuQIYt">
+            <h3 class="cell-title" data-page-node-id="dV2m3dUo0rudc1HMScUyxV">人设简介<i data-page-node-id="qIxBUMURBz4kclVzbD2hwF"></i></h3>
+            <div class="story-grid" data-page-node-id="BOsCGdY4FOCiQ3dsNwyRvA">
+              <p data-page-node-id="HagcEFXjVeTJ7h0aqUvzAi"><strong data-page-node-id="qkkXTnAOnrplwpU0xCCpBT">姓名：</strong>南红<br data-page-node-id="TDGqlzqTT2PVFVw1mCY6Md"><strong data-page-node-id="Xi2vcj3Bh6fiaap3KZV0gM">身份：</strong>未来虚拟偶像舞台上的"锋芒战士"<br data-page-node-id="Jo6DJrVd3i0x45u4QvzeaW"><strong data-page-node-id="ywViEmFlwCg2VzR4Ml5ONM">性格：</strong>嫉恶如仇，内心善良，既是聚光灯下的闪耀偶像，也是以歌声为刃、以梦想为盾的自我英雄，更能迸发势不可挡的舞台能量，每一次登场，都是她<strong data-page-node-id="TXJc5AN0gXn0rTeBe0kuUI">"做自己英雄"的高光宣言</strong>。</p>
+              <figure class="story-fig" data-page-node-id="5DHBzOHCiNuD3lQ1wXUA3R"><img src="assets/img/story-fig.jpg" alt="南红 · 高光时刻" loading="lazy" data-page-node-id="EDTn9TOKWXlfb4jiEYKdHY"></figure>
+            </div>
+          </div>
+          <div class="wall-block" data-page-node-id="OBaBNagawlD5TFWdPFNWJk">
+            <h3 class="cell-title" data-page-node-id="JUFzDbF6KbLgLMxjySPNXz">《偶像》影像截图<i data-page-node-id="35XRLXHWkdG78G4Yz7FMod"></i></h3>
+            <div class="wall" id="wall" data-page-node-id="sMEwkd3s6A0omMAy5YfYtu">
+              <figure title="废墟行走" data-page-node-id="9eiEh2GAXCZCzWyVIBwIfc"><img src="assets/img/still-01.jpg" alt="影像截图 01" loading="lazy" data-page-node-id="Hux0S14lih9CkIVi3okjjh"></figure>
+              <figure title="倒数之瞳" data-page-node-id="RKDlmuF5tEsdyzgwf24GsO"><img src="assets/img/still-02.jpg" alt="影像截图 02" loading="lazy" data-page-node-id="pEIF2sTh80EoAqqRWOZtYR"></figure>
+              <figure title="数字觉醒" data-page-node-id="LQDmJKOuKKhVhQ0oNgsX6Q"><img src="assets/img/still-03.jpg" alt="影像截图 03" loading="lazy" data-page-node-id="ECbR2loRg9MjARcDRRPfiP"></figure>
+              <figure title="红缨觉醒" data-page-node-id="HZNSu5hdv69BgRibBxAkxB"><img src="assets/img/still-04.jpg" alt="影像截图 04" loading="lazy" data-page-node-id="nbBRmhbTVOXCzAM4HeY97A"></figure>
+              <figure title="暗夜列队" data-page-node-id="aTHhXJtjDLyRGXDN7HeDqS"><img src="assets/img/still-05.jpg" alt="影像截图 05" loading="lazy" data-page-node-id="zP1WYavXJJBsGQeEPZ3eOP"></figure>
+              <figure title="机甲淬炼" data-page-node-id="VUhv0l4j3XG0Fgc00Rorgw"><img src="assets/img/still-06.jpg" alt="影像截图 06" loading="lazy" data-page-node-id="XFHk7GR5u5CO071zUxZ453"></figure>
+              <figure title="蓝光跃动" data-page-node-id="1AZABaeXi2nIHfayWr3BOQ"><img src="assets/img/still-07.jpg" alt="影像截图 07" loading="lazy" data-page-node-id="tL5DdOOTJcXIpFxdyeC4Dl"></figure>
+              <figure title="蝶翼初绽" data-page-node-id="HBCmEKWFL8wwki8bcvWU4A"><img src="assets/img/still-08.jpg" alt="影像截图 08" loading="lazy" data-page-node-id="EqAsSrWV4S5p2BwWehMkap"></figure>
+              <figure title="舞台回旋" data-page-node-id="RdXzeq8HdWFuqsKdWzvrOA"><img src="assets/img/still-09.jpg" alt="影像截图 09" loading="lazy" data-page-node-id="3BpwSbCAQYHKs9RX5ON0bX"></figure>
+              <figure title="粉雾吟唱" data-page-node-id="wlORepKLFXADkWpdt7xat0"><img src="assets/img/still-10.jpg" alt="影像截图 10" loading="lazy" data-page-node-id="N8LFVLRoSYHbwVIlMqNYaE"></figure>
+              <figure title="紫瞳注视" data-page-node-id="BW6huJpArAzfRHdDOp93Mg"><img src="assets/img/still-11.jpg" alt="影像截图 11" loading="lazy" data-page-node-id="R6H6ojcKWqsK6qBsmZL6xk"></figure>
+              <figure title="光刃挥舞" data-page-node-id="I0prTOvoNlqijD0gvVN8us"><img src="assets/img/still-12.jpg" alt="影像截图 12" loading="lazy" data-page-node-id="pldptHwYUXtHrHowaWQUaA"></figure>
+              <figure title="赤翼登场" data-page-node-id="2du3J9QbSbgsD7ADJj0B4z"><img src="assets/img/still-13.jpg" alt="影像截图 13" loading="lazy" data-page-node-id="fQelFsTfvkpiOZJgIWQX01"></figure>
+              <figure title="双翼对峙" data-page-node-id="NCsIuLytggbomnEhHaAMN5"><img src="assets/img/still-14.jpg" alt="影像截图 14" loading="lazy" data-page-node-id="nXjWAIDlWjWMdUIXqC5dZr"></figure>
+              <figure title="舱内待发" data-page-node-id="yyrrnlrkk53LG9LgTNlnlc"><img src="assets/img/still-15.jpg" alt="影像截图 15" loading="lazy" data-page-node-id="H9Y62BshDMOZFCothJWd8v"></figure>
+              <figure title="星河驻足" data-page-node-id="Jn6URnGkXNYc0U24xGpKzQ"><img src="assets/img/still-16.jpg" alt="影像截图 16" loading="lazy" data-page-node-id="jisV74bFNgKkIILZV146RY"></figure>
+              <figure title="霓虹小憩" data-page-node-id="A2zwBtunmBkXuv9crQzkRb"><img src="assets/img/still-17.jpg" alt="影像截图 17" loading="lazy" data-page-node-id="wBRzX1jHBxbXFPXJW6G96J"></figure>
+              <figure title="天台与猫" data-page-node-id="Ic5G9F7RFjUZUESfxgbFxG"><img src="assets/img/still-18.jpg" alt="影像截图 18" loading="lazy" data-page-node-id="RveCfaTlD8FfUDWPBeNpeM"></figure>
+              <figure title="目光如炬" data-page-node-id="x9UuG9DOvnLma3QSQfesbj"><img src="assets/img/still-19.jpg" alt="影像截图 19" loading="lazy" data-page-node-id="2nYxZ3a7mKIwuMSKKboUz4"></figure>
+              <figure title="火焰突袭" data-page-node-id="3jGYs9rLMoa6Y70lPwCYiA"><img src="assets/img/still-20.jpg" alt="影像截图 20" loading="lazy" data-page-node-id="A9VqMMm2GU02gKSIAQspKR"></figure>
+              <figure title="烈焰冲锋" data-page-node-id="dqibrtfjJYH6pLrZ2gWbWZ"><img src="assets/img/still-21.jpg" alt="影像截图 21" loading="lazy" data-page-node-id="qCKAmO0vjEJlPzX6dTWrnl"></figure>
+              <figure title="纸屑刀光" data-page-node-id="DDCYW6hnXj4Y8NMgocFVGS"><img src="assets/img/still-22.jpg" alt="影像截图 22" loading="lazy" data-page-node-id="HboNPq0xWMnjApwAx8GvkH"></figure>
+              <figure title="无人机群" data-page-node-id="Zxc2teLocFmcbFm8vDjBha"><img src="assets/img/still-23.jpg" alt="影像截图 23" loading="lazy" data-page-node-id="WFgTVoaO4uaFaFRM41XkkD"></figure>
+              <figure title="烈焰环刃" data-page-node-id="tqi1AI4HTFaGOh8DXiJViy"><img src="assets/img/still-24.jpg" alt="影像截图 24" loading="lazy" data-page-node-id="sCTo4WG0chEyPRUBoS0svF"></figure>
+            </div>
+          </div>
+        </div>
+        <!-- 文案列 -->
+        <div class="r-copy" data-page-node-id="VxaPGASYuFI7StgKXCYxA1">
+          <div class="slogan-row" data-page-node-id="DBV0ZN5PkEUDNGPDaXdYa9">
+            <h2 data-page-node-id="TUFAZHSY3HM8OiHXhQ0H5S"><em data-page-node-id="mHEBooMC5pHKr5ANCfVnlL">锋芒战士</em>，<br data-page-node-id="Diw18MQgFNKLIN5JUtUb0N">做自己英雄</h2>
+            <svg class="slogan-seal" viewBox="0 0 40 40" aria-hidden="true" data-page-node-id="FAhH0HQCkwoEpSd2IoiA8B">
+              <rect x="1.5" y="1.5" width="37" height="37" rx="7" fill="#c0392b" data-page-node-id="UHo87cRp8DyclqOLFzpA00"/>
+              <text x="20" y="27" text-anchor="middle" font-size="18" fill="#fdf3ec" font-family="KaiTi, STKaiti, serif" font-weight="700" data-page-node-id="1CrCNQPIJk8r0op6GYn3IC">偶</text>
+            </svg>
+          </div>
+          <span class="r-rule" aria-hidden="true" data-page-node-id="8Qs8BpM5F2sbMjuHMzNL4H"></span>
+          <p class="r-intro" data-page-node-id="916zhaPcOYupVxvViXvS42">以<strong data-page-node-id="E8rplVEkxHGohak2UgV7Fi">歌声</strong>为刃，以<strong data-page-node-id="TPjRv9d7MpjyyI7RnMLLlq">梦想</strong>为盾。她是未来虚拟偶像舞台上的<strong data-page-node-id="A8sOsjqlyUsXtYowaRbpPB">锋芒战士</strong>——桀骜不驯，内心善良；聚光灯下她是闪耀偶像，战斗之中她是自救英雄。每一次登场，都是一次"做自己英雄"的<strong data-page-node-id="q1aUAoHGABbJnmYua1mU57">高光宣言</strong>。</p>
+          <ul class="emote-row" data-page-node-id="CFOz8EYjjCFfdSu3pQJlKJ">
+            <li data-page-node-id="rMcFFlzSGEjgyeaKEYN6CI"><span class="e-dot" data-page-node-id="BJOBMKSCbveen2FFE61IQV"><img src="assets/img/emoticon-1.jpg" alt="表情 · 桀骜" loading="lazy" data-page-node-id="TEm0oGbSJIcKHegrQ3ohvZ"></span><b data-page-node-id="V1Bg6XnpiEob6EfTVJJNx5">桀骜</b></li>
+            <li data-page-node-id="riTBF63FmGCfuATSG58FnZ"><span class="e-dot" data-page-node-id="jmBLxtumLpo9daFSWDD6gJ"><img src="assets/img/emoticon-2.jpg" alt="表情 · 惊讶" loading="lazy" data-page-node-id="7sAjyRZjRyRSUW82jZTROT"></span><b data-page-node-id="f6GZsvL9chOmoVXUCDL1d6">惊讶</b></li>
+            <li data-page-node-id="LaJiZKAq46OdAl04HcBlLs"><span class="e-dot" data-page-node-id="YuDbILFvatSBG19EwnHp5G"><img src="assets/img/emoticon-3.jpg" alt="表情 · 俏皮" loading="lazy" data-page-node-id="LQhOOsYsdPo3092jg0qlHf"></span><b data-page-node-id="utBkopopjyEjh3P3JW2OTu">俏皮</b></li>
+            <li data-page-node-id="hhwZI5NHnbE8NZnD5bGVWd"><span class="e-dot" data-page-node-id="ZI9UU0ofFRKrKneSpoheKe"><img src="assets/img/emoticon-4.jpg" alt="表情 · 坚毅" loading="lazy" data-page-node-id="2I3sQivwp7FbE0R90n6XIF"></span><b data-page-node-id="Fdjb8ucgVwDpvEj3whF56Y">坚毅</b></li>
+          </ul>
+          <div class="style-strip" data-page-node-id="w443VHywMZyNW28rIZRon5">
+            <h3 class="cell-title" data-page-node-id="BI7W6VQOD725giZo3elEuA">多风格展示<i data-page-node-id="XUVBE7hkSSF92pfuf8fUXi"></i></h3>
+            <div class="strip" data-page-node-id="wD2xSjE9xDNcDqmxC4m7iY" style="grid-template-columns: repeat(2, 1fr);">
+              <figure data-page-node-id="Y4wmrCalWbx6zJsSXsbum9"><img src="assets/img/style-a1.jpg" alt="多风格 · 红扇舞" loading="lazy" data-page-node-id="ezUqLCvxfVmYGcwlm9AFDl"></figure>
+              <figure data-page-node-id="EIPMLzYHa1be2vE8keel4A"><img src="assets/img/style-a2.jpg" alt="多风格 · 舞台" loading="lazy" data-page-node-id="9cSTHUT5KkAnWDix8Jetnw"></figure>
+            </div>
+          </div>
+          <footer class="r-foot" data-page-node-id="eqSHJka8scgA9q3s7u9lNz">
+            <p data-page-node-id="jUvQn2W1G3zvdNsOHcyguE">虚拟偶像 × 赛博舞台 × 数字媒体艺术</p>
+            <p data-page-node-id="fRmtzdcGwRG5RNXYgXcvpz">角色概念网站 · 视觉概念</p>
+          </footer>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    (() => {
+      /* —— 立绘轮播 —— */
+      const scenes = [
+        ["assets/img/hero-poster.jpg", "主视觉 · 代码与霞光", 1.6],
+        ["assets/img/threeview-a.jpg", "标准三视图 · 深红战衣", 1.778],
+        ["assets/img/threeview-b.jpg", "标准三视图 · 红白纹样", 1.778],
+        ["assets/img/design-flower.jpg", "立绘设计 · 花海", 1.778],
+        ["assets/img/board2-hero.jpg", "影像 · 废墟独行", 1.47],
+        ["assets/img/board3-hero.jpg", "影像 · 天台与发光猫", 1.46],
+        ["assets/img/still-05.jpg", "影像 · 暗夜列队", 1.85],
+        ["assets/img/still-18.jpg", "影像 · 天台与猫", 1.74]
+      ];
+      const fan = document.getElementById("fan");
+      const prevBtn = document.getElementById("fan-prev");
+      const nextBtn = document.getElementById("fan-next");
+      const countEl = document.getElementById("fan-count");
+      const dotEl = document.getElementById("fan-dot");
+      const navButtons = Array.from(document.querySelectorAll(".win-nav button[data-tag]"));
+      let active = 0;
+      let timer = null;
+
+      const items = scenes.map(([src, name, ratio], index) => {
+        const fig = document.createElement("div");
+        fig.className = "fan-item";
+        fig.style.aspectRatio = String(ratio);
+        fig.innerHTML = `<img src="${src}" alt="${name}" draggable="false">`;
+        fig.title = name;
+        fig.addEventListener("click", () => { if (index !== active) select(index); });
+        fan.insertBefore(fig, prevBtn);
+        return fig;
+      });
+
+      const render = () => {
+        items.forEach((item, index) => {
+          let offset = index - active;
+          if (offset > items.length / 2) offset -= items.length;
+          if (offset < -items.length / 2) offset += items.length;
+          const distance = Math.abs(offset);
+          const x = offset * 42 * (1 - Math.min(distance, 3) * .1);
+          const scale = 1 - Math.min(distance, 4) * .05;
+          const opacity = distance > 2 ? 0 : Math.max(.3, 1 - distance * .3);
+          item.style.transform = `translate(-50%, -50%) translateX(${x}%) rotateY(${offset * -7}deg) rotate(${offset * 1.2}deg) scale(${scale})`;
+          item.style.opacity = opacity;
+          item.style.zIndex = String(20 - distance * 2);
+          item.setAttribute("aria-hidden", String(distance > 1));
+        });
+        countEl.textContent = `${String(active + 1).padStart(2, "0")} / ${String(items.length).padStart(2, "0")}`;
+        dotEl.style.left = `${(active / (items.length - 1)) * 100}%`;
+      };
+
+      const tagOf = ["art", "view", "view", "art", "scene", "scene", "scene", "scene"];
+
+      const select = (index) => {
+        active = (index + items.length) % items.length;
+        render();
+        navButtons.forEach((b) => { b.dataset.on = "false"; });
+        navButtons.filter((b) => b.dataset.tag === tagOf[active]).forEach((b) => { b.dataset.on = "true"; });
+      };
+
+      const play = () => { stop(); timer = setInterval(() => select(active + 1), 4200); };
+      const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+
+      prevBtn.addEventListener("click", () => { select(active - 1); play(); });
+      nextBtn.addEventListener("click", () => { select(active + 1); play(); });
+      fan.addEventListener("pointerdown", (e) => {
+        const startX = e.clientX;
+        const up = (ev) => {
+          const delta = ev.clientX - startX;
+          if (Math.abs(delta) > 40) { select(active + (delta < 0 ? 1 : -1)); play(); }
+          window.removeEventListener("pointerup", up);
+        };
+        window.addEventListener("pointerup", up);
+      });
+      fan.addEventListener("mouseenter", stop);
+      fan.addEventListener("mouseleave", play);
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") { select(active - 1); play(); }
+        if (e.key === "ArrowRight") { select(active + 1); play(); }
+      });
+
+      navButtons.forEach((button) => {
+        button.addEventListener("click", () => { select(Number(button.dataset.jump)); play(); });
+      });
+
+      select(0);
+      play();
+    })();
+  </script>
+
+  <script>
+    (() => {
+      if (new URLSearchParams(location.search).get('embed') !== '1') return;
+      document.documentElement.classList.add('embed-mode');
+      const reportHeight = () => parent.postMessage({
+        type: 'idol-content-height',
+        height: document.documentElement.scrollHeight
+      }, '*');
+      window.addEventListener('load', reportHeight);
+      window.addEventListener('resize', reportHeight, { passive: true });
+      new ResizeObserver(reportHeight).observe(document.querySelector('.stage'));
+      reportHeight();
+
+      const forwardScroll = (deltaY) => parent.postMessage({ type: 'idol-global-wheel', deltaY }, '*');
+      window.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        const scale = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+        forwardScroll(event.deltaY * scale);
+      }, { passive: false });
+
+      let touchX = 0;
+      let touchY = 0;
+      window.addEventListener('touchstart', (event) => {
+        touchX = event.touches[0]?.clientX || 0;
+        touchY = event.touches[0]?.clientY || 0;
+      }, { passive: true });
+      window.addEventListener('touchmove', (event) => {
+        if (event.target.closest('video, button, a')) return;
+        const touch = event.touches[0];
+        if (!touch) return;
+        const dx = touch.clientX - touchX;
+        const dy = touch.clientY - touchY;
+        if (Math.abs(dy) <= Math.abs(dx)) return;
+        event.preventDefault();
+        forwardScroll(-dy);
+        touchX = touch.clientX;
+        touchY = touch.clientY;
+      }, { passive: false });
+    })();
+  </script>
+</body>
+</html>

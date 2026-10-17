@@ -1,0 +1,1164 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#030407">
+  <meta name="description" content="南红·觉醒——滚动控制的 PNG 序列帧交互作品。">
+  <title>南红 · 觉醒</title>
+  <script>if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode')</script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23030407'/%3E%3Cpath d='M5 16s4-7 11-7 11 7 11 7-4 7-11 7S5 16 5 16Z' fill='none' stroke='%23ff3158' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23ff3158'/%3E%3Ccircle cx='17.5' cy='14.5' r='1.2' fill='%23fff'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #030407;
+      --paper: #f4f7ff;
+      --cyan: #61e7ff;
+      --red: #ff3158;
+      --muted: rgba(234, 240, 255, 0.62);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--ink);
+      scroll-behavior: auto;
+      scrollbar-color: rgba(97, 231, 255, 0.45) var(--ink);
+    }
+
+    html.embed-mode { scrollbar-width: none; }
+    html.embed-mode::-webkit-scrollbar { display: none; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      overflow-x: hidden;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+    }
+
+    .sequence {
+      position: relative;
+      height: 300svh;
+      min-height: 1800px;
+      background: var(--ink);
+    }
+
+    .idol-replacement {
+      width: 100%;
+      min-height: 100svh;
+      background: #1c0b26;
+    }
+
+    .idol-replacement iframe {
+      display: block;
+      width: 100%;
+      height: 100svh;
+      min-height: 480px;
+      border: 0;
+      background: #1c0b26;
+    }
+
+    .stage {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100svh;
+      min-height: 480px;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 50% 48%, rgba(150, 0, 30, 0.08), transparent 45%),
+        var(--ink);
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: var(--ink);
+    }
+
+    .stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(3, 4, 7, 0.24), transparent 18%, transparent 78%, rgba(3, 4, 7, 0.38)),
+        radial-gradient(circle at center, transparent 55%, rgba(3, 4, 7, 0.3) 100%);
+    }
+
+    .brand {
+      position: absolute;
+      z-index: 3;
+      top: max(24px, env(safe-area-inset-top));
+      left: max(24px, env(safe-area-inset-left));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .brand-mark {
+      width: 8px;
+      height: 34px;
+      border-radius: 99px;
+      background: linear-gradient(180deg, var(--cyan), var(--red));
+      box-shadow: 0 0 18px rgba(255, 49, 88, 0.72);
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 1rem;
+      font-weight: 650;
+      letter-spacing: 0.2em;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .chapter {
+      position: absolute;
+      z-index: 3;
+      top: max(28px, env(safe-area-inset-top));
+      right: max(28px, env(safe-area-inset-right));
+      min-width: 5em;
+      color: rgba(244, 247, 255, 0.8);
+      font-size: 0.875rem;
+      letter-spacing: 0.35em;
+      text-align: right;
+      text-shadow: 0 0 16px rgba(97, 231, 255, 0.35);
+      transition: opacity 240ms ease;
+    }
+
+    .hint {
+      position: absolute;
+      z-index: 3;
+      left: 50%;
+      bottom: max(32px, calc(env(safe-area-inset-bottom) + 20px));
+      display: grid;
+      justify-items: center;
+      gap: 12px;
+      transform: translateX(-50%);
+      color: rgba(244, 247, 255, 0.76);
+      font-size: 0.875rem;
+      letter-spacing: 0.2em;
+      white-space: nowrap;
+      pointer-events: none;
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+
+    .hint::after {
+      content: "";
+      width: 1px;
+      height: 38px;
+      background: linear-gradient(180deg, var(--cyan), transparent);
+      box-shadow: 0 0 10px rgba(97, 231, 255, 0.65);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    .hint.is-hidden {
+      opacity: 0;
+      transform: translate(-50%, 10px);
+    }
+
+    .progress {
+      position: absolute;
+      z-index: 3;
+      right: max(18px, env(safe-area-inset-right));
+      top: 50%;
+      width: 2px;
+      height: min(28vh, 220px);
+      overflow: hidden;
+      border-radius: 99px;
+      background: rgba(244, 247, 255, 0.16);
+      transform: translateY(-50%);
+    }
+
+    .progress-fill {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, var(--cyan), var(--red));
+      box-shadow: 0 0 14px rgba(255, 49, 88, 0.7);
+      transform: scaleY(0);
+      transform-origin: top;
+      will-change: transform;
+    }
+
+    .loading {
+      position: absolute;
+      z-index: 5;
+      inset: 0;
+      display: grid;
+      place-content: center;
+      justify-items: center;
+      gap: 18px;
+      background: var(--ink);
+      color: rgba(244, 247, 255, 0.72);
+      font-size: 0.875rem;
+      letter-spacing: 0.22em;
+      transition: opacity 500ms ease, visibility 500ms ease;
+    }
+
+    .loading.is-hidden {
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    .loader-eye {
+      position: relative;
+      width: 58px;
+      height: 30px;
+      border: 1px solid rgba(97, 231, 255, 0.7);
+      border-radius: 58px / 30px;
+      box-shadow: inset 0 0 18px rgba(97, 231, 255, 0.08), 0 0 18px rgba(97, 231, 255, 0.12);
+    }
+
+    .loader-eye::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 16px var(--red);
+      transform: translate(-50%, -50%);
+      animation: awaken 1.4s ease-in-out infinite;
+    }
+
+    .error-message {
+      max-width: min(82vw, 520px);
+      margin: 0;
+      color: rgba(244, 247, 255, 0.76);
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .noscript {
+      position: fixed;
+      z-index: 10;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: var(--ink);
+    }
+
+    .noscript img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0.58;
+    }
+
+    .noscript p {
+      position: relative;
+      z-index: 1;
+      font-size: 1rem;
+    }
+
+    .editorial-section {
+      position: relative;
+      overflow: hidden;
+      min-height: 100svh;
+      padding: clamp(76px, 9vw, 150px) clamp(22px, 6vw, 96px);
+    }
+
+    .editorial-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.17;
+      background-image:
+        linear-gradient(rgba(97, 231, 255, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(97, 231, 255, 0.12) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+    }
+
+    .section-shell {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 1440px);
+      margin: 0 auto;
+    }
+
+    .section-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: clamp(46px, 7vw, 96px);
+      color: rgba(244, 247, 255, 0.58);
+      font-size: 0.78rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .section-topline::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      margin-left: clamp(10px, 3vw, 48px);
+      background: linear-gradient(90deg, rgba(97, 231, 255, 0.55), transparent);
+    }
+
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 800ms ease, transform 800ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .idol-profile {
+      color: #f6f7fb;
+      background:
+        radial-gradient(circle at 78% 30%, rgba(255, 31, 82, 0.17), transparent 34%),
+        radial-gradient(circle at 12% 88%, rgba(45, 196, 255, 0.1), transparent 31%),
+        linear-gradient(145deg, #08070d 0%, #10070d 48%, #030407 100%);
+    }
+
+    .idol-profile__hero {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(440px, 1.1fr);
+      align-items: center;
+      gap: clamp(42px, 7vw, 110px);
+    }
+
+    .idol-profile__index {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 22px;
+      color: var(--cyan);
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+    }
+
+    .idol-profile__index::before {
+      content: "";
+      width: 30px;
+      height: 2px;
+      background: var(--red);
+      box-shadow: 0 0 12px var(--red);
+    }
+
+    .idol-profile h2 {
+      margin: 0;
+      font-size: clamp(4.8rem, 11vw, 10.5rem);
+      font-weight: 760;
+      line-height: 0.78;
+      letter-spacing: -0.085em;
+    }
+
+    .idol-profile h2 span {
+      display: block;
+      margin-top: 0.22em;
+      color: transparent;
+      font-size: 0.29em;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0.38em;
+      -webkit-text-stroke: 1px rgba(244, 247, 255, 0.48);
+    }
+
+    .idol-profile__role {
+      margin: 38px 0 0;
+      color: rgba(244, 247, 255, 0.54);
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .idol-profile__lead {
+      max-width: 600px;
+      margin: 22px 0 0;
+      font-size: clamp(1.15rem, 2vw, 1.72rem);
+      line-height: 1.72;
+      letter-spacing: 0.05em;
+    }
+
+    .idol-profile__lead strong {
+      color: #ff637f;
+      font-weight: 650;
+    }
+
+    .idol-profile__meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      margin: 42px 0 0;
+      border: 1px solid rgba(244, 247, 255, 0.12);
+      background: rgba(244, 247, 255, 0.12);
+    }
+
+    .idol-profile__meta div {
+      min-height: 108px;
+      padding: 21px 22px;
+      background: rgba(5, 5, 9, 0.92);
+    }
+
+    .idol-profile__meta dt {
+      color: rgba(244, 247, 255, 0.42);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .idol-profile__meta dd {
+      margin: 10px 0 0;
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+
+    .idol-profile__visual {
+      --mx: 0px;
+      --my: 0px;
+      position: relative;
+      min-height: min(76svh, 850px);
+      overflow: hidden;
+      border: 1px solid rgba(97, 231, 255, 0.24);
+      background: #09080d;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.52), 0 0 42px rgba(255, 49, 88, 0.08);
+    }
+
+    .idol-profile__visual > img {
+      width: 100%;
+      height: 100%;
+      min-height: min(76svh, 850px);
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.035) translate(var(--mx), var(--my));
+      transition: transform 120ms linear;
+      filter: saturate(1.08) contrast(1.04);
+    }
+
+    .idol-profile__visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(3,4,7,.06), transparent 45%, rgba(3,4,7,.86)),
+        linear-gradient(90deg, rgba(3,4,7,.52), transparent 38%);
+      pointer-events: none;
+    }
+
+    .idol-profile__signal {
+      position: absolute;
+      z-index: 2;
+      top: 26px;
+      right: 24px;
+      padding: 10px 12px;
+      border: 1px solid rgba(97, 231, 255, 0.42);
+      background: rgba(3, 4, 7, 0.52);
+      color: var(--cyan);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      backdrop-filter: blur(10px);
+    }
+
+    .idol-profile__visual-title {
+      position: absolute;
+      z-index: 2;
+      left: 28px;
+      right: 28px;
+      bottom: 26px;
+    }
+
+    .idol-profile__visual-title span {
+      display: block;
+      color: rgba(244, 247, 255, 0.54);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+    }
+
+    .idol-profile__visual-title strong {
+      display: block;
+      margin-top: 8px;
+      font-size: clamp(1.35rem, 2.4vw, 2.4rem);
+      font-weight: 520;
+      letter-spacing: 0.08em;
+    }
+
+    .idol-profile__codes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: clamp(56px, 8vw, 112px);
+      background: rgba(244, 247, 255, 0.12);
+      border: 1px solid rgba(244, 247, 255, 0.12);
+    }
+
+    .idol-code {
+      min-height: 220px;
+      padding: 28px;
+      background: rgba(6, 6, 10, 0.97);
+    }
+
+    .idol-code span {
+      color: var(--red);
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.12em;
+    }
+
+    .idol-code h3 {
+      margin: 28px 0 14px;
+      font-size: 1.3rem;
+      font-weight: 580;
+    }
+
+    .idol-code p {
+      margin: 0;
+      color: rgba(244, 247, 255, 0.58);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .idol-profile__strip {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .idol-profile__strip figure {
+      position: relative;
+      min-height: 220px;
+      margin: 0;
+      overflow: hidden;
+      background: #09090d;
+    }
+
+    .idol-profile__strip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 700ms cubic-bezier(.2,.8,.2,1), filter 700ms ease;
+    }
+
+    .idol-profile__strip figure:hover img {
+      transform: scale(1.045);
+      filter: saturate(1.2);
+    }
+
+    .idol-profile__strip figcaption {
+      position: absolute;
+      left: 16px;
+      bottom: 14px;
+      padding: 6px 8px;
+      background: rgba(3, 4, 7, 0.66);
+      color: rgba(244, 247, 255, 0.76);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      backdrop-filter: blur(8px);
+    }
+
+    .film-project {
+      color: #f7f4f6;
+      background:
+        radial-gradient(circle at 18% 28%, rgba(97, 231, 255, 0.1), transparent 32%),
+        radial-gradient(circle at 82% 18%, rgba(255, 49, 88, 0.15), transparent 34%),
+        #050509;
+    }
+
+    .film-project__header {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.7fr);
+      align-items: end;
+      gap: clamp(38px, 8vw, 128px);
+      margin-bottom: clamp(42px, 7vw, 90px);
+    }
+
+    .film-project h2 {
+      margin: 0;
+      font-size: clamp(3.6rem, 8vw, 8rem);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+    }
+
+    .film-project h2 em {
+      color: transparent;
+      font-style: normal;
+      -webkit-text-stroke: 1px rgba(97, 231, 255, 0.72);
+    }
+
+    .film-project__intro {
+      margin: 0;
+      color: rgba(247, 244, 246, 0.62);
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+
+    .film-frame {
+      position: relative;
+      padding: clamp(6px, 0.8vw, 12px);
+      border: 1px solid rgba(97, 231, 255, 0.28);
+      background: linear-gradient(135deg, rgba(97, 231, 255, 0.15), rgba(255, 49, 88, 0.12));
+      box-shadow: 0 32px 100px rgba(0,0,0,.55), 0 0 50px rgba(97,231,255,.07);
+    }
+
+    .film-frame video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 2522 / 1440;
+      object-fit: contain;
+      background: #000;
+    }
+
+    .film-frame__caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 16px 6px 4px;
+      color: rgba(247, 244, 246, 0.58);
+      font-size: 0.76rem;
+      letter-spacing: 0.16em;
+    }
+
+    .film-statement {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
+      gap: clamp(36px, 9vw, 150px);
+      padding: clamp(70px, 10vw, 150px) 0;
+      border-bottom: 1px solid rgba(244, 247, 255, 0.12);
+    }
+
+    .film-statement__label {
+      margin: 0;
+      color: var(--red);
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+    }
+
+    .film-statement h3 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 4.6rem);
+      font-weight: 520;
+      line-height: 1.16;
+      letter-spacing: -0.035em;
+    }
+
+    .film-statement p:last-child {
+      max-width: 720px;
+      margin: 28px 0 0;
+      color: rgba(247, 244, 246, 0.58);
+      font-size: 1rem;
+      line-height: 1.95;
+    }
+
+    .film-design-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin: 0 0 clamp(76px, 10vw, 150px);
+      border-left: 1px solid rgba(244, 247, 255, 0.12);
+    }
+
+    .film-design-grid article {
+      min-height: 250px;
+      padding: 30px 26px;
+      border-right: 1px solid rgba(244, 247, 255, 0.12);
+      border-bottom: 1px solid rgba(244, 247, 255, 0.12);
+    }
+
+    .film-design-grid span {
+      color: var(--cyan);
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 0.76rem;
+    }
+
+    .film-design-grid h3 {
+      margin: 38px 0 15px;
+      font-size: 1.16rem;
+      font-weight: 580;
+    }
+
+    .film-design-grid p {
+      margin: 0;
+      color: rgba(247, 244, 246, 0.5);
+      font-size: 0.92rem;
+      line-height: 1.78;
+    }
+
+    .archive-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .archive-heading h3 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 4rem);
+      font-weight: 560;
+    }
+
+    .archive-heading p {
+      margin: 0;
+      color: rgba(247, 244, 246, 0.48);
+      font-size: 0.78rem;
+      letter-spacing: 0.17em;
+    }
+
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(12px, 2vw, 26px);
+    }
+
+    .board-card {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      aspect-ratio: 3508 / 4961;
+      border: 1px solid rgba(244, 247, 255, 0.13);
+      background: #0a090d;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .board-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      filter: saturate(0.84) contrast(1.03);
+      transition: transform 900ms cubic-bezier(.2,.8,.2,1), filter 900ms ease;
+    }
+
+    .board-card:hover img,
+    .board-card:focus-visible img {
+      transform: scale(1.035);
+      filter: saturate(1.04) contrast(1.04);
+    }
+
+    .board-card span {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      padding: 8px 10px;
+      background: rgba(3,4,7,.76);
+      color: rgba(244,247,255,.82);
+      font-size: 0.75rem;
+      letter-spacing: 0.13em;
+      backdrop-filter: blur(10px);
+    }
+
+    .film-project__closing {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-top: clamp(70px, 9vw, 130px);
+      padding-top: 32px;
+      border-top: 1px solid rgba(244, 247, 255, 0.12);
+    }
+
+    .film-project__closing strong {
+      max-width: 760px;
+      font-size: clamp(1.5rem, 3vw, 3.3rem);
+      font-weight: 480;
+      line-height: 1.35;
+    }
+
+    .film-project__closing span {
+      color: rgba(244, 247, 255, 0.44);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-align: right;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.25; transform: scaleY(0.7); transform-origin: top; }
+      50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+    }
+
+    @keyframes awaken {
+      0%, 100% { opacity: 0.45; transform: translate(-50%, -50%) scale(0.65); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    @media (max-width: 640px) {
+      .sequence { height: 340svh; }
+      .brand { top: max(18px, env(safe-area-inset-top)); left: max(18px, env(safe-area-inset-left)); }
+      .brand-mark { height: 29px; }
+      .brand strong { font-size: 0.9rem; }
+      .brand span { font-size: 0.75rem; }
+      .chapter { top: max(21px, env(safe-area-inset-top)); right: max(18px, env(safe-area-inset-right)); }
+      .progress { right: max(10px, env(safe-area-inset-right)); }
+      .editorial-section { padding: 72px 18px; }
+      .section-topline { align-items: flex-start; font-size: 0.7rem; line-height: 1.6; }
+      .idol-profile__hero, .film-project__header, .film-statement { grid-template-columns: 1fr; }
+      .idol-profile__hero { gap: 46px; }
+      .idol-profile h2 { font-size: clamp(4.4rem, 29vw, 7rem); }
+      .idol-profile__visual, .idol-profile__visual > img { min-height: 62svh; }
+      .idol-profile__meta, .idol-profile__codes, .film-design-grid, .board-grid { grid-template-columns: 1fr; }
+      .idol-profile__strip { grid-template-columns: 1fr; }
+      .idol-profile__strip figure { min-height: 240px; }
+      .idol-code { min-height: 0; }
+      .film-project__header { align-items: start; }
+      .film-frame__caption, .archive-heading, .film-project__closing { align-items: flex-start; flex-direction: column; }
+      .film-statement { gap: 28px; }
+      .film-design-grid { border-top: 1px solid rgba(244,247,255,.12); }
+      .film-design-grid article { min-height: 0; border-left: 1px solid rgba(244,247,255,.12); }
+      .board-card { aspect-ratio: 3508 / 4961; }
+      .film-project__closing span { text-align: left; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hint, .chapter, .loading { transition: none; }
+      .hint::after, .loader-eye::after { animation: none; }
+      [data-reveal], .idol-profile__visual > img { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="sequence" id="sequence">
+    <section class="stage" aria-label="南红觉醒序列帧交互动画">
+      <canvas id="sequenceCanvas" role="img" aria-label="闭眼、能量启动、机械倒计时与人物登场动画"></canvas>
+
+      <div class="brand" aria-hidden="true">
+        <i class="brand-mark"></i>
+        <div><strong>南红 · 觉醒</strong><span>Nanhong awakening</span></div>
+      </div>
+
+      <div class="chapter" id="chapter" aria-live="polite">沉睡</div>
+      <div class="hint" id="hint" aria-hidden="true">向下滑动 · 唤醒</div>
+
+      <div class="progress" id="progress" role="progressbar" aria-label="动画进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="loading" id="loading" aria-live="polite">
+        <div class="loader-eye" aria-hidden="true"></div>
+        <span id="loadingText">序列载入中</span>
+      </div>
+    </section>
+  </main>
+
+  <section class="idol-replacement" id="idolReplacement" aria-label="偶像·南红完整作品">
+    <iframe id="idolReplacementFrame" src="idol/index.html?embed=1" title="偶像·南红：角色概念与影像展示" loading="eager" scrolling="no"></iframe>
+  </section>
+
+  <noscript>
+    <div class="noscript">
+      <img src="assets/frames-web/frame_0000.webp" alt="南红觉醒动画首帧">
+      <p>请启用 JavaScript 以滚动控制动画。</p>
+    </div>
+  </noscript>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const FRAME_COUNT = 78;
+      const LAST_FRAME = FRAME_COUNT - 1;
+      const FRAME_WIDTH = 1920;
+      const FRAME_HEIGHT = 1080;
+      const FRAME_PATH = 'assets/frames-web/frame_';
+      const MAX_CACHE = window.innerWidth <= 640 ? 2 : 4;
+      const MAX_CONCURRENT = window.innerWidth <= 640 ? 1 : 2;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const sequence = document.getElementById('sequence');
+      const canvas = document.getElementById('sequenceCanvas');
+      const context = canvas.getContext('2d', { alpha: false, desynchronized: true });
+      const loading = document.getElementById('loading');
+      const loadingText = document.getElementById('loadingText');
+      const hint = document.getElementById('hint');
+      const chapter = document.getElementById('chapter');
+      const progress = document.getElementById('progress');
+      const progressFill = document.getElementById('progressFill');
+
+      const cache = new Map();
+      const queued = new Set();
+      const failed = new Set();
+      const queue = [];
+      let activeLoads = 0;
+      let targetFrame = 0;
+      let displayFrame = 0;
+      let lastDrawn = -1;
+      let lastChapter = '';
+      let viewportWidth = 0;
+      let viewportHeight = 0;
+      let hasInteracted = false;
+      let rafPending = false;
+
+      const frameUrl = (index) => `${FRAME_PATH}${String(index).padStart(4, '0')}.webp`;
+
+      function mapProgressToFrame(value) {
+        const p = Math.max(0, Math.min(1, value));
+        if (p < 0.7) return (p / 0.7) * 70;
+        return 70 + ((p - 0.7) / 0.3) * 7;
+      }
+
+      function getScrollProgress() {
+        const rect = sequence.getBoundingClientRect();
+        const distance = Math.max(1, sequence.offsetHeight - window.innerHeight);
+        return Math.max(0, Math.min(1, -rect.top / distance));
+      }
+
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        viewportWidth = Math.max(1, Math.round(rect.width * dpr));
+        viewportHeight = Math.max(1, Math.round(rect.height * dpr));
+        if (canvas.width !== viewportWidth || canvas.height !== viewportHeight) {
+          canvas.width = viewportWidth;
+          canvas.height = viewportHeight;
+          lastDrawn = -1;
+          drawNearest(Math.round(displayFrame));
+        }
+      }
+
+      function drawImage(image) {
+        if (!image || !image.naturalWidth) return;
+        context.fillStyle = '#030407';
+        context.fillRect(0, 0, viewportWidth, viewportHeight);
+        const scale = Math.min(viewportWidth / FRAME_WIDTH, viewportHeight / FRAME_HEIGHT);
+        const drawWidth = Math.round(FRAME_WIDTH * scale);
+        const drawHeight = Math.round(FRAME_HEIGHT * scale);
+        const x = Math.round((viewportWidth - drawWidth) / 2);
+        const y = Math.round((viewportHeight - drawHeight) / 2);
+        context.drawImage(image, x, y, drawWidth, drawHeight);
+      }
+
+      function nearestLoaded(index) {
+        if (cache.has(index)) return index;
+        for (let distance = 1; distance < FRAME_COUNT; distance += 1) {
+          const before = index - distance;
+          const after = index + distance;
+          if (before >= 0 && cache.has(before)) return before;
+          if (after <= LAST_FRAME && cache.has(after)) return after;
+        }
+        return -1;
+      }
+
+      function drawNearest(index) {
+        const loadedIndex = nearestLoaded(index);
+        if (loadedIndex < 0 || loadedIndex === lastDrawn) return;
+        const record = cache.get(loadedIndex);
+        record.used = performance.now();
+        drawImage(record.image);
+        lastDrawn = loadedIndex;
+      }
+
+      function trimCache() {
+        if (cache.size <= MAX_CACHE) return;
+        const protectedFrames = new Set([0, LAST_FRAME, Math.round(targetFrame)]);
+        const removable = [...cache.entries()]
+          .filter(([index]) => !protectedFrames.has(index))
+          .sort((a, b) => {
+            const distanceA = Math.abs(a[0] - targetFrame);
+            const distanceB = Math.abs(b[0] - targetFrame);
+            return distanceB - distanceA || a[1].used - b[1].used;
+          });
+        while (cache.size > MAX_CACHE && removable.length) {
+          const [index] = removable.shift();
+          cache.delete(index);
+        }
+      }
+
+      function enqueueFrame(index, priority = false) {
+        const safeIndex = Math.max(0, Math.min(LAST_FRAME, Math.round(index)));
+        if (cache.has(safeIndex) || queued.has(safeIndex) || failed.has(safeIndex)) return;
+        queued.add(safeIndex);
+        if (priority) queue.unshift(safeIndex);
+        else queue.push(safeIndex);
+        pumpQueue();
+      }
+
+      function pumpQueue() {
+        while (activeLoads < MAX_CONCURRENT && queue.length) {
+          const index = queue.shift();
+          activeLoads += 1;
+          const image = new Image();
+          image.decoding = 'async';
+          image.onload = () => {
+            activeLoads -= 1;
+            queued.delete(index);
+            cache.set(index, { image, used: performance.now() });
+            trimCache();
+            if (index === 0) {
+              loading.classList.add('is-hidden');
+              drawNearest(Math.round(displayFrame));
+            }
+            if (Math.abs(index - Math.round(displayFrame)) <= 1) {
+              lastDrawn = -1;
+              drawNearest(Math.round(displayFrame));
+            }
+            pumpQueue();
+          };
+          image.onerror = () => {
+            activeLoads -= 1;
+            queued.delete(index);
+            failed.add(index);
+            if (index === 0) {
+              loadingText.className = 'error-message';
+              loadingText.textContent = '未找到序列帧。请确认 index.html 与 assets 文件夹保持在同一目录。';
+            }
+            pumpQueue();
+          };
+          image.src = frameUrl(index);
+        }
+      }
+
+      function warmFrames(center) {
+        const rounded = Math.round(center);
+        const radius = window.innerWidth <= 640 ? 1 : 2;
+        enqueueFrame(rounded, true);
+        for (let distance = 1; distance <= radius; distance += 1) {
+          enqueueFrame(rounded + distance, distance <= 3);
+          enqueueFrame(rounded - distance, distance <= 3);
+        }
+      }
+
+      function updateInterface(scrollProgress) {
+        progressFill.style.transform = `scaleY(${scrollProgress})`;
+        progress.setAttribute('aria-valuenow', String(Math.round(scrollProgress * 100)));
+
+        const frame = Math.round(targetFrame);
+        const nextChapter = frame < 70 ? '沉睡' : '觉醒';
+        if (nextChapter !== lastChapter) {
+          chapter.textContent = nextChapter;
+          lastChapter = nextChapter;
+        }
+
+        if (!hasInteracted && scrollProgress > 0.008) {
+          hasInteracted = true;
+          hint.classList.add('is-hidden');
+        }
+      }
+
+      function tick() {
+        rafPending = false;
+        const difference = targetFrame - displayFrame;
+        if (reducedMotion || Math.abs(difference) < 0.08) displayFrame = targetFrame;
+        else displayFrame += difference * 0.16;
+
+        const index = Math.round(displayFrame);
+        warmFrames(index);
+        drawNearest(index);
+
+        if (Math.abs(targetFrame - displayFrame) >= 0.08) requestTick();
+      }
+
+      function requestTick() {
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(tick);
+      }
+
+      function handleScroll() {
+        const scrollProgress = getScrollProgress();
+        targetFrame = mapProgressToFrame(scrollProgress);
+        updateInterface(scrollProgress);
+        requestTick();
+      }
+
+      enqueueFrame(0, true);
+      enqueueFrame(70);
+      enqueueFrame(LAST_FRAME);
+      resizeCanvas();
+      handleScroll();
+
+      const revealItems = document.querySelectorAll('[data-reveal]');
+      if (reducedMotion || !('IntersectionObserver' in window)) {
+        revealItems.forEach((item) => item.classList.add('is-visible'));
+      } else {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+        revealItems.forEach((item) => revealObserver.observe(item));
+      }
+
+      const profileVisual = document.getElementById('profileVisual');
+      if (profileVisual && !reducedMotion && window.matchMedia('(pointer: fine)').matches) {
+        profileVisual.addEventListener('pointermove', (event) => {
+          const rect = profileVisual.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width - 0.5;
+          const y = (event.clientY - rect.top) / rect.height - 0.5;
+          profileVisual.style.setProperty('--mx', `${(x * 10).toFixed(2)}px`);
+          profileVisual.style.setProperty('--my', `${(y * 10).toFixed(2)}px`);
+        });
+        profileVisual.addEventListener('pointerleave', () => {
+          profileVisual.style.setProperty('--mx', '0px');
+          profileVisual.style.setProperty('--my', '0px');
+        });
+      }
+
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('resize', () => {
+        resizeCanvas();
+        handleScroll();
+      }, { passive: true });
+      window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 120), { passive: true });
+    })();
+  </script>
+  <script>
+    (() => {
+      const frame = document.getElementById('idolReplacementFrame');
+      if (!frame) return;
+      window.addEventListener('message', (event) => {
+        if (event.source !== frame.contentWindow || !event.data || typeof event.data !== 'object') return;
+        if (event.data.type === 'idol-content-height') {
+          const height = Number(event.data.height);
+          if (Number.isFinite(height) && height > 0) {
+            const nextHeight = Math.max(window.innerHeight, Math.ceil(height));
+            if (Math.abs(frame.getBoundingClientRect().height - nextHeight) > 1) frame.style.height = `${nextHeight}px`;
+          }
+        } else if (event.data.type === 'idol-global-wheel') {
+          const deltaY = Number(event.data.deltaY);
+          if (!Number.isFinite(deltaY)) return;
+          if (document.documentElement.classList.contains('embed-mode')) {
+            parent.postMessage({ type: 'project-global-wheel', deltaY }, '*');
+          } else {
+            window.scrollBy({ top: deltaY, behavior: 'auto' });
+          }
+        }
+      });
+    })();
+  </script>
+  <script>
+    (() => {
+      if (!document.documentElement.classList.contains('embed-mode')) return;
+      const report = () => parent.postMessage({ type: 'project-scroll-metrics', height: document.documentElement.scrollHeight }, '*');
+      window.addEventListener('load', () => { report(); setTimeout(report, 500); setTimeout(report, 1500); });
+      new ResizeObserver(report).observe(document.body);
+      window.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        const scale = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+        parent.postMessage({ type: 'project-global-wheel', deltaY: event.deltaY * scale }, '*');
+      }, { passive: false });
+      window.addEventListener('message', (event) => {
+        if (event.data?.type === 'portfolio-global-scroll') window.scrollTo(0, Number(event.data.scrollTop) || 0);
+      });
+    })();
+  </script>
+</body>
+</html>

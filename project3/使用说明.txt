@@ -1,0 +1,8 @@
+NOVA 互动网站（离线分享版）
+
+打开方式：
+1. 请先完整解压压缩包。
+2. 双击 index.html，即可使用浏览器打开网站。
+3. 请不要单独移动或发送 index.html；图片和视频文件需要与它保持在同一文件夹中。
+
+建议使用最新版 Microsoft Edge、Google Chrome 或其他 Chromium 内核浏览器。

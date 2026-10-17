@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="zh-CN" data-page-node-id="GdPHbeo2EcD1qqeASlKb4m">
+<head data-page-node-id="Mkva2Hn8UuEUE7N370wGt1">
+  <meta charset="utf-8" data-page-node-id="jAUaDnQKiEGxCZK1JrVZBS">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" data-page-node-id="CGiR2aZdj0Ybp8KM6jfwcj">
+  <meta name="theme-color" content="#e4f2d9" data-page-node-id="N3zrPartEav4A0F0a5GaE9">
+  <meta name="description" content="《窗间的二十四节气》— 一窗一节气，四时见中国。" data-page-node-id="rajnQnwrb0HLkKpfBDQPcE">
+  <title>窗间的二十四节气</title>
+  <script>if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode')</script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #2a3324;
+      --muted: #6d7a62;
+      --green: #5c8f45;
+      --red: #c14a35;
+      --line: rgba(42, 51, 36, .16);
+      --serif: "Songti SC", "STSong", "SimSun", serif;
+      --kai: "KaiTi", "Kaiti SC", "STKaiti", "SimSun", serif;
+      --xing: "STXingkai", "华文行楷", "Xingkai SC", "KaiTi", serif;
+      --sans: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: linear-gradient(180deg, #eaf5de 0%, #e3f1d4 46%, #dcedcd 100%);
+    }
+
+    /* ───── 水彩背景：AI 生成整幅底图 ───── */
+    .scenery {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: url("assets/gen/bg-watercolor.jpg") center / cover no-repeat;
+    }
+    .scenery::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .1;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    .stage {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(14px, 1.6vw, 26px);
+      padding: clamp(14px, 2.4vh, 30px) clamp(16px, 2.2vw, 38px);
+    }
+    @media (max-width: 1060px), (max-height: 620px) {
+      body { overflow: auto; }
+      .stage { height: auto; min-height: 100vh; grid-template-columns: 1fr; }
+    }
+
+    /* ───── 窗口面板：近乎透明，融入水彩背景 ───── */
+    .panel {
+      min-width: 0;
+      min-height: 0;
+      background: linear-gradient(180deg, rgba(253, 255, 249, .58), rgba(250, 253, 244, .30));
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(255, 255, 255, .55);
+      border-radius: 18px;
+      box-shadow: 0 20px 50px rgba(84, 106, 66, .14), 0 2px 6px rgba(84, 106, 66, .06);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .win-top {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px clamp(14px, 1.4vw, 22px) 9px;
+      border-bottom: 1px solid rgba(42, 51, 36, .12);
+      background: linear-gradient(180deg, rgba(255, 255, 255, .72), rgba(255, 255, 255, .30));
+    }
+    .dots { display: flex; gap: 6px; }
+    .dots i { width: 9px; height: 9px; border-radius: 50%; }
+    .dots i:nth-child(1) { background: #e8907e; }
+    .dots i:nth-child(2) { background: #ecd28b; }
+    .dots i:nth-child(3) { background: #a9cf8f; }
+    .win-logo { font: 400 clamp(15px, 1.35vw, 21px)/1 var(--xing); letter-spacing: .16em; margin: 0; }
+    .win-logo em { font-style: normal; color: var(--red); }
+    .win-nav { margin-left: auto; display: flex; align-items: center; gap: clamp(10px, 1.2vw, 20px); }
+    .win-nav button, .win-nav a {
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      padding: 4px 1px;
+      font: 600 clamp(12px, .95vw, 15px)/1 var(--serif);
+      letter-spacing: .18em;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color .2s ease, border-color .2s ease;
+    }
+    .win-nav button:hover, .win-nav a:hover { color: var(--red); }
+    .win-nav [data-on="true"] { color: var(--red); border-bottom-color: var(--red); }
+
+    .panel-body { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+
+    /* ───── 左面板：书法大标题 + 扇形图廊 ───── */
+    .hero { text-align: center; padding: clamp(14px, 3vh, 34px) 16px 0; }
+    .hero-row { display: inline-flex; align-items: flex-start; gap: 10px; }
+    .hero h1 {
+      margin: 0;
+      font: 400 clamp(38px, 4.6vw, 68px)/1.1 var(--xing);
+      letter-spacing: .1em;
+      color: #1f2a1a;
+    }
+    .hero-seal {
+      width: clamp(24px, 2vw, 32px);
+      height: auto;
+      margin-top: clamp(4px, .8vh, 10px);
+      filter: drop-shadow(0 2px 4px rgba(160, 50, 30, .3));
+    }
+    .hero-divider { display: block; width: 1px; height: clamp(14px, 2.2vh, 22px); margin: clamp(4px, .9vh, 10px) auto 0; background: rgba(42, 51, 36, .4); }
+    .hero p {
+      margin: clamp(4px, .8vh, 9px) 0 0;
+      font: 500 clamp(11px, .9vw, 14px)/1 var(--serif);
+      letter-spacing: .52em;
+      text-indent: .52em;
+      color: #4c5a44;
+    }
+
+    .fan { position: relative; flex: 1; min-height: 0; perspective: 1500px; touch-action: pan-y; }
+    .fan-item {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 74%;
+      max-width: 560px;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: #f2f6e8;
+      border: clamp(4px, .5vw, 7px) solid #fffdf6;
+      outline: 1px solid rgba(42, 51, 36, .16);
+      box-shadow: 0 18px 44px rgba(58, 76, 44, .22);
+      will-change: transform, opacity;
+      transition: transform .7s cubic-bezier(.2, .75, .18, 1), opacity .5s ease;
+      -webkit-box-reflect: below 8px linear-gradient(transparent 62%, rgba(0, 0, 0, .16));
+    }
+    .fan-item img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .fan-item[aria-hidden="true"] { pointer-events: none; }
+    .fan-arrow {
+      position: absolute;
+      z-index: 30;
+      top: 50%;
+      transform: translateY(-50%);
+      width: clamp(30px, 2.6vw, 42px);
+      height: clamp(30px, 2.6vw, 42px);
+      border: 1px solid rgba(42, 51, 36, .28);
+      border-radius: 50%;
+      background: rgba(253, 255, 248, .88);
+      color: var(--ink);
+      font-size: clamp(14px, 1.2vw, 18px);
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .fan-arrow:hover { background: #3d5232; color: #f4f9ec; transform: translateY(-50%) scale(1.06); }
+    .fan-arrow.prev { left: clamp(8px, 1.4vw, 22px); }
+    .fan-arrow.next { right: clamp(8px, 1.4vw, 22px); }
+
+    /* 进度：数字 + 点状虚线 + 红点，紧贴轮播 */
+    .fan-progress {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(5px, 1vh, 9px);
+      padding: 0 16px clamp(12px, 2.2vh, 24px);
+    }
+    .fan-count { font: 700 clamp(11px, .85vw, 13px)/1 "Times New Roman", serif; letter-spacing: 3px; color: var(--ink); }
+    .fan-line {
+      position: relative;
+      width: min(42%, 300px);
+      height: 3px;
+      background-image: radial-gradient(circle, rgba(42, 51, 36, .38) 1.2px, transparent 1.7px);
+      background-size: 26px 3px;
+      background-repeat: repeat-x;
+      background-position: center;
+    }
+    .fan-line i {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 3px rgba(193, 74, 53, .18);
+      transform: translate(-50%, -50%);
+      transition: left .5s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    /* ───── 右面板：双列（媒体列 + 文案列） ───── */
+    .right-body {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(0, .92fr);
+      gap: clamp(12px, 1.6vw, 26px);
+      padding: clamp(10px, 1.8vh, 20px) clamp(14px, 1.5vw, 24px) clamp(8px, 1.4vh, 14px);
+    }
+    .r-media { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto auto minmax(0, 1fr); gap: clamp(8px, 1.5vh, 15px); }
+
+    .video-box {
+      overflow: hidden;
+      border-radius: 15px;
+      border: clamp(3px, .38vw, 5px) solid var(--red);
+      box-shadow: 0 12px 30px rgba(58, 76, 44, .2), inset 0 0 0 1px rgba(255, 255, 255, .5);
+      background: #26301f;
+    }
+    .video-box video { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; background: #26301f; }
+
+    .cell-title { margin: 0; font: 700 clamp(12px, 1vw, 16px)/1 var(--serif); letter-spacing: .28em; color: #3c5a30; }
+    .cell-title i { display: inline-block; width: 22px; height: 1px; background: #3c5a30; vertical-align: middle; margin-left: 8px; }
+
+    .story-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .92fr); gap: clamp(8px, 1vw, 14px); margin-top: clamp(5px, 1vh, 10px); }
+    .story-grid p { margin: 0; font: 400 clamp(10px, .78vw, 12px)/1.8 var(--sans); letter-spacing: .04em; opacity: .9; }
+    .story-grid p strong { color: var(--ink); }
+    .story-fig { margin: 0; overflow: hidden; border-radius: 6px; border: 1px solid rgba(42, 51, 36, .16); }
+    .story-fig img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 4 / 3; }
+
+    .wall-block { min-height: 0; display: flex; flex-direction: column; }
+    .wall { flex: 1; min-height: 0; margin-top: clamp(5px, 1vh, 10px); display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: clamp(3px, .4vw, 6px); }
+    .wall figure { margin: 0; overflow: hidden; border: 1px solid rgba(42, 51, 36, .16); background: #f2f6e8; transition: opacity .3s ease, box-shadow .3s ease; }
+    .wall figure img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .45s ease; }
+    .wall figure:hover { box-shadow: 0 8px 18px rgba(58, 76, 44, .24); z-index: 2; }
+    .wall figure:hover img { transform: scale(1.09); }
+    .wall[data-focus="spring"] figure:not([data-season="spring"]),
+    .wall[data-focus="summer"] figure:not([data-season="summer"]),
+    .wall[data-focus="autumn"] figure:not([data-season="autumn"]),
+    .wall[data-focus="winter"] figure:not([data-season="winter"]) { opacity: .22; }
+
+    /* 文案列 */
+    .r-copy { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+    .slogan-row { display: flex; align-items: flex-start; gap: 8px; margin-top: clamp(4px, 1.6vh, 18px); }
+    .r-copy h2 { margin: 0; font: 700 clamp(24px, 2.35vw, 38px)/1.5 var(--serif); letter-spacing: .14em; color: #2f4526; }
+    .slogan-seal { width: clamp(20px, 1.7vw, 28px); height: auto; margin-top: 4px; filter: drop-shadow(0 2px 4px rgba(160, 50, 30, .3)); }
+    .r-rule { width: 34px; height: 2px; background: rgba(193, 74, 53, .75); margin: clamp(8px, 1.6vh, 16px) 0 0 2px; }
+    .r-intro { margin: clamp(8px, 1.8vh, 18px) 0 0; font: 400 clamp(11px, .88vw, 14px)/2 var(--serif); letter-spacing: .12em; color: #45523d; }
+    .r-intro strong { color: var(--ink); font-weight: 600; }
+
+    .season-row { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(6px, .9vw, 16px); margin: clamp(10px, 3vh, 30px) 0 0; padding: 0; }
+    .season-row li { text-align: center; }
+    .s-dot {
+      display: block;
+      width: clamp(48px, 4.4vw, 72px);
+      height: clamp(48px, 4.4vw, 72px);
+      margin: 0 auto;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(42, 51, 36, .12), 0 8px 18px rgba(58, 76, 44, .16);
+      transition: transform .25s ease;
+    }
+    .s-dot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .season-row li:hover .s-dot { transform: translateY(-4px); }
+    .season-row b { display: block; margin-top: clamp(4px, 1vh, 9px); font: 400 clamp(18px, 1.7vw, 27px)/1 var(--kai); letter-spacing: .2em; text-indent: .2em; color: #22301c; }
+    .season-row i { display: block; margin-top: clamp(3px, .7vh, 7px); font: 400 clamp(9px, .74vw, 12px)/1 var(--serif); font-style: normal; letter-spacing: .18em; color: #66755c; }
+
+    .r-foot { margin-top: auto; padding-top: clamp(8px, 1.8vh, 18px); border-top: 1px solid rgba(42, 51, 36, .12); }
+    .r-foot p { margin: 0; text-align: center; font: 500 clamp(9px, .74vw, 12px)/1.9 var(--serif); letter-spacing: .22em; color: #55654c; }
+
+    @media (max-width: 1060px) {
+      .right-body { grid-template-columns: 1fr; }
+      .fan-item { width: 86%; }
+      .hero h1 { font-size: 34px; }
+      .wall { grid-auto-rows: minmax(64px, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .stage { padding: 12px; }
+      .win-top { flex-wrap: wrap; row-gap: 10px; }
+      .win-nav { width: 100%; margin-left: 0; justify-content: space-between; gap: 4px; }
+      .hero h1 { font-size: clamp(25px, 7vw, 34px); }
+      .story-grid { grid-template-columns: 1fr; }
+      .story-fig img { max-height: 240px; }
+    }
+    html.embed-mode, html.embed-mode body { overflow: hidden; }
+    html.embed-mode { scrollbar-width: none; }
+    html.embed-mode::-webkit-scrollbar { display: none; }
+    @media (max-width: 1060px), (max-height: 620px) {
+      html.embed-mode .stage { height: auto; min-height: 0; align-items: start; }
+      html.embed-mode .panel { min-height: 0; }
+      html.embed-mode .panel-body { flex: none; }
+      html.embed-mode .fan { flex: none; min-height: clamp(250px, 55vw, 480px); }
+      html.embed-mode .r-media { grid-template-rows: auto auto auto; }
+      html.embed-mode .wall { flex: none; grid-auto-rows: minmax(70px, 10vw); }
+    }
+  </style>
+</head>
+<body data-page-node-id="IBFvI8iWQs0Y3bXysa8q0I">
+  <div class="scenery" aria-hidden="true" data-page-node-id="13YXzxe3ZHckoBP1mG0P6Y"></div>
+
+  <div class="stage" data-page-node-id="it5hNqd0nGxOoxAGDkCGyl">
+    <!-- ═════ 左窗口：标题 + 扇形图廊 ═════ -->
+    <section class="panel" aria-label="窗景图廊" data-page-node-id="PANnImEwYLd8qe0cPQHojk">
+      <header class="win-top" data-page-node-id="Xje4fwL3fnssH4wQIxgk7P">
+        <span class="dots" aria-hidden="true" data-page-node-id="lUFcQSXojDAJbu75U7mKHF"><i data-page-node-id="JEsDWYYk1YpqNV5dJbv3wq"></i><i data-page-node-id="D5KKmhYo4tySnyFDqydU0S"></i><i data-page-node-id="UAHv2aFCtdfU3n0zXaP4CG"></i></span>
+        <p class="win-logo" data-page-node-id="lrlwGLOzDCRmX9Ylyi69bx">窗间的<em data-page-node-id="A7I8YkyITmW12RbdBrV0tv">二十四节气</em></p>
+        <nav class="win-nav" aria-label="季节导览" data-page-node-id="Qjc7M6saKoFah3GM0UuC0M">
+          <button type="button" data-season="spring" data-jump="0" data-on="true" data-page-node-id="EfeDH1AeRHFnWtAsVFGa87">春</button>
+          <button type="button" data-season="summer" data-jump="4" data-page-node-id="OxFfHpzWRC1b3xoq9ICaIq">夏</button>
+          <button type="button" data-season="autumn" data-jump="8" data-page-node-id="OxtmMBrd6bUMWqFtt6HABo">秋</button>
+          <button type="button" data-season="winter" data-jump="12" data-page-node-id="w4AXe6AMISqw1n6bstM94z">冬</button>
+          <a href="assets/img/zhanban.jpg" target="_blank" rel="noopener" data-page-node-id="zrOFte9AKesG1op6WlTZCs">关于</a>
+        </nav>
+      </header>
+      <div class="panel-body" data-page-node-id="6I6SbpRyGo0eAfIENYfuuB">
+        <div class="hero" data-page-node-id="2HeuZGvHWTuuJeo2Tf0yny">
+          <div class="hero-row" data-page-node-id="fQMiXPjRECJc6Cg7qq7XbV">
+            <h1 data-page-node-id="rTqVMtkj083ZZSeYFLAam4">窗间的二十四节气</h1>
+            <svg class="hero-seal" viewBox="0 0 40 40" aria-hidden="true" data-page-node-id="B5zNB63BKdPIQAlAGTgnvv">
+              <rect x="1.5" y="1.5" width="37" height="37" rx="7" fill="#c14a35" data-page-node-id="N1rfPiswpFDoFG8GC0wGTe"/>
+              <text x="20" y="17" text-anchor="middle" font-size="13" fill="#fdf6ea" font-family="KaiTi, STKaiti, serif" font-weight="700" data-page-node-id="jewYnGKx9hGzNBOtqU7lSE">窗</text>
+              <text x="20" y="33" text-anchor="middle" font-size="13" fill="#fdf6ea" font-family="KaiTi, STKaiti, serif" font-weight="700" data-page-node-id="gVj6zNccN61E4UHwUwM6yl">间</text>
+            </svg>
+          </div>
+          <span class="hero-divider" aria-hidden="true" data-page-node-id="vFUdQ4BOvQljDAWtV8T452"></span>
+          <p data-page-node-id="r9s6IszmotkvMMDgXf2wda">推开一扇窗，看见春天</p>
+        </div>
+        <div class="fan" id="fan" aria-roledescription="图廊" data-page-node-id="sucMsq4QrMdkMXoPFjmjxz">
+          <button class="fan-arrow prev" id="fan-prev" type="button" aria-label="上一张" data-page-node-id="mMCbzife6RZeFYGPBEJDej">‹</button>
+          <button class="fan-arrow next" id="fan-next" type="button" aria-label="下一张" data-page-node-id="pp5Z7KEtEDAGvos6LwmndJ">›</button>
+        </div>
+        <div class="fan-progress" data-page-node-id="cDVpbjThRq3mcn9CnSh7Ew">
+          <span class="fan-count" id="fan-count" data-page-node-id="BDRjU1w7BL1OsinGyH27zB">01 / 16</span>
+          <span class="fan-line" data-page-node-id="DD09FGUTKfMrWH6fzm5rZF"><i id="fan-dot" data-page-node-id="yHRPrS99YVSUW0bQetq0Wg"></i></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════ 右窗口：视频 + 故事 + 图墙 + 文案 ═════ -->
+    <section class="panel" aria-label="影片与故事" data-page-node-id="AcGuVVYa8VtDKOL4lQO8AA">
+      <header class="win-top" data-page-node-id="HFCN6dw3XLWvlUa7MjdTBt">
+        <span class="dots" aria-hidden="true" data-page-node-id="qQS4ArzXMKCcSt78eNMWoZ"><i data-page-node-id="mC1rT46E2KcAMfBowSWC4L"></i><i data-page-node-id="zeeeSmrDyirL734HGLwqSo"></i><i data-page-node-id="a2vJZOTMdryCcsBIc6EHkF"></i></span>
+        <p class="win-logo" data-page-node-id="sGFieRNPSdgh1MtHjlNpcG">窗间的<em data-page-node-id="s7NKb4DsWx9qplyxQgFGP7">二十四节气</em></p>
+        <nav class="win-nav" aria-label="季节导览" data-page-node-id="87aahWX7bO6ikn0rMexHN4">
+          <button type="button" data-season="spring" data-jump="0" data-on="true" data-page-node-id="RAaslmr6GeDuHuIVD1obde">春</button>
+          <button type="button" data-season="summer" data-jump="4" data-page-node-id="7UowQFmxpy2JwhLy13W7vR">夏</button>
+          <button type="button" data-season="autumn" data-jump="8" data-page-node-id="PBahEC4L4sWhMJboADgFyk">秋</button>
+          <button type="button" data-season="winter" data-jump="12" data-page-node-id="KS3gWCLVSZCJJGdBTX9pZj">冬</button>
+          <a href="assets/img/zhanban.jpg" target="_blank" rel="noopener" data-page-node-id="FX6FmpdSVIEyNB1B32m4jU">关于</a>
+        </nav>
+      </header>
+      <div class="panel-body right-body" data-page-node-id="orxG4f46HBTcN0Ik9ZbJuS">
+        <!-- 媒体列 -->
+        <div class="r-media" data-page-node-id="4Eins1SGrEM4IbTTbXweLM">
+          <div class="video-box" data-page-node-id="nCcWr0SS1ycHev4Spci7Su">
+            <video id="jieqi-film" controls playsinline preload="metadata" poster="assets/img/video-poster.jpg" aria-label="《窗间的二十四节气》完整影片，包含原音频" data-page-node-id="rxbWEtHmhDXCUdglv6y4qC">
+              <source src="assets/video/chuang-jian-24-jie-qi.mp4" type="video/mp4" data-page-node-id="B6FOLSREIa6pTWrcHIgy6F">
+              您的浏览器不支持视频播放。
+            </video>
+          </div>
+          <div class="story-block" data-page-node-id="K4KPtpF6RarvghJomeYcEH">
+            <h3 class="cell-title" data-page-node-id="iqCmciHyLQcMH9fh1HGU3E">故事背景<i data-page-node-id="sRsg20bM1Nt32hXPD0xRwv"></i></h3>
+            <div class="story-grid" data-page-node-id="TpAaphvuBDMLkGA5G1RX1Y">
+              <p data-page-node-id="0p0d9W1RFoYEjj602zSscb">《窗间的二十四节气》是一部<strong data-page-node-id="yENSE2vhRL55PVLOMPFeWe">“一窗一景”</strong>的水彩风格概念动画。作品以传统窗棂为画框，跟随节气轮转推开十六扇窗——从苏州立春的柳岸花开，到新疆立夏的琴声舞影；从海南立秋的海浪轻扬，到北京冬至的红墙落雪。窗内是人间烟火，窗外是四时天光，节气在窗的开合之间缓缓流转，也见证着人与自然、传统与当下的温柔连接。</p>
+              <figure class="story-fig" data-page-node-id="rS65WA6FgDpZd7DV2B95pT"><img src="assets/img/story-figure.jpg" alt="窗间的二十四节气 · 动画截帧" loading="lazy" data-page-node-id="RVoanLff8TMUdcAqKXmRXO"></figure>
+            </div>
+          </div>
+          <div class="wall-block" data-page-node-id="UWTiMxs7bDGvT1xlwROVVi">
+            <h3 class="cell-title" data-page-node-id="Fhk2MennoA17D6ZUrjmins">《窗间的二十四节气》分镜集锦<i data-page-node-id="mi5uyFog8REaWXCBWdwZQX"></i></h3>
+            <div class="wall" id="wall" data-focus="" data-page-node-id="hvX1HMJgtL8csG6CM3Wc9p">
+              <figure data-season="spring" title="苏州 · 立春" data-page-node-id="J1ozAjsTtpvIYXRP74kScF"><img src="assets/img/s01-suzhou.jpg" alt="苏州 · 立春" loading="lazy" data-page-node-id="HFf5a5qA1xAuzNZcUKtPUv"></figure>
+              <figure data-season="spring" title="四川 · 雨水" data-page-node-id="DTahMho3x5fGqh1teOlcL7"><img src="assets/img/s02-sichuan.jpg" alt="四川 · 雨水" loading="lazy" data-page-node-id="4nETAhur5A9EPwHVKFmXXe"></figure>
+              <figure data-season="spring" title="安徽 · 惊蛰" data-page-node-id="g2AGvEDBz3bIS5rLycEVmk"><img src="assets/img/s03-anhui.jpg" alt="安徽 · 惊蛰" loading="lazy" data-page-node-id="IeFxlLy9IgZlHM6zTZU8Tv"></figure>
+              <figure data-season="spring" title="云南 · 春分" data-page-node-id="zQcu3fxYKCGwveC2ZGLXBW"><img src="assets/img/s04-yunnan.jpg" alt="云南 · 春分" loading="lazy" data-page-node-id="A1rqXzw5jO2JRdgD50a1xI"></figure>
+              <figure data-season="summer" title="新疆 · 立夏" data-page-node-id="4Kii2NXItBfsuJKA1QI77C"><img src="assets/img/s05-xinjiang.jpg" alt="新疆 · 立夏" loading="lazy" data-page-node-id="RUUytugUdOTEncwbMxYQlH"></figure>
+              <figure data-season="summer" title="福建 · 小满" data-page-node-id="7EcgERvPzadNV5OfgUACp9"><img src="assets/img/s06-fujian.jpg" alt="福建 · 小满" loading="lazy" data-page-node-id="I2uafz4i6m3k8wGn67Mo3Q"></figure>
+              <figure data-season="summer" title="潮州 · 芒种" data-page-node-id="3TmivqA0LFufFFuPsVr8Ep"><img src="assets/img/s07-chaozhou.jpg" alt="潮州 · 芒种" loading="lazy" data-page-node-id="EaaWjwqpxEAgoH62RzmL0G"></figure>
+              <figure data-season="summer" title="广州 · 夏至" data-page-node-id="70UqVqw0kT6ILvT0S2ELMT"><img src="assets/img/s08-guangzhou.jpg" alt="广州 · 夏至" loading="lazy" data-page-node-id="0fYtaSsUH5wD6eQRcEv1m7"></figure>
+              <figure data-season="autumn" title="海南 · 立秋" data-page-node-id="jAECXWI8EJCBlnAaFV7aoc"><img src="assets/img/s09-hainan.jpg" alt="海南 · 立秋" loading="lazy" data-page-node-id="YDGflaaQhDBjbwKuHwYk6W"></figure>
+              <figure data-season="autumn" title="浙江 · 处暑" data-page-node-id="E3w4hBLNTRUG39XRwC2qPk"><img src="assets/img/s10-zhejiang.jpg" alt="浙江 · 处暑" loading="lazy" data-page-node-id="NpYB4EBEcx3oQr4GHtdxax"></figure>
+              <figure data-season="autumn" title="贵州 · 白露" data-page-node-id="qmf8A44dnc0MVAaJoBGrst"><img src="assets/img/s11-guizhou.jpg" alt="贵州 · 白露" loading="lazy" data-page-node-id="vXF6KljphWKKJruN91nLEr"></figure>
+              <figure data-season="autumn" title="江西 · 秋分" data-page-node-id="AAuWqo3qQFJkDGjuqyk1w8"><img src="assets/img/s12-jiangxi.jpg" alt="江西 · 秋分" loading="lazy" data-page-node-id="OYS5jWQZrDltvJN13CyIsy"></figure>
+              <figure data-season="winter" title="山西 · 立冬" data-page-node-id="rDUHn1JkolPEq0FLEEfmPG"><img src="assets/img/s13-shanxi.jpg" alt="山西 · 立冬" loading="lazy" data-page-node-id="TUuBzAKT1W2yaq3oeMT0ab"></figure>
+              <figure data-season="winter" title="蒙古 · 小雪" data-page-node-id="etSsN3Nql2ENWt4vVtKEbR"><img src="assets/img/s14-mongolia.jpg" alt="蒙古 · 小雪" loading="lazy" data-page-node-id="WKUhsHw3CvxL5YhBkG1M94"></figure>
+              <figure data-season="winter" title="河北 · 大雪" data-page-node-id="IXffG2eL8x8wItuyFPp045"><img src="assets/img/s15-hebei.jpg" alt="河北 · 大雪" loading="lazy" data-page-node-id="5uCgRThMyTDhQW0FDKdNk5"></figure>
+              <figure data-season="winter" title="北京 · 冬至" data-page-node-id="tIgUyAdd56hPSU8ZiAmqnJ"><img src="assets/img/s16-beijing.jpg" alt="北京 · 冬至" loading="lazy" data-page-node-id="sbxRkiCOK0wFvycXGNXU9q"></figure>
+            </div>
+          </div>
+        </div>
+        <!-- 文案列 -->
+        <div class="r-copy" data-page-node-id="sq5prPXaZg6oYNkSWlCLi3">
+          <div class="slogan-row" data-page-node-id="c1uu3II6UQeVVkDzDQQMPu">
+            <h2 data-page-node-id="EA6MhD0tmENn0lxJ6kHUQh">一窗一节气，<br data-page-node-id="TTQSayxjW7HeZNCRZebwp6">四时见中国</h2>
+            <svg class="slogan-seal" viewBox="0 0 40 40" aria-hidden="true" data-page-node-id="B9T74Ai4DyhUlZ27RQsZGS">
+              <rect x="1.5" y="1.5" width="37" height="37" rx="7" fill="#c14a35" data-page-node-id="Q1fAs70icANLF7G0Yw9CI5"/>
+              <text x="20" y="27" text-anchor="middle" font-size="18" fill="#fdf6ea" font-family="KaiTi, STKaiti, serif" font-weight="700" data-page-node-id="IBsxpxayMyu0KLmork2R0E">節</text>
+            </svg>
+          </div>
+          <span class="r-rule" aria-hidden="true" data-page-node-id="xNFFynijDxpfkWZSInXDeM"></span>
+          <p class="r-intro" data-page-node-id="dlKwKuuFkrk6fWWtxNnyJG">以<strong data-page-node-id="DNSCJfirHhC7y0WgF1nIJZ">窗</strong>为眼，依二十四节气为线，在四时流转中，遇见中国乡土的诗意与生活之美。——窗一景，一节一画，也看见人与自然、传统与当下的<strong data-page-node-id="8Q6C0Eu7aBFXCCJLl4utxT">温柔连接</strong>。</p>
+          <ul class="season-row" data-page-node-id="DAgJGw4wT7rC7fBUfU8nrC">
+            <li data-page-node-id="wHHnjrCIZKr1ZD7ydheKN5"><span class="s-dot" data-page-node-id="CQybwpeQgjAwvpPZ7ZVO5t"><img src="assets/img/season-spring.jpg" alt="春 · 玉兰花开" loading="lazy" data-page-node-id="tD8SM6tgVTGLtjNyXM9BYp"></span><b data-page-node-id="qcuA7mQ2k9MDodExoOubaR">春</b><i data-page-node-id="XYZxd8anb0jzkbmBzulfEm">万物生发</i></li>
+            <li data-page-node-id="ksmc1Xupy8FFPefmVYQxOU"><span class="s-dot" data-page-node-id="wZ9HTRZYzBg5PQnQkyJlKv"><img src="assets/img/season-summer.jpg" alt="夏 · 秧苗青青" loading="lazy" data-page-node-id="rlcqxy2cThLaCWLYhhebtB"></span><b data-page-node-id="Fqd4l87baJz44ehqKkf3Kc">夏</b><i data-page-node-id="RdHFXld1AtWpkNP91K92Fh">蝉鸣盛夏</i></li>
+            <li data-page-node-id="zQCAjxJyB3yVe4jI9vaovi"><span class="s-dot" data-page-node-id="fJdVGmgBB6Vh9Cm6QuVufz"><img src="assets/img/season-autumn.jpg" alt="秋 · 柿红叶橙" loading="lazy" data-page-node-id="VAwfyfGN2yLoZRYsLIzsgT"></span><b data-page-node-id="O1BcenKnCWrriw5D7zSg2h">秋</b><i data-page-node-id="ilK87cHYqZFMxyqKxPhE4D">金风送爽</i></li>
+            <li data-page-node-id="qUWKOZR1A9NtgUcsOw7Cqy"><span class="s-dot" data-page-node-id="PDSNhYpbNMZoyH6hljsXyh"><img src="assets/img/season-winter.jpg" alt="冬 · 雪窗雀语" loading="lazy" data-page-node-id="gQgQUdc4nhyMhv2peaQNGK"></span><b data-page-node-id="3UqYp34BKjo8KPrjF7zK5C">冬</b><i data-page-node-id="cCAeifi3asos2UiOX4bsgf">岁暮藏新</i></li>
+          </ul>
+          <footer class="r-foot" data-page-node-id="obHv0ht3HuqWNvd2sWlg9q">
+            <p data-page-node-id="pkWdPOwFZJ7Zn5Sq9KGghK">中国传统二十四节气 × 乡土人文 × 水彩动画艺术</p>
+            <p data-page-node-id="przSNUbDXtBF8ApSaJns2m">文化主题概念网站 · 视觉概念</p>
+          </footer>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    (() => {
+      /* —— 扇形图廊（图片切换 + 倒影） —— */
+      const scenes = [
+        ["assets/img/s01-suzhou.jpg", "苏州 · 立春"], ["assets/img/s02-sichuan.jpg", "四川 · 雨水"],
+        ["assets/img/s03-anhui.jpg", "安徽 · 惊蛰"], ["assets/img/s04-yunnan.jpg", "云南 · 春分"],
+        ["assets/img/s05-xinjiang.jpg", "新疆 · 立夏"], ["assets/img/s06-fujian.jpg", "福建 · 小满"],
+        ["assets/img/s07-chaozhou.jpg", "潮州 · 芒种"], ["assets/img/s08-guangzhou.jpg", "广州 · 夏至"],
+        ["assets/img/s09-hainan.jpg", "海南 · 立秋"], ["assets/img/s10-zhejiang.jpg", "浙江 · 处暑"],
+        ["assets/img/s11-guizhou.jpg", "贵州 · 白露"], ["assets/img/s12-jiangxi.jpg", "江西 · 秋分"],
+        ["assets/img/s13-shanxi.jpg", "山西 · 立冬"], ["assets/img/s14-mongolia.jpg", "蒙古 · 小雪"],
+        ["assets/img/s15-hebei.jpg", "河北 · 大雪"], ["assets/img/s16-beijing.jpg", "北京 · 冬至"]
+      ];
+      const fan = document.getElementById("fan");
+      const prevBtn = document.getElementById("fan-prev");
+      const nextBtn = document.getElementById("fan-next");
+      const countEl = document.getElementById("fan-count");
+      const dotEl = document.getElementById("fan-dot");
+      const wall = document.getElementById("wall");
+      const navButtons = Array.from(document.querySelectorAll(".win-nav button[data-season]"));
+      let active = 0;
+      let timer = null;
+
+      const items = scenes.map(([src, name], index) => {
+        const fig = document.createElement("div");
+        fig.className = "fan-item";
+        fig.innerHTML = `<img src="${src}" alt="${name}" draggable="false">`;
+        fig.title = name;
+        fig.addEventListener("click", () => { if (index !== active) select(index); });
+        fan.insertBefore(fig, prevBtn);
+        return fig;
+      });
+
+      const render = () => {
+        items.forEach((item, index) => {
+          let offset = index - active;
+          if (offset > items.length / 2) offset -= items.length;
+          if (offset < -items.length / 2) offset += items.length;
+          const distance = Math.abs(offset);
+          const x = offset * 42 * (1 - Math.min(distance, 3) * .1);
+          const scale = 1 - Math.min(distance, 4) * .05;
+          const opacity = distance > 2 ? 0 : Math.max(.3, 1 - distance * .3);
+          item.style.transform = `translate(-50%, -50%) translateX(${x}%) rotateY(${offset * -7}deg) rotate(${offset * 1.2}deg) scale(${scale})`;
+          item.style.opacity = opacity;
+          item.style.zIndex = String(20 - distance * 2);
+          item.setAttribute("aria-hidden", String(distance > 1));
+        });
+        countEl.textContent = `${String(active + 1).padStart(2, "0")} / ${String(items.length).padStart(2, "0")}`;
+        dotEl.style.left = `${(active / (items.length - 1)) * 100}%`;
+      };
+
+      const seasonOf = ["spring","spring","spring","spring","summer","summer","summer","summer","autumn","autumn","autumn","autumn","winter","winter","winter","winter"];
+
+      const select = (index) => {
+        active = (index + items.length) % items.length;
+        render();
+        navButtons.forEach((b) => { b.dataset.on = "false"; });
+        navButtons.filter((b) => b.dataset.season === seasonOf[active]).forEach((b) => { b.dataset.on = "true"; });
+      };
+
+      const play = () => { stop(); timer = setInterval(() => select(active + 1), 4200); };
+      const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+
+      prevBtn.addEventListener("click", () => { select(active - 1); play(); });
+      nextBtn.addEventListener("click", () => { select(active + 1); play(); });
+      fan.addEventListener("pointerdown", (e) => {
+        const startX = e.clientX;
+        const up = (ev) => {
+          const delta = ev.clientX - startX;
+          if (Math.abs(delta) > 40) { select(active + (delta < 0 ? 1 : -1)); play(); }
+          window.removeEventListener("pointerup", up);
+        };
+        window.addEventListener("pointerup", up);
+      });
+      fan.addEventListener("mouseenter", stop);
+      fan.addEventListener("mouseleave", play);
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") { select(active - 1); play(); }
+        if (e.key === "ArrowRight") { select(active + 1); play(); }
+      });
+
+      navButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          select(Number(button.dataset.jump));
+          wall.dataset.focus = button.dataset.season;
+          play();
+        });
+      });
+
+      select(0);
+      play();
+    })();
+  </script>
+  <script>
+    (() => {
+      if (!document.documentElement.classList.contains('embed-mode')) return;
+
+      const stage = document.querySelector('.stage');
+      const reportHeight = () => parent.postMessage({
+        type: 'project-scroll-metrics',
+        height: Math.max(
+          document.documentElement.scrollHeight,
+          document.body.scrollHeight,
+          Math.ceil(stage.getBoundingClientRect().height)
+        )
+      }, '*');
+      window.addEventListener('load', reportHeight);
+      window.addEventListener('resize', reportHeight, { passive: true });
+      new ResizeObserver(reportHeight).observe(stage);
+      reportHeight();
+
+      const forwardScroll = (deltaY) => parent.postMessage({ type: 'project-global-wheel', deltaY }, '*');
+      window.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        const scale = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+        forwardScroll(event.deltaY * scale);
+      }, { passive: false });
+
+      let touchX = 0;
+      let touchY = 0;
+      window.addEventListener('touchstart', (event) => {
+        touchX = event.touches[0]?.clientX || 0;
+        touchY = event.touches[0]?.clientY || 0;
+      }, { passive: true });
+      window.addEventListener('touchmove', (event) => {
+        if (event.target.closest('video')) return;
+        const touch = event.touches[0];
+        if (!touch) return;
+        const dx = touch.clientX - touchX;
+        const dy = touch.clientY - touchY;
+        if (Math.abs(dy) <= Math.abs(dx)) return;
+        event.preventDefault();
+        forwardScroll(-dy);
+        touchX = touch.clientX;
+        touchY = touch.clientY;
+      }, { passive: false });
+
+      window.addEventListener('message', (event) => {
+        if (event.data?.type === 'portfolio-global-scroll') window.scrollTo(0, Number(event.data.scrollTop) || 0);
+      });
+    })();
+  </script>
+</body>
+</html>

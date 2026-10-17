@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ececef">
+  <meta name="description" content="NOVA 双形态角色视觉：移动鼠标，以柔和笔刷揭示第二层机甲形态。">
+  <title>NOVA · 双形态视觉</title>
+  <script>if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode')</script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101012'/%3E%3Cpath d='M13 46 28 16h9l14 30H40l-8-19-8 19Z' fill='%23e7e7e9'/%3E%3Cpath d='m39 16 12 30h-7L32 16Z' fill='%23d11920'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #111114;
+      --paper: #ececef;
+      --red: #b3171d;
+      --hairline: rgba(17, 17, 20, 0.22);
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: var(--paper);
+    }
+
+    body {
+      color: var(--ink);
+      font-family: Inter, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    html.embed-mode { scrollbar-width: none; }
+    html.embed-mode::-webkit-scrollbar { display: none; }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      min-height: 420px;
+      isolation: isolate;
+      overflow: hidden;
+      cursor: none;
+      background: #e9e9ec;
+      touch-action: pan-y;
+      scroll-snap-align: start;
+    }
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .loading {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      display: grid;
+      place-items: center;
+      gap: 14px;
+      align-content: center;
+      background: var(--paper);
+      transition: opacity 500ms ease, visibility 500ms ease;
+    }
+
+    .loading.is-ready {
+      display: none;
+    }
+
+    .loading-mark {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--ink);
+      border-radius: 50%;
+      position: relative;
+      animation: breathe 1.2s ease-in-out infinite alternate;
+    }
+
+    .loading-mark::before,
+    .loading-mark::after {
+      content: "";
+      position: absolute;
+      background: var(--red);
+    }
+
+    .loading-mark::before { width: 1px; height: 54px; left: 18px; top: -8px; }
+    .loading-mark::after { height: 1px; width: 54px; top: 18px; left: -8px; }
+
+    .loading span {
+      font-size: 10px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .chrome {
+      position: absolute;
+      z-index: 4;
+      inset: 0;
+      pointer-events: none;
+      padding: clamp(22px, 3.2vw, 52px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .topbar,
+    .bottombar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .identity {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      padding: 9px 12px;
+      border: 1px solid rgba(17, 17, 20, 0.1);
+      border-radius: 999px;
+      background: rgba(238, 238, 241, 0.68);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .identity strong {
+      font-size: clamp(16px, 1.45vw, 24px);
+      letter-spacing: -0.04em;
+    }
+
+    .identity span,
+    .mode,
+    .index,
+    .hint,
+    .status {
+      font-size: 10px;
+      line-height: 1.2;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .mode {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: rgba(238, 238, 241, 0.68);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .mode::before {
+      content: "";
+      width: 28px;
+      height: 2px;
+      background: var(--red);
+      box-shadow: 0 5px 0 rgba(17, 17, 20, 0.28);
+      transform: skewX(-28deg);
+    }
+
+    .hint {
+      max-width: 300px;
+      padding: 12px 15px;
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      background: rgba(238, 238, 241, 0.68);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: opacity 360ms ease, transform 360ms ease;
+    }
+
+    .stage.is-active .hint {
+      opacity: 0.42;
+      transform: translateY(6px);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 5px rgba(179, 23, 29, 0.12);
+    }
+
+    .cursor {
+      --x: -200px;
+      --y: -200px;
+      position: absolute;
+      z-index: 6;
+      left: 0;
+      top: 0;
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(16, 16, 18, 0.76);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate3d(calc(var(--x) - 24px), calc(var(--y) - 24px), 0);
+      opacity: 0;
+      transition: opacity 180ms ease;
+      mix-blend-mode: difference;
+    }
+
+    .cursor::before,
+    .cursor::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor::before { width: 8px; height: 1px; }
+    .cursor::after { width: 1px; height: 8px; }
+    .stage.is-pointer .cursor { opacity: 1; }
+
+    .scroll-cue {
+      position: absolute;
+      z-index: 5;
+      left: 50%;
+      bottom: 20px;
+      width: 1px;
+      height: 42px;
+      overflow: hidden;
+      background: rgba(17, 17, 20, 0.16);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .scroll-cue::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--red);
+      transform: translateY(-100%);
+      animation: scrollLine 1.8s cubic-bezier(.65, 0, .35, 1) infinite;
+    }
+
+    .profile {
+      --profile-red: #a80e18;
+      position: relative;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow: hidden;
+      background: #d9d9dc;
+      color: #121216;
+      scroll-snap-align: start;
+      isolation: isolate;
+    }
+
+    .profile::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      opacity: 0.24;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(15, 15, 18, .08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 15, 18, .08) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+    }
+
+    .profile-frame {
+      position: absolute;
+      z-index: 1;
+      inset: clamp(72px, 8vw, 118px) clamp(24px, 5vw, 82px) clamp(72px, 6vw, 92px);
+      overflow: hidden;
+      border: 1px solid rgba(17, 17, 20, 0.22);
+      background: #e6e6e8;
+      box-shadow: 0 36px 100px rgba(14, 14, 18, 0.2);
+      clip-path: inset(46% 46% 46% 46%);
+      transform: scale(0.92);
+      transition:
+        clip-path 1.15s cubic-bezier(.77, 0, .18, 1),
+        transform 1.15s cubic-bezier(.77, 0, .18, 1);
+    }
+
+    .profile.is-visible .profile-frame {
+      clip-path: inset(0 0 0 0);
+      transform: scale(1);
+    }
+
+    .profile-video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(0.94) contrast(1.025);
+    }
+
+    .profile-frame::before,
+    .profile-frame::after {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .profile-frame::before {
+      inset: 0;
+      background: linear-gradient(100deg, transparent 0 46%, rgba(255,255,255,.28) 50%, transparent 54% 100%);
+      transform: translateX(-110%);
+    }
+
+    .profile.is-visible .profile-frame::before {
+      animation: glassSweep 3.8s 0.8s ease-in-out infinite;
+    }
+
+    .profile-frame::after {
+      left: 0;
+      right: 0;
+      top: -2px;
+      height: 2px;
+      opacity: 0;
+      background: linear-gradient(90deg, transparent 6%, var(--profile-red) 30% 70%, transparent 94%);
+      box-shadow: 0 0 18px rgba(168, 14, 24, 0.62);
+    }
+
+    .profile.is-visible .profile-frame::after {
+      animation: scan 3.4s 1.15s ease-in-out infinite;
+    }
+
+    .profile-header,
+    .profile-footer {
+      position: absolute;
+      z-index: 3;
+      left: clamp(24px, 5vw, 82px);
+      right: clamp(24px, 5vw, 82px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      pointer-events: none;
+    }
+
+    .profile-header { top: clamp(24px, 3vw, 44px); }
+    .profile-footer { bottom: clamp(24px, 2.6vw, 38px); }
+
+    .profile-kicker,
+    .profile-index,
+    .profile-caption,
+    .profile-state {
+      margin: 0;
+      font-size: 10px;
+      line-height: 1.4;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .profile-title {
+      margin: 0;
+      font-size: clamp(18px, 2vw, 30px);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .profile-title em {
+      color: var(--profile-red);
+      font-style: normal;
+    }
+
+    .profile-index {
+      padding-left: 34px;
+      position: relative;
+    }
+
+    .profile-index::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 24px;
+      height: 2px;
+      background: var(--profile-red);
+    }
+
+    .profile-state {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-state::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--profile-red);
+      box-shadow: 0 0 0 5px rgba(168, 14, 24, 0.12);
+    }
+
+    /* Second screen: a direct, full-viewport continuation of the first screen. */
+    .profile {
+      background: #000;
+    }
+
+    .profile::before,
+    .profile-header,
+    .profile-footer,
+    .profile-frame::before,
+    .profile-frame::after {
+      display: none;
+    }
+
+    .profile-frame {
+      inset: 0;
+      border: 0;
+      background: #000;
+      box-shadow: none;
+      clip-path: none;
+      transform: none;
+      transition: none;
+    }
+
+    .profile.is-visible .profile-frame {
+      clip-path: none;
+      transform: none;
+    }
+
+    .profile-video {
+      object-fit: cover;
+      object-position: center;
+      filter: none;
+    }
+
+    .order {
+      --order-red: #a90f18;
+      position: relative;
+      height: 100vh;
+      height: 100dvh;
+      min-height: 680px;
+      padding: clamp(22px, 2.7vw, 54px);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: clamp(16px, 1.5vw, 28px);
+      overflow: hidden;
+      color: #101014;
+      background: #eef0f2;
+      scroll-snap-align: start;
+      isolation: isolate;
+    }
+
+    .order::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      opacity: 0.34;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(22, 22, 26, .055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(22, 22, 26, .055) 1px, transparent 1px),
+        radial-gradient(circle at 14% 12%, rgba(255,255,255,.92), transparent 26%),
+        radial-gradient(circle at 86% 76%, rgba(189,194,200,.45), transparent 30%);
+      background-size: 44px 44px, 44px 44px, 100% 100%, 100% 100%;
+    }
+
+    .order-header {
+      display: grid;
+      grid-template-columns: minmax(360px, 1.1fr) minmax(210px, .58fr) minmax(280px, .9fr);
+      gap: clamp(24px, 4vw, 72px);
+      align-items: start;
+      min-height: 0;
+    }
+
+    .order-brandline,
+    .order-future,
+    .order-sequence,
+    .module-code,
+    .module-copy,
+    .module-foot,
+    .metric {
+      font-size: 10px;
+      line-height: 1.35;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .order-brandline {
+      margin: 0 0 clamp(8px, 1vw, 16px);
+      font-weight: 700;
+    }
+
+    .order-brandline::after {
+      content: "";
+      display: inline-block;
+      width: 62px;
+      height: 8px;
+      margin-left: 14px;
+      background: repeating-linear-gradient(120deg, #151519 0 8px, transparent 8px 12px);
+      transform: skewX(-14deg);
+    }
+
+    .order-title {
+      margin: 0;
+      font-size: clamp(64px, 8.4vw, 150px);
+      font-weight: 800;
+      line-height: .76;
+      letter-spacing: -.075em;
+    }
+
+    .order-subtitle {
+      margin: clamp(13px, 1.25vw, 20px) 0 0;
+      color: #8b8d91;
+      font-size: clamp(16px, 1.5vw, 28px);
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: -.025em;
+      text-transform: uppercase;
+    }
+
+    .order-slogan {
+      margin: clamp(13px, 1.35vw, 24px) 0 0;
+      font-size: clamp(14px, 1.25vw, 23px);
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    .order-sequence {
+      margin: 28px 0 0;
+      padding: 0 0 0 22px;
+      border-left: 1px solid rgba(16, 16, 20, .34);
+      list-style: none;
+    }
+
+    .order-sequence li {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      margin-bottom: clamp(13px, 1.5vh, 22px);
+    }
+
+    .order-sequence b { font-weight: 800; }
+
+    .order-future {
+      justify-self: end;
+      max-width: 270px;
+      margin: 18px 0 0;
+      font-size: clamp(14px, 1.25vw, 22px);
+      font-weight: 700;
+      letter-spacing: -.02em;
+    }
+
+    .order-future span {
+      display: block;
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.55;
+      letter-spacing: .16em;
+    }
+
+    .order-cards {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: clamp(12px, 1.15vw, 22px);
+    }
+
+    .module {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+      border: 1px solid rgba(16, 16, 20, .18);
+      border-radius: clamp(18px, 2vw, 38px);
+      background: #d9dbde;
+      box-shadow: 0 16px 48px rgba(20, 23, 28, .08);
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .75s ease, transform .85s cubic-bezier(.22,.7,.2,1);
+    }
+
+    .order.is-visible .module { opacity: 1; transform: none; }
+    .order.is-visible .module-hand { transition-delay: .1s; }
+    .order.is-visible .module-heart { transition-delay: .2s; }
+
+    .module-person { grid-row: 1 / 3; }
+
+    .module video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .module-person video { object-position: 53% center; }
+    .module-hand video { object-position: center 46%; }
+    .module-heart video { object-position: center 48%; }
+
+    .module::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(238,240,242,.94) 0, rgba(238,240,242,.72) 18%, transparent 46%),
+        linear-gradient(180deg, transparent 63%, rgba(18,18,22,.16));
+    }
+
+    .module-person::after {
+      background:
+        linear-gradient(90deg, rgba(238,240,242,.92) 0, rgba(238,240,242,.62) 20%, transparent 48%),
+        linear-gradient(180deg, transparent 68%, rgba(8,8,10,.32));
+    }
+
+    .module-info {
+      position: absolute;
+      z-index: 2;
+      left: clamp(18px, 2vw, 38px);
+      top: clamp(18px, 2vw, 38px);
+      max-width: 190px;
+      pointer-events: none;
+    }
+
+    .module-number {
+      display: block;
+      margin-bottom: 8px;
+      font-size: clamp(34px, 3.4vw, 62px);
+      font-weight: 800;
+      line-height: .9;
+      letter-spacing: -.07em;
+    }
+
+    .module-info h3 {
+      margin: 0 0 14px;
+      font-size: clamp(14px, 1.2vw, 22px);
+      line-height: 1.05;
+      letter-spacing: -.025em;
+    }
+
+    .module-copy { margin: 0; color: #696b70; }
+
+    .module-foot {
+      position: absolute;
+      z-index: 2;
+      left: clamp(18px, 2vw, 38px);
+      bottom: clamp(17px, 1.8vw, 34px);
+      margin: 0;
+      color: rgba(255,255,255,.94);
+      text-shadow: 0 1px 10px rgba(0,0,0,.4);
+      pointer-events: none;
+    }
+
+    .module-brand {
+      position: absolute;
+      z-index: 2;
+      right: clamp(18px, 2vw, 36px);
+      bottom: clamp(16px, 1.7vw, 32px);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      pointer-events: none;
+    }
+
+    .heart-metrics {
+      position: absolute;
+      z-index: 2;
+      right: clamp(18px, 2vw, 36px);
+      bottom: clamp(19px, 2vw, 36px);
+      width: min(26%, 180px);
+      pointer-events: none;
+    }
+
+    .metric {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-top: 7px;
+    }
+
+    .metric i {
+      grid-column: 1 / 2;
+      display: block;
+      height: 3px;
+      background: linear-gradient(90deg, #151519 var(--value), rgba(21,21,25,.16) var(--value));
+    }
+
+    .metric strong { grid-column: 2; grid-row: 1 / 3; font-weight: 500; }
+
+    .noscript {
+      position: fixed;
+      z-index: 20;
+      inset: auto 20px 20px;
+      padding: 14px 18px;
+      color: #fff;
+      background: #111;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @keyframes breathe {
+      to { transform: scale(0.82) rotate(45deg); opacity: 0.45; }
+    }
+
+    @keyframes scrollLine {
+      0% { transform: translateY(-100%); }
+      50%, 100% { transform: translateY(100%); }
+    }
+
+    @keyframes glassSweep {
+      0%, 30% { transform: translateX(-110%); }
+      68%, 100% { transform: translateX(110%); }
+    }
+
+    @keyframes scan {
+      0% { top: -2px; opacity: 0; }
+      8% { opacity: 0.7; }
+      76% { opacity: 0.42; }
+      90%, 100% { top: calc(100% + 2px); opacity: 0; }
+    }
+
+    @media (max-width: 680px) {
+      .stage { cursor: auto; }
+      .chrome { padding: 20px; }
+      .identity span, .index { display: none; }
+      .topbar { align-items: flex-start; gap: 8px; }
+      .identity { padding: 8px 10px; }
+      .identity strong { font-size: 14px; white-space: nowrap; }
+      .mode { padding: 9px 10px; gap: 7px; font-size: 8px; white-space: nowrap; }
+      .mode::before { width: 16px; }
+      .hint { max-width: 230px; letter-spacing: 0.1em; line-height: 1.5; }
+      .cursor { display: none; }
+      .scroll-cue { bottom: 14px; height: 30px; }
+      .profile-video { object-position: center; }
+      .order {
+        height: auto;
+        min-height: 100dvh;
+        padding: 24px 16px 34px;
+        gap: 24px;
+        overflow: visible;
+      }
+      .order-header { grid-template-columns: 1fr; gap: 0; }
+      .order-title { font-size: clamp(72px, 25vw, 112px); }
+      .order-subtitle { max-width: 330px; }
+      .order-sequence, .order-future { display: none; }
+      .order-cards {
+        grid-template-columns: 1fr;
+        grid-template-rows: 58vh 34vh 34vh;
+      }
+      .module-person { grid-row: auto; }
+      .module::after { background: linear-gradient(90deg, rgba(238,240,242,.9), transparent 52%); }
+      .heart-metrics { display: none; }
+      .module-number { font-size: 38px; }
+      .module-info h3 { font-size: 15px; }
+      .module-copy { font-size: 8px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .loading-mark, .scroll-cue::after, .profile-frame::before, .profile-frame::after { animation: none !important; }
+      .loading, .hint, .cursor { transition: none; }
+      .profile-frame { clip-path: inset(0); transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="stage" id="stage" aria-label="NOVA 双形态角色交互视觉。移动鼠标或手指，以柔边笔刷揭示白色机甲形态。">
+      <canvas id="art" role="img" aria-label="红色战衣与白色机甲双形态角色视觉"></canvas>
+
+    <div class="loading" id="loading" aria-live="polite">
+      <div class="loading-mark" aria-hidden="true"></div>
+      <span>正在加载双形态视觉</span>
+    </div>
+
+    <div class="chrome" aria-hidden="true">
+      <div class="topbar">
+        <div class="identity"><strong>PROJECT NOVA</strong><span>CHARACTER IP / 01</span></div>
+        <div class="mode">DUAL STATE VISUAL</div>
+      </div>
+      <div class="bottombar">
+        <div class="hint">移动鼠标 · 揭示第二形态 / 触屏可滑动</div>
+        <div class="status">REVEAL ACTIVE</div>
+        <div class="index">01 — 02</div>
+      </div>
+    </div>
+
+      <div class="cursor" id="cursor" aria-hidden="true"></div>
+      <div class="scroll-cue" aria-hidden="true"></div>
+    </section>
+
+    <section class="profile" id="profile" aria-label="NOVA 角色档案视频">
+      <div class="profile-frame">
+        <video class="profile-video" id="profileVideo" muted loop playsinline preload="metadata" poster="nova-profile-poster.jpg" aria-label="NOVA 红色机甲角色缓慢转身展示">
+          <source src="nova-profile-motion.mp4" type="video/mp4">
+        </video>
+      </div>
+    </section>
+
+    <section class="order" id="order" aria-labelledby="order-title">
+      <header class="order-header">
+        <div>
+          <p class="order-brandline">PROJECT NOVA</p>
+          <h2 class="order-title" id="order-title">Order</h2>
+          <p class="order-subtitle">Human × Technology<br>A Higher Tomorrow</p>
+          <p class="order-slogan">精密秩序，重塑人类的下一种可能。</p>
+        </div>
+
+        <ol class="order-sequence" aria-label="系统阶段">
+          <li><b>01</b><span>AUGMENT</span></li>
+          <li><b>02</b><span>CONNECT</span></li>
+          <li><b>03</b><span>EVOLVE</span></li>
+        </ol>
+
+        <p class="order-future">BEYOND<br>THE LIMITS.<span>超越极限，<br>点亮更远的未来。</span></p>
+      </header>
+
+      <div class="order-cards">
+        <article class="module module-person">
+          <video class="order-video" muted loop playsinline preload="metadata" poster="nova-cyborg-head-poster.jpg" aria-label="赛博格头部单元转身动态展示">
+            <source src="nova-cyborg-head.mp4" type="video/mp4">
+          </video>
+          <div class="module-info">
+            <strong class="module-number">01</strong>
+            <h3>CYBORG<br>HEAD UNIT</h3>
+            <p class="module-copy">PERCEPTION<br>PROTECTION<br>INTEGRATION<br>HUMANITY</p>
+          </div>
+          <p class="module-foot">NOVA-01 · HUMAN INTERFACE</p>
+          <span class="module-brand">NOVA</span>
+        </article>
+
+        <article class="module module-hand">
+          <video class="order-video" muted loop playsinline preload="metadata" poster="nova-bionic-hand-poster.jpg" aria-label="仿生机械手开合动态展示">
+            <source src="nova-bionic-hand.mp4" type="video/mp4">
+          </video>
+          <div class="module-info">
+            <strong class="module-number">02</strong>
+            <h3>BIONIC HAND</h3>
+            <p class="module-copy">PRECISION<br>DEXTERITY<br>EXPANDED POSSIBILITIES</p>
+          </div>
+          <span class="module-brand">NOVA-01</span>
+        </article>
+
+        <article class="module module-heart">
+          <video class="order-video" muted loop playsinline preload="metadata" poster="nova-bionic-heart-poster.jpg" aria-label="仿生机械心脏运转动态展示">
+            <source src="nova-bionic-heart.mp4" type="video/mp4">
+          </video>
+          <div class="module-info">
+            <strong class="module-number">03</strong>
+            <h3>BIONIC HEART</h3>
+            <p class="module-copy">LIFE SUPPORT<br>SYNCHRONIZE<br>A STRONGER HUMAN</p>
+          </div>
+          <div class="heart-metrics" aria-hidden="true">
+            <div class="metric" style="--value:98%"><span>STABILITY</span><i></i><strong>98</strong></div>
+            <div class="metric" style="--value:96%"><span>EFFICIENCY</span><i></i><strong>96</strong></div>
+            <div class="metric" style="--value:99%"><span>HARMONY</span><i></i><strong>99</strong></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <noscript><div class="noscript">请启用 JavaScript 以体验笔刷揭示效果。</div></noscript>
+
+  <script>
+    (() => {
+      const stage = document.getElementById('stage');
+      const canvas = document.getElementById('art');
+      const loading = document.getElementById('loading');
+      const cursor = document.getElementById('cursor');
+      const ctx = canvas.getContext('2d', { alpha: false });
+      const maskCanvas = document.createElement('canvas');
+      const maskCtx = maskCanvas.getContext('2d');
+      const revealCanvas = document.createElement('canvas');
+      const revealCtx = revealCanvas.getContext('2d');
+
+      const baseImage = new Image();
+      const revealImage = new Image();
+      baseImage.src = 'nova-red-form.png';
+      revealImage.src = 'nova-white-armor.jpeg';
+
+      const points = [];
+      const pointer = { x: 0, y: 0, lastX: 0, lastY: 0, active: false, inside: false };
+      let cssWidth = 1;
+      let cssHeight = 1;
+      let dpr = 1;
+      let ready = false;
+      let lastFrame = performance.now();
+      let brushRadius = 170;
+      let coverRect = { x: 0, y: 0, width: 1, height: 1 };
+
+      const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+      function getCoverRect(image) {
+        const imageRatio = image.naturalWidth / image.naturalHeight;
+        const viewRatio = cssWidth / cssHeight;
+        let width;
+        let height;
+        if (imageRatio > viewRatio) {
+          height = cssHeight;
+          width = height * imageRatio;
+        } else {
+          width = cssWidth;
+          height = width / imageRatio;
+        }
+        return { x: (cssWidth - width) / 2, y: (cssHeight - height) / 2, width, height };
+      }
+
+      function resize() {
+        cssWidth = Math.max(1, stage.clientWidth);
+        cssHeight = Math.max(1, stage.clientHeight);
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        for (const target of [canvas, maskCanvas, revealCanvas]) {
+          target.width = Math.round(cssWidth * dpr);
+          target.height = Math.round(cssHeight * dpr);
+        }
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        maskCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        revealCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        brushRadius = clamp(Math.min(cssWidth, cssHeight) * 0.19, 105, 220);
+        if (ready) coverRect = getCoverRect(baseImage);
+      }
+
+      function drawImageCover(context, image) {
+        context.drawImage(image, coverRect.x, coverRect.y, coverRect.width, coverRect.height);
+      }
+
+      function stamp(x, y, force = 1) {
+        const now = performance.now();
+        const distance = Math.hypot(x - pointer.lastX, y - pointer.lastY);
+        const steps = Math.max(1, Math.ceil(distance / 18));
+        for (let i = 1; i <= steps; i += 1) {
+          const t = i / steps;
+          points.push({
+            x: pointer.lastX + (x - pointer.lastX) * t,
+            y: pointer.lastY + (y - pointer.lastY) * t,
+            born: now - (steps - i) * 4,
+            radius: brushRadius * (0.94 + Math.random() * 0.12),
+            force
+          });
+        }
+        pointer.lastX = x;
+        pointer.lastY = y;
+        if (points.length > 155) points.splice(0, points.length - 155);
+      }
+
+      function addSoftCircle(context, point, alpha) {
+        const radius = point.radius;
+        const gradient = context.createRadialGradient(point.x, point.y, 0, point.x, point.y, radius);
+        gradient.addColorStop(0, `rgba(255,255,255,${Math.min(1, alpha * 1.14)})`);
+        gradient.addColorStop(0.28, `rgba(255,255,255,${alpha})`);
+        gradient.addColorStop(0.62, `rgba(255,255,255,${alpha * 0.44})`);
+        gradient.addColorStop(0.84, `rgba(255,255,255,${alpha * 0.12})`);
+        gradient.addColorStop(1, 'rgba(255,255,255,0)');
+        context.fillStyle = gradient;
+        context.beginPath();
+        context.arc(point.x, point.y, radius, 0, Math.PI * 2);
+        context.fill();
+      }
+
+      function draw(now) {
+        if (!ready) {
+          requestAnimationFrame(draw);
+          return;
+        }
+
+        const dt = Math.min(50, now - lastFrame);
+        lastFrame = now;
+        ctx.clearRect(0, 0, cssWidth, cssHeight);
+        drawImageCover(ctx, baseImage);
+
+        maskCtx.clearRect(0, 0, cssWidth, cssHeight);
+        maskCtx.globalCompositeOperation = 'source-over';
+        const trailLife = 780;
+        for (let i = points.length - 1; i >= 0; i -= 1) {
+          const age = now - points[i].born;
+          if (age > trailLife) {
+            points.splice(i, 1);
+            continue;
+          }
+          const fade = 1 - age / trailLife;
+          const eased = fade * fade * (3 - 2 * fade);
+          addSoftCircle(maskCtx, points[i], eased * 0.5 * points[i].force);
+        }
+
+        if (pointer.inside) {
+          addSoftCircle(maskCtx, {
+            x: pointer.x,
+            y: pointer.y,
+            radius: brushRadius * (pointer.active ? 1.08 : 1),
+            force: 1
+          }, 0.98);
+        }
+
+        revealCtx.clearRect(0, 0, cssWidth, cssHeight);
+        revealCtx.globalCompositeOperation = 'source-over';
+        drawImageCover(revealCtx, revealImage);
+        revealCtx.globalCompositeOperation = 'destination-in';
+        revealCtx.drawImage(maskCanvas, 0, 0, cssWidth, cssHeight);
+        revealCtx.globalCompositeOperation = 'source-over';
+        ctx.drawImage(revealCanvas, 0, 0, cssWidth, cssHeight);
+
+        // A restrained highlight makes the live brush feel tactile without creating a hard rim.
+        if (pointer.inside) {
+          const glow = ctx.createRadialGradient(pointer.x, pointer.y, brushRadius * 0.18, pointer.x, pointer.y, brushRadius * 0.96);
+          glow.addColorStop(0, 'rgba(255,255,255,0)');
+          glow.addColorStop(0.68, 'rgba(255,255,255,0)');
+          glow.addColorStop(0.88, 'rgba(255,255,255,0.055)');
+          glow.addColorStop(1, 'rgba(255,255,255,0)');
+          ctx.fillStyle = glow;
+          ctx.fillRect(pointer.x - brushRadius, pointer.y - brushRadius, brushRadius * 2, brushRadius * 2);
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      function setPointer(event) {
+        const rect = stage.getBoundingClientRect();
+        const x = clamp(event.clientX - rect.left, 0, rect.width);
+        const y = clamp(event.clientY - rect.top, 0, rect.height);
+        if (!pointer.inside) {
+          pointer.lastX = x;
+          pointer.lastY = y;
+        }
+        pointer.x = x;
+        pointer.y = y;
+        pointer.inside = true;
+        stamp(x, y, event.pressure ? 0.82 + event.pressure * 0.3 : 1);
+        cursor.style.setProperty('--x', `${x}px`);
+        cursor.style.setProperty('--y', `${y}px`);
+        stage.classList.add('is-active', 'is-pointer');
+      }
+
+      stage.addEventListener('pointerenter', setPointer);
+      stage.addEventListener('pointermove', setPointer);
+      stage.addEventListener('pointerdown', (event) => {
+        pointer.active = true;
+        stage.setPointerCapture?.(event.pointerId);
+        setPointer(event);
+      });
+      stage.addEventListener('pointerup', (event) => {
+        pointer.active = false;
+        stage.releasePointerCapture?.(event.pointerId);
+      });
+      stage.addEventListener('pointercancel', () => { pointer.active = false; pointer.inside = false; });
+      stage.addEventListener('pointerleave', (event) => {
+        if (event.pointerType !== 'touch' && !pointer.active) {
+          pointer.inside = false;
+          stage.classList.remove('is-pointer');
+        }
+      });
+
+      window.addEventListener('resize', resize, { passive: true });
+
+      Promise.all([
+        new Promise((resolve, reject) => { baseImage.onload = resolve; baseImage.onerror = reject; }),
+        new Promise((resolve, reject) => { revealImage.onload = resolve; revealImage.onerror = reject; })
+      ]).then(() => {
+        resize();
+        coverRect = getCoverRect(baseImage);
+        ready = true;
+        loading.classList.add('is-ready');
+        requestAnimationFrame(draw);
+      }).catch(() => {
+        loading.querySelector('span').textContent = '图片加载失败，请确认素材文件与网页位于同一目录';
+      });
+
+      resize();
+
+      const profile = document.getElementById('profile');
+      const profileVideo = document.getElementById('profileVideo');
+      const profileObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          profile.classList.toggle('is-visible', entry.isIntersecting);
+          if (entry.isIntersecting) {
+            profileVideo.play().catch(() => {});
+          } else {
+            profileVideo.pause();
+          }
+        }
+      }, { threshold: 0.28 });
+      profileObserver.observe(profile);
+
+      const order = document.getElementById('order');
+      const orderVideos = [...order.querySelectorAll('.order-video')];
+      const orderObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          order.classList.toggle('is-visible', entry.isIntersecting);
+          if (entry.isIntersecting) {
+            orderVideos.forEach((video) => {
+              video.currentTime = 0;
+              video.play().catch(() => {});
+            });
+          } else {
+            orderVideos.forEach((video) => video.pause());
+          }
+        }
+      }, { threshold: 0.16 });
+      orderObserver.observe(order);
+    })();
+  </script>
+  <script>
+    (() => {
+      if (!document.documentElement.classList.contains('embed-mode')) return;
+      const report = () => parent.postMessage({ type: 'project-scroll-metrics', height: document.documentElement.scrollHeight }, '*');
+      window.addEventListener('load', () => { report(); setTimeout(report, 500); setTimeout(report, 1500); });
+      new ResizeObserver(report).observe(document.body);
+      window.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        const scale = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+        parent.postMessage({ type: 'project-global-wheel', deltaY: event.deltaY * scale }, '*');
+      }, { passive: false });
+      window.addEventListener('message', (event) => {
+        if (event.data?.type === 'portfolio-global-scroll') window.scrollTo(0, Number(event.data.scrollTop) || 0);
+      });
+    })();
+  </script>
+</body>
+</html>
