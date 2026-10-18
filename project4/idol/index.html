@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#1c0b26" data-page-node-id="h0ImVJx40cX8XQH3WHtDEX">
   <meta name="description" content="《偶像》—— 虚拟偶像南红角色概念网站：在宇宙级的璀璨舞台，绽放钻石般的光芒。" data-page-node-id="WY6QaZaoGc638NlStlAdmI">
   <title>偶像 · 南红 | 虚拟偶像角色概念网站</title>
+  <script src="../../assets/media-fallback.js"></script>
   <style>
     :root {
       color-scheme: dark;
@@ -37,7 +38,7 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      background: url("assets/gen/bg-main.webp") center / cover no-repeat;
+      background: url("assets/gen/bg-main.jpg") center / cover no-repeat;
     }
     .scenery::after {
       content: "";
@@ -533,7 +534,7 @@
 
   <script>
     (() => {
-      if (new URLSearchParams(location.search).get('embed') !== '1') return;
+      if (new URLSearchParams(location.search).get('embed') !== '1' && !document.documentElement.classList.contains('embed-mode')) return;
       document.documentElement.classList.add('embed-mode');
       const reportHeight = () => parent.postMessage({
         type: 'idol-content-height',
