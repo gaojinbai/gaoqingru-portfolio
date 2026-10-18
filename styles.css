@@ -88,8 +88,12 @@ body:not(.stage-open) .stage--opening {
 /* 撕纸过渡层：默认盖在屏1 上方、不可见 */
 .tear-layer {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
   z-index: 7;
+  width: min(100vw, calc(100dvh * var(--scene-ratio)));
+  height: min(100dvh, calc(100vw / var(--scene-ratio)));
+  transform: translate(-50%, -50%);
   overflow: hidden;
   pointer-events: none;
   opacity: 0;
@@ -196,10 +200,10 @@ body.stage-designer .stage--designer {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: max(100vw, calc(100vh * var(--scene-ratio)));
-  width: max(100vw, calc(100dvh * var(--scene-ratio)));
-  height: max(100vh, calc(100vw / var(--scene-ratio)));
-  height: max(100dvh, calc(100vw / var(--scene-ratio)));
+  width: min(100vw, calc(100vh * var(--scene-ratio)));
+  width: min(100vw, calc(100dvh * var(--scene-ratio)));
+  height: min(100vh, calc(100vw / var(--scene-ratio)));
+  height: min(100dvh, calc(100vw / var(--scene-ratio)));
   transform: translate(-50%, -50%);
   overflow: hidden;
   background: var(--ink-soft);
@@ -211,13 +215,13 @@ body.stage-designer .stage--designer {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: contain;
   background: transparent;
 }
 
 /* 封面兜底：视频未加载前显示打印机场景（发布链路经 url() 上传） */
 .media-stage {
-  background: var(--ink-soft) url("assets/printer-intro-hd-poster.webp") center / cover no-repeat;
+  background: var(--ink-soft) url("assets/printer-intro-hd-poster.webp") center / contain no-repeat;
 }
 
 /* ===================== 打印按钮（屏1） ===================== */
