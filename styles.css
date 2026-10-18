@@ -1578,7 +1578,20 @@ body.stage-project1 .stage--contents {
 @media (max-width: 700px) {
   .media-stage {
     left: 50%;
-    transform: translate(-58%, -50%);
+    width: min(100vw, calc(100dvh * var(--scene-ratio)));
+    height: min(100dvh, calc(100vw / var(--scene-ratio)));
+    transform: translate(-50%, -50%);
+    background-size: contain;
+  }
+
+  /* 撕页动画与封面使用相同的 16:9 画幅，避免手机上再次拉伸裁切。 */
+  .tear-layer {
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    width: min(100vw, calc(100dvh * var(--scene-ratio)));
+    height: min(100dvh, calc(100vw / var(--scene-ratio)));
+    transform: translate(-50%, -50%);
   }
 
   .designer-base,
