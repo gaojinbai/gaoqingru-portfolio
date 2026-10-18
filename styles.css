@@ -1721,10 +1721,6 @@ body.stage-project1 .stage--contents {
   background: #08090d;
 }
 
-/* Phone embeds use the real device viewport. Their internal mobile layouts and
-   typography breakpoints can now respond, while the portfolio keeps one tall
-   vertical scroll surface instead of clipping each project to a short canvas. */
-
 .next-chapter {
   position: relative;
   z-index: 4;
@@ -1916,4 +1912,3 @@ body.stage-project1 .stage--contents {
     transition-duration: .01ms !important;
   }
 }
-
