@@ -1721,6 +1721,42 @@ body.stage-project1 .stage--contents {
   background: #08090d;
 }
 
+/* Portrait phones display each work inside the same 16:9 desktop canvas.
+   The iframe viewport itself stays landscape, so height-based breakpoints and
+   100svh scenes do not turn the artwork into a different mobile composition. */
+html.mobile-fixed-canvas,
+html.mobile-fixed-canvas body {
+  height: 56.25vw;
+  min-height: 0;
+}
+html.mobile-fixed-canvas .portfolio-stages {
+  height: 56.25vw;
+  min-height: 0;
+}
+html.mobile-fixed-canvas .stage--project1 .next-chapter,
+html.mobile-fixed-canvas .stage--project1 .p1-hero,
+html.mobile-fixed-canvas .stage--project1 .p1-interactive {
+  height: 56.25vw;
+  min-height: 56.25vw;
+}
+html.mobile-fixed-canvas .stage--project1 .p1-sparks {
+  height: 56.25vw;
+}
+html.mobile-fixed-canvas .project-scroll-host {
+  min-height: 56.25vw;
+}
+html.mobile-fixed-canvas .p2-embed,
+html.mobile-fixed-canvas .p3-embed,
+html.mobile-fixed-canvas .p4-embed,
+html.mobile-fixed-canvas .p5-embed,
+html.mobile-fixed-canvas .p6-embed,
+html.mobile-fixed-canvas .p7-embed,
+html.mobile-fixed-canvas .p8-embed,
+html.mobile-fixed-canvas .p9-embed {
+  height: 56.25vw;
+  min-height: 56.25vw;
+}
+
 .next-chapter {
   position: relative;
   z-index: 4;
