@@ -59,6 +59,13 @@ button { font: inherit; }
   transform: rotateY(0deg);
 }
 
+/* 桌面超宽屏上保留完整的 16:9 视频画面，并用同一张封面铺满两侧空余区域。 */
+@media (hover: hover) and (pointer: fine) {
+  .stage--opening {
+    background: var(--ink-soft) url("assets/printer-intro-hd-poster.webp") center / cover no-repeat;
+  }
+}
+
 /* 屏2：位于屏1 之下，屏1 掀开时露出 */
 .stage--designer {
   z-index: 2;
@@ -244,6 +251,27 @@ body.stage-designer .stage--designer {
 }
 
 .print-trigger:focus-visible { outline: 3px solid rgba(255,255,255,.96); outline-offset: 7px; }
+
+.print-hint {
+  position: absolute;
+  z-index: 4;
+  left: 64.05%;
+  top: 58.5%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: clamp(9px, .8vw, 13px);
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(20, 21, 28, .9), 0 0 8px rgba(20, 21, 28, .65);
+  pointer-events: none;
+  transition: opacity 160ms ease, visibility 160ms ease;
+}
+
+.media-stage.is-playing .print-hint {
+  opacity: 0;
+  visibility: hidden;
+}
 
 .print-trigger::before {
   content: "";
